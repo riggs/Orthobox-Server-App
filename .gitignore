@@ -28,7 +28,8 @@ parts/
 dist/
 var/
 
-
+# paster makes stuff where you run it from
+paster.*
 
 # OSX
 .DS_Store
