@@ -1,0 +1,940 @@
+Traceback (most recent call last):
+  File "/usr/bin/paster", line 9, in <module>
+    load_entry_point('PasteScript==1.7.5', 'console_scripts', 'paster')()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 104, in run
+    invoke(command, command_name, options, args[1:])
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 143, in invoke
+    exit_code = runner.run(args)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 238, in run
+    result = self.command()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 282, in command
+    relative_to=base, global_conf=vars)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 316, in loadserver
+    relative_to=relative_to, **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 255, in loadserver
+    return loadobj(SERVER, uri, name=name, **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 271, in loadobj
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 320, in _loadconfig
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 454, in get_context
+    section)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 476, in _context_from_use
+    object_type, name=use, global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 406, in get_context
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 328, in _loadegg
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 620, in get_context
+    object_type, name=name)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 640, in find_egg_entry_point
+    pkg_resources.require(self.spec)
+  File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 648, in require
+    needed = self.resolve(parse_requirements(requirements))
+  File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 546, in resolve
+    raise DistributionNotFound(req)
+pkg_resources.DistributionNotFound: waitress
+Removing PID file paster.pid
+Traceback (most recent call last):
+  File "/usr/bin/paster", line 9, in <module>
+    load_entry_point('PasteScript==1.7.5', 'console_scripts', 'paster')()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 104, in run
+    invoke(command, command_name, options, args[1:])
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 143, in invoke
+    exit_code = runner.run(args)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 238, in run
+    result = self.command()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 284, in command
+    relative_to=base, global_conf=vars)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 321, in loadapp
+    **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 247, in loadapp
+    return loadobj(APP, uri, name=name, **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 271, in loadobj
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 320, in _loadconfig
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 454, in get_context
+    section)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 476, in _context_from_use
+    object_type, name=use, global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 406, in get_context
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 328, in _loadegg
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 620, in get_context
+    object_type, name=name)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 640, in find_egg_entry_point
+    pkg_resources.require(self.spec)
+  File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 648, in require
+    needed = self.resolve(parse_requirements(requirements))
+  File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 546, in resolve
+    raise DistributionNotFound(req)
+pkg_resources.DistributionNotFound: project
+Removing PID file paster.pid
+Starting server in PID 24469.
+serving on http://0.0.0.0:6969
+2014-03-16 22:08:24,175 ERROR [waitress][Dummy-1] Exception when serving /demo/test
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+2014-03-16 22:09:36,240 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+2014-03-16 22:10:31,626 ERROR [waitress][Dummy-3] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+2014-03-16 22:10:41,583 ERROR [waitress][Dummy-1] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+2014-03-16 22:11:36,653 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+2014-03-16 22:11:38,574 ERROR [waitress][Dummy-3] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['demo']
+KeyError: 'demo'
+Starting server in PID 24567.
+serving on http://0.0.0.0:6969
+2014-03-16 22:21:51,466 ERROR [waitress][Dummy-1] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in get_value
+    key = request.matchdict['penis']
+KeyError: 'penis'
+Starting server in PID 24593.
+serving on http://0.0.0.0:6969
+2014-03-16 22:51:27,373 WARNI [waitress][MainThread] unhandled connect event
+Starting server in PID 24710.
+serving on http://0.0.0.0:6969
+Starting server in PID 24862.
+serving on http://0.0.0.0:6969
+2014-03-17 00:53:18,307 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 24876.
+serving on http://0.0.0.0:6969
+2014-03-17 00:55:24,639 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 00:55:25,670 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 00:55:26,648 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 24890.
+serving on http://0.0.0.0:6969
+2014-03-17 00:58:21,416 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 00:58:35,613 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 00:58:45,578 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 00:58:48,286 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 24949.
+serving on http://0.0.0.0:6969
+2014-03-17 01:05:43,885 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 01:06:34,741 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 01:06:36,333 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 01:06:50,506 WARNI [cornice][Dummy-4] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 24963.
+serving on http://0.0.0.0:6969
+2014-03-17 01:07:27,411 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 01:07:33,817 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 24978.
+serving on http://0.0.0.0:6969
+Starting server in PID 26713.
+serving on http://0.0.0.0:6969
+2014-03-17 04:55:28,589 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 04:55:32,831 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 26780.
+serving on http://0.0.0.0:6969
+2014-03-17 04:57:04,399 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 04:57:06,957 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+Starting server in PID 26851.
+serving on http://0.0.0.0:6969
+2014-03-17 04:58:38,586 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 04:58:40,645 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 16, in display_results
+    result, data = request.matchdict['value']
+ValueError: too many values to unpack
+Starting server in PID 26923.
+serving on http://0.0.0.0:6969
+2014-03-17 05:00:15,653 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:00:38,812 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 19, in display_results
+    {'duration': data['duration'],
+NameError: global name 'data' is not defined
+2014-03-17 05:00:43,999 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:00:46,078 ERROR [waitress][Dummy-4] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 19, in display_results
+    {'duration': data['duration'],
+NameError: global name 'data' is not defined
+Starting server in PID 26988.
+serving on http://0.0.0.0:6969
+2014-03-17 05:01:16,976 ERROR [waitress][Dummy-1] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 17, in display_results
+    result, data = _VALUES.get(key)
+TypeError: 'NoneType' object is not iterable
+2014-03-17 05:01:18,640 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 17, in display_results
+    result, data = _VALUES.get(key)
+TypeError: 'NoneType' object is not iterable
+Starting server in PID 27019.
+serving on http://0.0.0.0:6969
+Starting server in PID 27103.
+serving on http://0.0.0.0:6969
+2014-03-17 05:03:50,653 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:03:52,826 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 24, in display_results
+    request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 138, in render_to_response
+    return helper.render_to_response(value, None, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 439, in render_to_response
+    result = self.render(value, system_values, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 419, in render
+    renderer = self.renderer
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/decorator.py", line 37, in __get__
+    val = self.wrapped(inst)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 402, in renderer
+    'No such renderer factory %s' % str(self.type))
+ValueError: No such renderer factory .pt
+Starting server in PID 27405.
+serving on http://0.0.0.0:6969
+2014-03-17 05:11:00,691 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:11:03,150 ERROR [waitress][Dummy-2] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 24, in display_results
+    request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 138, in render_to_response
+    return helper.render_to_response(value, None, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 439, in render_to_response
+    result = self.render(value, system_values, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 419, in render
+    renderer = self.renderer
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/decorator.py", line 37, in __get__
+    val = self.wrapped(inst)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 402, in renderer
+    'No such renderer factory %s' % str(self.type))
+ValueError: No such renderer factory .pt
+2014-03-17 05:11:04,953 ERROR [waitress][Dummy-3] Exception when serving /demo/penis
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/waitress/channel.py", line 337, in service
+    task.service()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 173, in service
+    self.execute()
+  File "/usr/lib/python2.6/site-packages/waitress/task.py", line 392, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 272, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 247, in invoke_subrequest
+    response = handle_request(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 46, in excview_tween
+    response = view_callable(exc, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 385, in viewresult_to_response
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/router.py", line 163, in handle_request
+    response = view_callable(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 596, in __call__
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 329, in attr_view
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 305, in predicate_wrapper
+    return view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 355, in rendered_view
+    result = view(context, request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/views.py", line 501, in _requestonly_view
+    response = view(request)
+  File "/usr/lib/python2.6/site-packages/cornice/service.py", line 514, in wrapper
+    response = view_(request)
+  File "/root/project/project/views.py", line 24, in display_results
+    request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 138, in render_to_response
+    return helper.render_to_response(value, None, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 439, in render_to_response
+    result = self.render(value, system_values, request=request)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 419, in render
+    renderer = self.renderer
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/decorator.py", line 37, in __get__
+    val = self.wrapped(inst)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/renderers.py", line 402, in renderer
+    'No such renderer factory %s' % str(self.type))
+ValueError: No such renderer factory .pt
+Traceback (most recent call last):
+  File "/usr/bin/paster", line 9, in <module>
+    load_entry_point('PasteScript==1.7.5', 'console_scripts', 'paster')()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 104, in run
+    invoke(command, command_name, options, args[1:])
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 143, in invoke
+    exit_code = runner.run(args)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 238, in run
+    result = self.command()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 284, in command
+    relative_to=base, global_conf=vars)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 321, in loadapp
+    **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 247, in loadapp
+    return loadobj(APP, uri, name=name, **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 272, in loadobj
+    return context.create()
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 710, in create
+    return self.object_type.invoke(self)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 146, in invoke
+    return fix_call(context.object, context.global_conf, **context.local_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/util.py", line 55, in fix_call
+    val = callable(*args, **kw)
+  File "/root/project/project/__init__.py", line 9, in main
+    config.include("pyramid_chameleon")
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/__init__.py", line 723, in include
+    c = self.maybe_dotted(callable)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/__init__.py", line 821, in maybe_dotted
+    return self.name_resolver.maybe_resolve(dotted)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 320, in maybe_resolve
+    return self._resolve(dotted, package)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 327, in _resolve
+    return self._zope_dottedname_style(dotted, package)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 370, in _zope_dottedname_style
+    found = __import__(used)
+ImportError: No module named pyramid_chameleon
+Removing PID file paster.pid
+Traceback (most recent call last):
+  File "/usr/bin/paster", line 9, in <module>
+    load_entry_point('PasteScript==1.7.5', 'console_scripts', 'paster')()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 104, in run
+    invoke(command, command_name, options, args[1:])
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 143, in invoke
+    exit_code = runner.run(args)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/command.py", line 238, in run
+    result = self.command()
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 284, in command
+    relative_to=base, global_conf=vars)
+  File "/usr/lib/python2.6/site-packages/PasteScript-1.7.5-py2.6.egg/paste/script/serve.py", line 321, in loadapp
+    **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 247, in loadapp
+    return loadobj(APP, uri, name=name, **kw)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 272, in loadobj
+    return context.create()
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 710, in create
+    return self.object_type.invoke(self)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/loadwsgi.py", line 146, in invoke
+    return fix_call(context.object, context.global_conf, **context.local_conf)
+  File "/usr/lib/python2.6/site-packages/PasteDeploy-1.5.2-py2.6.egg/paste/deploy/util.py", line 55, in fix_call
+    val = callable(*args, **kw)
+  File "/root/project/project/__init__.py", line 9, in main
+    config.include("pyramid_chameleon")
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/__init__.py", line 723, in include
+    c = self.maybe_dotted(callable)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/config/__init__.py", line 821, in maybe_dotted
+    return self.name_resolver.maybe_resolve(dotted)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 320, in maybe_resolve
+    return self._resolve(dotted, package)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 327, in _resolve
+    return self._zope_dottedname_style(dotted, package)
+  File "/usr/lib/python2.6/site-packages/pyramid-1.5b1-py2.6.egg/pyramid/path.py", line 370, in _zope_dottedname_style
+    found = __import__(used)
+ImportError: No module named pyramid_chameleon
+Removing PID file paster.pid
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 27930.
+serving on http://0.0.0.0:6969
+2014-03-17 05:24:51,496 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:24:53,165 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/incomplete.pt' (755 bytes)...
+2014-03-17 05:24:53,166 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:24:53,191 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:24:53,191 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9502 bytes).
+2014-03-17 05:24:53,191 DEBUG [chameleon.loader][Dummy-2] compiling incomplete_926bd01d53c2e2373c5d6937d84b0535.py into byte-code...
+2014-03-17 05:27:08,911 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 27945.
+serving on http://0.0.0.0:6969
+2014-03-17 05:27:35,260 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:27:36,919 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 05:27:36,920 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:27:36,945 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:27:36,945 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9485 bytes).
+2014-03-17 05:27:36,945 DEBUG [chameleon.loader][Dummy-2] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 27959.
+serving on http://0.0.0.0:6969
+2014-03-17 05:28:17,435 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:28:19,035 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/fail.pt' (767 bytes)...
+2014-03-17 05:28:19,035 DEBUG [chameleon.loader][Dummy-2] cache miss: fail_23e38cb13fc63fd18d560b6c08ed96e2.py
+2014-03-17 05:28:19,061 DEBUG [chameleon.loader][Dummy-2] cache miss: fail_23e38cb13fc63fd18d560b6c08ed96e2.py
+2014-03-17 05:28:19,061 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9508 bytes).
+2014-03-17 05:28:19,061 DEBUG [chameleon.loader][Dummy-2] compiling fail_23e38cb13fc63fd18d560b6c08ed96e2.py into byte-code...
+2014-03-17 05:31:38,272 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:32:01,902 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:32:15,474 DEBUG [chameleon.template][Dummy-3] cooking '/root/project/project/templates/incomplete.pt' (755 bytes)...
+2014-03-17 05:32:15,474 DEBUG [chameleon.loader][Dummy-3] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:32:15,498 DEBUG [chameleon.loader][Dummy-3] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:32:15,498 DEBUG [chameleon.loader][Dummy-3] writing source to disk (9488 bytes).
+2014-03-17 05:32:15,498 DEBUG [chameleon.loader][Dummy-3] compiling incomplete_926bd01d53c2e2373c5d6937d84b0535.py into byte-code...
+2014-03-17 05:32:30,374 WARNI [cornice][Dummy-4] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:32:31,932 DEBUG [chameleon.template][Dummy-1] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 05:32:31,932 DEBUG [chameleon.loader][Dummy-1] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:32:31,956 DEBUG [chameleon.loader][Dummy-1] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:32:31,956 DEBUG [chameleon.loader][Dummy-1] writing source to disk (9485 bytes).
+2014-03-17 05:32:31,956 DEBUG [chameleon.loader][Dummy-1] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 27973.
+serving on http://0.0.0.0:6969
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 28018.
+serving on http://0.0.0.0:6969
+2014-03-17 05:44:26,081 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:44:28,520 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 05:44:28,520 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:44:28,545 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 05:44:28,545 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9269 bytes).
+2014-03-17 05:44:28,545 DEBUG [chameleon.loader][Dummy-2] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 28032.
+serving on http://0.0.0.0:6969
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 28046.
+serving on http://0.0.0.0:6969
+2014-03-17 05:53:19,770 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:53:36,348 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/incomplete.pt' (755 bytes)...
+2014-03-17 05:53:36,348 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:53:36,374 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:53:36,374 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9286 bytes).
+2014-03-17 05:53:36,374 DEBUG [chameleon.loader][Dummy-2] compiling incomplete_926bd01d53c2e2373c5d6937d84b0535.py into byte-code...
+2014-03-17 05:53:58,977 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:56:17,809 WARNI [cornice][Dummy-4] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:56:28,711 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:56:48,314 WARNI [cornice][Dummy-4] returning a json string or array is a potential security hole, please ensure you really want to do this.
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 28061.
+serving on http://0.0.0.0:6969
+2014-03-17 05:59:35,377 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 05:59:37,340 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/incomplete.pt' (755 bytes)...
+2014-03-17 05:59:37,341 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:59:37,366 DEBUG [chameleon.loader][Dummy-2] cache miss: incomplete_926bd01d53c2e2373c5d6937d84b0535.py
+2014-03-17 05:59:37,367 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9272 bytes).
+2014-03-17 05:59:37,367 DEBUG [chameleon.loader][Dummy-2] compiling incomplete_926bd01d53c2e2373c5d6937d84b0535.py into byte-code...
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 28076.
+serving on http://0.0.0.0:6969
+2014-03-17 06:00:03,415 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 06:00:15,536 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 06:00:18,405 DEBUG [chameleon.template][Dummy-3] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 06:00:18,406 DEBUG [chameleon.loader][Dummy-3] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 06:00:18,430 DEBUG [chameleon.loader][Dummy-3] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 06:00:18,431 DEBUG [chameleon.loader][Dummy-3] writing source to disk (9269 bytes).
+2014-03-17 06:00:18,431 DEBUG [chameleon.loader][Dummy-3] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+2014-03-17 18:33:17,627 WARNI [cornice][Dummy-2] returning a json string or array is a potential security hole, please ensure you really want to do this.
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 29758.
+serving on http://0.0.0.0:6969
+2014-03-17 18:57:00,934 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 18:57:13,571 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 18:57:13,572 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 18:57:13,597 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 18:57:13,598 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9485 bytes).
+2014-03-17 18:57:13,598 DEBUG [chameleon.loader][Dummy-2] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+/usr/lib/python2.6/site-packages/pyramid_chameleon/text.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/renderer.py:10: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+/usr/lib/python2.6/site-packages/pyramid_chameleon/zpt.py:3: DeprecationWarning: ITemplateRenderer: As of Pyramid 1.5 the, "pyramid.interfaces.ITemplateRenderer" interface is scheduled to be removed. It was used by the Mako and Chameleon renderers which have been split into their own packages.
+  from pyramid.interfaces import ITemplateRenderer
+Starting server in PID 29800.
+serving on http://0.0.0.0:6969
+2014-03-17 19:22:28,360 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 19:22:38,388 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/pass.pt' (756 bytes)...
+2014-03-17 19:22:38,389 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 19:22:38,416 DEBUG [chameleon.loader][Dummy-2] cache miss: pass_7e1a6ba33963a1c13eea6820b997dad5.py
+2014-03-17 19:22:38,416 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9367 bytes).
+2014-03-17 19:22:38,417 DEBUG [chameleon.loader][Dummy-2] compiling pass_7e1a6ba33963a1c13eea6820b997dad5.py into byte-code...
+2014-03-17 21:21:05,874 WARNI [cornice][Dummy-1] returning a json string or array is a potential security hole, please ensure you really want to do this.
+2014-03-17 21:21:25,903 DEBUG [chameleon.template][Dummy-2] cooking '/root/project/project/templates/fail.pt' (767 bytes)...
+2014-03-17 21:21:25,903 DEBUG [chameleon.loader][Dummy-2] cache miss: fail_23e38cb13fc63fd18d560b6c08ed96e2.py
+2014-03-17 21:21:25,927 DEBUG [chameleon.loader][Dummy-2] cache miss: fail_23e38cb13fc63fd18d560b6c08ed96e2.py
+2014-03-17 21:21:25,927 DEBUG [chameleon.loader][Dummy-2] writing source to disk (9442 bytes).
+2014-03-17 21:21:25,927 DEBUG [chameleon.loader][Dummy-2] compiling fail_23e38cb13fc63fd18d560b6c08ed96e2.py into byte-code...
+2014-03-17 21:45:28,478 WARNI [cornice][Dummy-3] returning a json string or array is a potential security hole, please ensure you really want to do this.

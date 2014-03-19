@@ -1,0 +1,18 @@
+<html>
+<head>
+<style type="text/css">
+body {background-color: #f3f3f3; margin: 20px;}
+h2, h3, p {font-family: Helvetica Neue Light, Helvetica, Arial; color:#414141;}
+h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#FFF;  font-weight: bold; display: inline-block; padding:30px; background-color: #e3c225; text-align: center; font-size: 300%;}
+#inner {margin: auto; text-align: center; width: 60%; height: 60%;}
+</style>
+</head>
+<body>
+<div id="inner">
+	<h2>Bi-Manual Dexterity</h2>
+	<h3>I</h3>
+	<p>Try again, Mindy.</p>
+	<p>You completed your first trial of the <strong>Bi-manual Dexterity</strong> task. <br/>You received an <strong>incomplete</strong> score because you took <strong>${duration}</strong> seconds.</p>
+</div>
+</body>
+</html>
