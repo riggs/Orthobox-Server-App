@@ -8,6 +8,8 @@ __author__ = 'riggs'
 from datetime import datetime
 from calendar import timegm
 
+from oauth2 import Error as OAuthError
+
 from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
@@ -28,12 +30,12 @@ def lti_root(request):
 def lti(request):
     path = request.matchdict['path']
     if path == 'launch':
+        #return render_to_response("templates/lti_test.pt", {'data': str(request)}, request)
         return _launch(request)
     return Response("Da fuq you goin?")
 
 
 def _launch(request):
-    return Response(str(request), 200)
     params = request.POST.mixed()
 
     key = params.get('oauth_consumer_key')
@@ -46,8 +48,11 @@ def _launch(request):
 
     tool_provider = WebObToolProvider(key, secret, params)
 
-    if not tool_provider.valid_request(request):
-        raise HTTPBadRequest("Invalid OAuth signature")
+    try:
+        if not tool_provider.valid_request(request):
+            raise HTTPBadRequest("Invalid OAuth signature")
+    except OAuthError as e:
+        raise HTTPBadRequest(e.message)
 
     now = timegm(datetime.utcnow().utctimetuple())
     if now - tool_provider.oauth_timestamp > 60 * 60:

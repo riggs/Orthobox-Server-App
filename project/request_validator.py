@@ -13,7 +13,7 @@ class WebObRequestValidatorMixin(RequestValidatorMixin):
     """
     An OAuth ToolProvider that works with WebOb requests.
     """
-    def parse_request(self, request, parameters):
+    def parse_request(self, request, parameters, *_, **__):
         """
         Returns a tuple: (method, url, headers, parameters)
         method is the HTTP method: (GET, POST)
