@@ -49,14 +49,12 @@ def _launch(request):
     tool_provider = WebObToolProvider(key, secret, params)
 
     try:
-        if not tool_provider.is_valid_request(request, handle_error=False):
-            return render_to_response("templates/lti_test.pt", {'data': str(tool_provider.params)}, request)
-            raise HTTPBadRequest("Raised: Invalid OAuth signature")
+        tool_provider.valid_request(request):
     except OAuthError as e:
-        raise #HTTPBadRequest(e.message)
+        raise HTTPBadRequest(e.message)
 
     now = timegm(datetime.utcnow().utctimetuple())
-    if now - tool_provider.oauth_timestamp > 60 * 60:
+    if now - int(tool_provider.oauth_timestamp) > 60 * 60:
         raise HTTPBadRequest("Request timed out")
 
     timestamp = _OAuth_creds.get(tool_provider.oauth_nonce)
