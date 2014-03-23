@@ -50,6 +50,7 @@ def _launch(request):
 
     try:
         if not tool_provider.valid_request(request):
+            return render_to_response("templates/lti_test.pt", {'data': str(tool_provider.params)}, request)
             raise HTTPBadRequest("Raised: Invalid OAuth signature")
     except OAuthError as e:
         raise HTTPBadRequest(e.message)
