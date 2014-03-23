@@ -50,7 +50,7 @@ def _launch(request):
 
     try:
         if not tool_provider.valid_request(request):
-            raise HTTPBadRequest("Invalid OAuth signature")
+            raise HTTPBadRequest("Raised: Invalid OAuth signature")
     except OAuthError as e:
         raise HTTPBadRequest(e.message)
 
