@@ -31,9 +31,9 @@ def _pass(*_):
 def evaluate(data):
     # TODO: Audit function logic
     # Will every test have errors & duration?
-    if len(data['errors']) > _EVAL['errors']:
+    if len(data['errors']) > _CRITERIA['errors']:
         result = "fail"  # value used to retrieve template file
-    elif data['duration'] > _EVAL['timeout']:
+    elif data['duration'] > _CRITERIA['timeout']:
         result = "incomplete"
     else:
         # Should the test pass if the device isn't recognized?
