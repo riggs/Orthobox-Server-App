@@ -9,6 +9,7 @@ import json
 from cornice import Service
 from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
+from pyramid.response import Response
 
 from .evaluation import evaluate, _select_criteria
 from .data_store import fake_DB
@@ -76,7 +77,7 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    return HTTPNotFound("Working on it")
+    return Response("Working on it")
     uid = request.matchdict['uid']
     session = hash(fake_DB[uid])
     return render_to_response("template/jnlp.pt", locals(), request)
