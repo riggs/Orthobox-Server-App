@@ -73,4 +73,6 @@ def _launch(request):
     if tool_provider.is_outcome_service():
         username = tool_provider.username(default="beautiful")
         return render_to_response("templates/lti_assessment.pt", {'username': username},  request)
+    else:
+        return render_to_response("templates/pass.pt", {}, request)
 
