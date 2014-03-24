@@ -9,11 +9,12 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 </head>
 <body>
 <div id="inner">
-	<h2>Bi-Manual Dexterity</h2>
-	<h3>P</h3>
-	<p>Congratulations, Mindy.</p>
-	<p>You completed your first trial of the <strong>Bi-manual Dexterity</strong> task. <br/> You received a
-        <strong>passing</strong> score and you took <strong>some</strong> seconds.</p>
+	<h2>${activity}</h2>
+	<h3><a href="/jnlp/${uid}">Start</a></h3>
+	<p>Hello, ${username}.</p>
+	<p>You may conduct your trial of the <strong>${activity}</strong> task by clicking the Start link above. <br/>
+       When finished, click the Evaluate link below to receive your evaluation. </p>
+    <h3><a href="/demo/${uid}">Evaluate</a></h3>
 </div>
 </body>
 </html>

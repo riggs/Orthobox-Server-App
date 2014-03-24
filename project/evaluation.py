@@ -14,12 +14,12 @@ _PEGGY = "peggy_dev"
 
 _BOX_TYPE = {}
 _CRITERIA = {}
-_ACTIVITY_NAME = {_PEGGY: "Bi-Manual Dexterity",
-                  _POKEY: "Hand-Eye Coordination"}
+_ACTIVITY_NAME = {_PEGGY: "Object Manipulation",
+                  _POKEY: "Triangulation"}
 
 
-def activity_name(data):
-    return _ACTIVITY_NAME.get(data['version'], "Unknown Activity")
+def activity_name(version):
+    return _ACTIVITY_NAME.get(version, "Unknown Activity")
 
 
 def _pass(*_):
