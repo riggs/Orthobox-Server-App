@@ -30,12 +30,14 @@ def lti_root(request):
 def lti(request):
     path = request.matchdict['path']
     if path == 'launch':
-        #return render_to_response("templates/lti_test.pt", {'data': str(request)}, request)
         return _launch(request)
     return Response("Da fuq you goin?")
 
 
-def _launch(request):
+def _authorize_tool_provider(request):
+    """
+    Create and validate WebObToolProvider from request.
+    """
     params = request.POST.mixed()
 
     key = params.get('oauth_consumer_key')
@@ -63,4 +65,12 @@ def _launch(request):
     elif now - timestamp > 60 * 60:
         raise HTTPBadRequest("OAuth nonce timeout")
 
-    return Response("OAuth succeeded")
+    return tool_provider
+
+
+def _launch(request):
+    tool_provider = _authorize_tool_provider(request)
+    if tool_provider.is_outcome_service():
+        username = tool_provider.username(default="beautiful")
+        return render_to_response("templates/lti_assessment.pt", {'username': username},  request)
+
