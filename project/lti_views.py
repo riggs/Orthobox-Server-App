@@ -49,7 +49,7 @@ def _launch(request):
     tool_provider = WebObToolProvider(key, secret, params)
 
     try:
-        tool_provider.valid_request(request):
+        tool_provider.valid_request(request)
     except OAuthError as e:
         raise HTTPBadRequest(e.message)
 
