@@ -22,7 +22,7 @@ from project import _custom_config
 def serve():
     config = _custom_config(Configurator())
     app = config.make_wsgi_app()
-    server = make_server('0.0.0.0', 8080, app)
+    server = make_server('0.0.0.0', 8128, app)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
