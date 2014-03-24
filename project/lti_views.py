@@ -74,5 +74,5 @@ def _launch(request):
         username = tool_provider.username(default="beautiful")
         return render_to_response("templates/lti_assessment.pt", {'username': username},  request)
     else:
-        return render_to_response("templates/pass.pt", {}, request)
+        return render_to_response("templates/demo.pt", {}, request)
 
