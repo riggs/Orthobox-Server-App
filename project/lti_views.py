@@ -79,7 +79,7 @@ def _launch(request):
     username = tool_provider.username(default="beautiful")
     if tool_provider.is_outcome_service():
         return render_to_response("templates/lti_assessment.pt", locals(),  request)
-    uid = str(new_id())
+    uid = new_id()
     activity = activity_name(tool_provider.custom_params['custom_box_version'])
     fake_DB[uid] = tool_provider
     fake_DB[tool_provider.user_id][tool_provider.context_id]\
