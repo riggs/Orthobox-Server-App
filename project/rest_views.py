@@ -17,6 +17,7 @@ demo = Service(name='demo', path='/demo/{session}',
                description="SimPortal demo")
 criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
+jnlp = Service(name='jnlp', path='/jnlp/{uid}', description='Generated jnlp file for session')
 
 
 def _parse_json(request):
@@ -70,3 +71,8 @@ def set_criteria(request):
     for key, value in values.iteritems():
         values[key] = data.get(key, value)
     return values
+
+
+@jnlp.get()
+def generate_jnlp(request):
+
