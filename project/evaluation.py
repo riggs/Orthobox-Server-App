@@ -31,13 +31,15 @@ def _pass(*_):
 def evaluate(data):
     # TODO: Audit function logic
     # Will every test have errors & duration?
-    if len(data['errors']) > _CRITERIA['errors']:
+    box_type = data['version']
+    if box_type not in _BOX_TYPE: # Unknown box
+        return "pass"
+    if len(data['errors']) > _CRITERIA[box_type]['errors']:
         result = "fail"  # value used to retrieve template file
-    elif data['duration'] > _CRITERIA['timeout']:
+    elif data['duration'] > _CRITERIA[box_type]['timeout']:
         result = "incomplete"
     else:
-        # Should the test pass if the device isn't recognized?
-        result = _BOX_TYPE.get(data['version'], _pass)(data)
+        result = _BOX_TYPE[box_type](data)
     return result
 
 
