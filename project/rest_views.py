@@ -77,7 +77,7 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    return Response("Working on it")
+    #return Response("Working on it")
     uid = request.matchdict['uid']
     session = hash(fake_DB[uid])
     url = 'http://staging.xlms.org:8128/demo/{session}'.format(session=session)
