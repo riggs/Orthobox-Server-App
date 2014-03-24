@@ -81,5 +81,6 @@ def generate_jnlp(request):
     uid = request.matchdict['uid']
     session = hash(fake_DB[uid])
     response = render_to_response("template/jnlp.pt", locals(), request)
+    response.content_type = 'text/plain'
     #response.content_type = 'application/x-java-jnlp-file'
     return response
