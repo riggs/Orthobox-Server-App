@@ -13,17 +13,23 @@ from oauth2 import Error as OAuthError
 from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
-from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
 
 from .tool_provider import WebObToolProvider
+from .data_store import fake_DB, new_id
+from .evaluation import activity_name
 
 
-_OAuth_creds = {u"consumer_key": u"shared_secret"}
+_OAuth_creds = {u"consumer_key": u"shared_secret",
+                u"triangulation_key": u"triangulation_secret",
+                u"manipulation_key": u"manipulation_secret"}
 
 
+"""
 @view_config(route_name='lti_root')
 def lti_root(request):
     return render_to_response("templates/lti_root.pt", {}, request)
+"""
 
 
 @view_config(route_name='lti')
@@ -31,7 +37,7 @@ def lti(request):
     path = request.matchdict['path']
     if path == 'launch':
         return _launch(request)
-    return Response("Da fuq you goin?")
+    raise HTTPUnauthorized()
 
 
 def _authorize_tool_provider(request):
@@ -70,9 +76,12 @@ def _authorize_tool_provider(request):
 
 def _launch(request):
     tool_provider = _authorize_tool_provider(request)
+    username = tool_provider.username(default="beautiful")
     if tool_provider.is_outcome_service():
-        username = tool_provider.username(default="beautiful")
-        return render_to_response("templates/lti_assessment.pt", {'username': username},  request)
-    else:
-        return render_to_response("templates/demo.pt", {}, request)
-
+        return render_to_response("templates/lti_assessment.pt", locals(),  request)
+    uid = str(new_id())
+    activity = activity_name(tool_provider.custom_params['custom_box_version'])
+    fake_DB[uid] = tool_provider
+    fake_DB[tool_provider.user_id][tool_provider.context_id]\
+           [tool_provider.resource_link_id][tool_provider.consumer_key] = uid
+    return render_to_response("templates/demo.pt", locals(), request)
