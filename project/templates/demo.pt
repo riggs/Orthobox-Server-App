@@ -10,11 +10,17 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 <body>
 <div id="inner">
 	<h2>${activity}</h2>
-	<h3><a href="/jnlp/${uid}">Start</a></h3>
+	<h3>
+        <script src="https://www.java.com/js/deployJava.js"></script>
+        <script>
+            var url = "http://staging.xlms.org:8128/jnlp/${uid}.jnlp";
+            deployJava.createWebStartLaunchButton(url, '1.6.0');
+        </script>
+    </h3>
 	<p>Hello, ${username}.</p>
-	<p>You may conduct your trial of the <strong>${activity}</strong> task by clicking the Start link above. <br/>
-       When finished, click the Evaluate link below to receive your evaluation. </p>
-    <h3><a href="/demo/${uid}">Evaluate</a></h3>
+	<p>You may conduct your trial of the <strong>${activity}</strong> task by clicking the Launch button above. <br/>
+       When finished, click the Results link below to receive your evaluation. </p>
+    <h3><a href="/demo/${uid}">Results</a></h3>
 </div>
 </body>
 </html>

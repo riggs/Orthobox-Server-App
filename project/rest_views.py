@@ -19,7 +19,7 @@ demo = Service(name='demo', path='/demo/{session}',
                description="SimPortal demo")
 criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
-jnlp = Service(name='jnlp', path='/jnlp/{uid}', description='Generated jnlp file for session')
+jnlp = Service(name='jnlp', path='/jnlp/{uid}.jnlp', description='Generated jnlp file for session')
 
 
 def _parse_json(request):
@@ -80,4 +80,6 @@ def generate_jnlp(request):
     return Response("Working on it")
     uid = request.matchdict['uid']
     session = hash(fake_DB[uid])
-    return render_to_response("template/jnlp.pt", locals(), request)
+    response = render_to_response("template/jnlp.pt", locals(), request)
+    #response.content_type = 'application/x-java-jnlp-file'
+    return response
