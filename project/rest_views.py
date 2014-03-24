@@ -81,6 +81,6 @@ def generate_jnlp(request):
     uid = request.matchdict['uid']
     session = hash(fake_DB[uid])
     url = 'http://staging.xlms.org:8128/demo/{session}'.format(session=session)
-    response = render_to_response("template/jnlp.pt", {'url': url}, request)
+    response = render_to_response("templates/jnlp.pt", {'url': url}, request)
     response.content_type = 'application/x-java-jnlp-file'
     return response
