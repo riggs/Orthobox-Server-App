@@ -9,7 +9,7 @@
         <!-- Application Resources -->
         <j2se version="1.7+" href=
                 "http://java.sun.com/products/autodl/j2se"/>
-        <jar href="/OrthoBox-Client-App-dev-shadow.jar"
+        <jar href="/orthoBox.jar"
              main="true" />
 
     </resources>
