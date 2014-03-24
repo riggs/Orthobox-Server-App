@@ -9,8 +9,17 @@ __author__ = 'riggs'
 from pyramid.httpexceptions import HTTPNotFound
 
 
+_POKEY = "pokey_dev"
+_PEGGY = "peggy_dev"
+
 _BOX_TYPE = {}
 _CRITERIA = {}
+_ACTIVITY_NAME = {_PEGGY: "Bi-Manual Dexterity",
+                  _POKEY: "Hand-Eye Coordination"}
+
+
+def activity_name(data):
+    return _ACTIVITY_NAME.get(data['version'], "Unknown Activity")
 
 
 def _pass(*_):
@@ -55,9 +64,9 @@ def _select_criteria(request):
     return value
 
 
-_BOX_TYPE['pokey_dev'] = _pokey_box
-_BOX_TYPE['peggy_dev'] = _peggy_box
+_BOX_TYPE[_POKEY] = _pokey_box
+_BOX_TYPE[_PEGGY] = _peggy_box
 
 # TODO: Session specific evaluation criteria
-_CRITERIA['pokey_dev'] = {'errors': 5, 'timeout': 300, 'pokes': 10}
-_CRITERIA['peggy_dev'] = {'errors': 5, 'timeout': 300}
+_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 10}
+_CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300}
