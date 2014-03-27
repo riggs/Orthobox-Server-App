@@ -109,4 +109,4 @@ def _assessment(request):
     outcome_request = tool_provider.new_request()
     outcome_request.messsage_identifier = uuid4()
     outcome_request.post_replace_result(request.POST['score'])
-    return Response("\r\n".join([outcome_request.outcome_response.post_response, '', "Request XML:", outcome_request.generate_request_xml()]))
+    return Response("\r\n".join([str(outcome_request.outcome_response.post_response), '', "Request XML:", outcome_request.generate_request_xml()]))
