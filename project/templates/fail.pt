@@ -9,12 +9,12 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#FFF; font-weight:
 </head>
 <body>
 <div id="inner">
-	<h2>Bi-Manual Dexterity</h2>
+	<h2>${activity}</h2>
 	<h3>F</h3>
-	<p>Practice makes perfect, Mindy.</p>
-	<p>You completed your first trial of the <strong>Bi-manual Dexterity</strong> task. You received a <strong>failing</strong> score because you made <strong>${error_number}</strong> errors.</p>
+	<p>Practice makes perfect, ${username}.</p>
+	<p>You completed your first trial of the <strong>${activity}</strong> task. You received a <strong>failing</strong> score because you made <strong>${error_number}</strong> errors.</p>
 
-	    <h3><a href="/">View Video</a></h3>
+	    <h3><a href="https://s3.amazonaws.com/orthoboxes-video/video_test.mp4">View Video</a></h3>
 
 </div>
 </body>

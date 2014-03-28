@@ -19,6 +19,7 @@ from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
 from .tool_provider import WebObToolProvider
 from .data_store import fake_DB, new_id
 from .evaluation import activity_name
+from .rest_views import _RESULTS
 
 
 _OAuth_creds = {u"consumer_key": u"shared_secret",
@@ -80,12 +81,14 @@ _session = None
 
 def _launch(request):
     tool_provider = _authorize_tool_provider(request)
-    global _session
-    _session = tool_provider
+    #global _session
+    #_session = tool_provider
     username = tool_provider.username(default="beautiful")
-    if tool_provider.is_outcome_service():
-        return render_to_response("templates/lti_assessment.pt", locals(),  request)
+    #if tool_provider.is_outcome_service():
+    #    return render_to_response("templates/lti_assessment.pt", locals(),  request)
     activity = activity_name(tool_provider.custom_params['custom_box_version'])
+    _RESULTS['username'] = username
+    _RESULTS['activity'] = activity
     """
     uid = new_id()
     fake_DB[uid] = tool_provider

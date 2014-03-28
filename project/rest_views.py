@@ -11,7 +11,7 @@ from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.response import Response
 
-from .evaluation import evaluate, _select_criteria
+from .evaluation import evaluate, _select_criteria, activity_name
 from .data_store import fake_DB
 
 
@@ -39,10 +39,11 @@ def display_results(request):
     if value is None:
         return HTTPNotFound('Unknown session')
     result, data = value
-    return render_to_response('templates/{0}.pt'.format(result),
-                              {'duration': data['duration'],
-                               'error_number': len(data['errors'])},
-                              request)
+    params = {'duration': data['duration'],
+              'error_number': len(data['errors']),
+              'activity': _RESULTS['activity'],
+              'username': _RESULTS['username']}
+    return render_to_response('templates/{0}.pt'.format(result), params, request)
 
 
 @demo.post()
