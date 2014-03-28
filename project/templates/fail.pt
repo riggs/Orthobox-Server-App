@@ -12,7 +12,10 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#FFF; font-weight:
 	<h2>Bi-Manual Dexterity</h2>
 	<h3>F</h3>
 	<p>Practice makes perfect, Mindy.</p>
-	<p>You completed your first trial of the <strong>Bi-manual Dexterity</strong> task. <br />You received a <strong>failing</strong> score because you made <strong>${error_number}</strong> errors.</p>
+	<p>You completed your first trial of the <strong>Bi-manual Dexterity</strong> task. You received a <strong>failing</strong> score because you made <strong>${error_number}</strong> errors.</p>
+
+	    <h3><a href="/">View Video</a></h3>
+
 </div>
 </body>
 </html>
