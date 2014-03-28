@@ -1,17 +1,28 @@
 """ Cornice services.
 """
+
+from __future__ import division
+
 import json
 from cornice import Service
 
 from pyramid.renderers import render_to_response
 
 demo = Service(name='demo', path='/demo/{value}',
-                 description="SimPortal demo")
-eval = Service(name='eval', path='/eval_config',
-                 description="SimPortal demo evaluation parameters")
+               description="SimPortal demo")
+criteria = Service(name='criteria', path='/eval_config',
+                   description="SimPortal demo evaluation parameters")
 
 _VALUES = {}
-_EVAL = {'errors': 5, 'timeout': 300}
+# TODO: Context-based eval criteria
+_EVAL = {'errors': 5, 'timeout': 300, 'pokes': 10}
+_BOX_TYPE = {}
+
+
+def _pass(*_):
+    """placeholder function.
+    """
+    return "pass"
 
 
 @demo.get()
@@ -20,10 +31,10 @@ def display_results(request):
     value = _VALUES.get(key)
     if value is None:
         return
-    result, payload = value
+    result, data = value
     return render_to_response('templates/{0}.pt'.format(result),
-                              {'duration': payload['duration'],
-                               'error_number': len(payload['errors'])},
+                              {'duration': data['duration'],
+                               'error_number': len(data['errors'])},
                               request)
 
 
@@ -33,35 +44,64 @@ def set_value(request):
     """
     key = request.matchdict['value']
     try:
-        payload = json.loads(request.body)
+        data = json.loads(request.body)
     except ValueError:
-        return False
-    payload['duration'] = payload['duration'] // 1000
-    if (not len(payload['touches'])) or len(payload['errors']) > _EVAL['errors']:
-        result = "fail"
-    elif  payload['duration'] > _EVAL['timeout']:
+        return "Failed to parse JSON"
+    data['duration'] /= 1000
+    result = _eval(data)
+    _VALUES[key] = (result, data)
+    return result, data
+
+
+def _eval(data):
+    # TODO: Audit function logic
+    # Will every test have errors & duration?
+    if len(data['errors']) > _EVAL['errors']:
+        result = "fail"  # value used to retrieve template file
+    elif data['duration'] > _EVAL['timeout']:
         result = "incomplete"
     else:
+        # Should the test pass if the device isn't recognized?
+        result = _BOX_TYPE.get(data['version'], _pass)(data)
+    return result
+
+
+def _pokey_box(data):
+    # Make sure they actually poked stuff
+    if len(data['pokes']):
         result = "pass"
-    _VALUES[key] = (result, payload)
-    return result, payload
+    else:
+        result = "fail"
+    return result
 
 
-@eval.get()
+_BOX_TYPE['pokey_dev'] = _pokey_box
+
+
+def _peggy_box(data):
+    # TODO: determine evaluation criteria
+    result = _pass(data)
+    return result
+
+
+_BOX_TYPE['peggy_dev'] = _peggy_box
+
+
+@criteria.get()
 def get_eval(request):
     """Returns the evaluation parameters.
     """
     return _EVAL
 
 
-@eval.post()
+@criteria.post()
 def set_eval(request):
     """Set the evaluation parameters.
     """
     try:
-        payload = json.loads(request.body)
+        data = json.loads(request.body)
     except ValueError:
         return False
-    _EVAL['errors'] = payload.get('errors', _EVAL['errors'])
-    _EVAL['timeout'] = payload.get('timeout', _EVAL['timeout'])
+    for key, value in _EVAL.iteritems():
+        _EVAL[key] = data.get(key, value)
     return _EVAL   
