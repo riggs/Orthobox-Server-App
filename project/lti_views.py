@@ -113,7 +113,7 @@ def _assessment(request):
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     outcome_request = tool_provider.new_request()
-    outcome_request.messsage_identifier = uuid4().hex
+    outcome_request.message_identifier = uuid4().hex
     outcome_request.post_replace_result(request.POST['score'])
     return Response("\r\n".join([str(outcome_request.outcome_response.post_response), '', "Request XML:",
                                  outcome_request.generate_request_xml()]))
