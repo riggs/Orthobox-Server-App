@@ -15,12 +15,16 @@ from .evaluation import evaluate, _select_criteria, activity_name
 from .data_store import fake_DB
 
 
+_RESULTS = {}
+
 demo = Service(name='demo', path='/demo/{session}',
                description="SimPortal demo")
 criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{uid}.jnlp', description='Generated jnlp file for session')
 
+last_request = Service(name='last_request', path='/last_request/{session}',
+                       description="last_request")
 
 def _parse_json(request):
     try:
@@ -29,8 +33,9 @@ def _parse_json(request):
         raise HTTPBadRequest('Malformed JSON')
 
 
-_RESULTS = {}
-
+@last_request.get()
+def echo_request(request):
+    return Response(str(_RESULTS['last_request']))
 
 @demo.get()
 def display_results(request):

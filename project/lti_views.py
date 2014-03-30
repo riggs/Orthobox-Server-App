@@ -36,6 +36,7 @@ def lti_root(request):
 
 @view_config(route_name='lti')
 def lti(request):
+    _RESULTS['last_request'] = request
     path = request.matchdict['path']
     if path == 'launch':
         return _launch(request)
