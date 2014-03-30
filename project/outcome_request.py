@@ -20,8 +20,11 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
         headers = {'Content-Type': 'application/xml'}
 
         response = session.post(self.lis_outcome_service_url, data=body, headers=headers)
-        content = response.text
 
-        self.outcome_response = OutcomeResponse.from_post_response(response,
-                                                                   content)
-        return self.outcome_response
+        outcome_response = OutcomeResponse()
+        outcome_response.post_response = response
+        outcome_response.response_code = response.status_code
+        outcome_response.process_xml(response.text)
+
+        self.outcome_response = outcome_response
+        return outcome_response
