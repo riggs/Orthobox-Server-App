@@ -85,8 +85,8 @@ def _launch(request):
     #global _session
     #_session = tool_provider
     username = tool_provider.username(default="beautiful")
-    #if tool_provider.is_outcome_service():
-    #    return render_to_response("templates/lti_assessment.pt", locals(),  request)
+    if tool_provider.is_outcome_service():
+        return render_to_response("templates/lti_assessment.pt", locals(),  request)
     activity = activity_name(tool_provider.custom_params['custom_box_version'])
     _RESULTS['username'] = username
     _RESULTS['activity'] = activity
