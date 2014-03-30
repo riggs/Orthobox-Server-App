@@ -23,7 +23,7 @@ criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{uid}.jnlp', description='Generated jnlp file for session')
 
-last_request = Service(name='last_request', path='/last_request/{session}',
+last_request = Service(name='last_request', path='/last_request',
                        description="last_request")
 
 def _parse_json(request):
@@ -35,7 +35,7 @@ def _parse_json(request):
 
 @last_request.get()
 def echo_request(request):
-    return Response(str(_RESULTS['last_request']))
+    return str(_RESULTS['last_request'])
 
 @demo.get()
 def display_results(request):
