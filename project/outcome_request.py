@@ -4,7 +4,7 @@ Subclassing to replace failing OAuth functionality.
 
 from __future__ import absolute_import
 
-from ims_lti_py import OutcomeRequest
+from ims_lti_py import OutcomeRequest, OutcomeResponse
 from project.body_hash_oauth1 import BodyHashOAuth1Session
 
 
@@ -20,5 +20,8 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
         headers = {'Content-Type': 'application/xml'}
 
         response = session.post(self.lis_outcome_service_url, data=body, headers=headers)
+        content = response.text
 
-        return response
+        self.outcome_response = OutcomeResponse.from_post_response(response,
+                                                                   content)
+        return self.outcome_response
