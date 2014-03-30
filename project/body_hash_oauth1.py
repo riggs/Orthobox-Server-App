@@ -116,7 +116,7 @@ class BodyHashClient(Client):
 
     def hash_body(self, request):
         if self.signature_method in (SIGNATURE_HMAC, SIGNATURE_RSA):
-            return base64.b64encode(hashlib.sha1(request.body).digest())
+            return unicode(base64.b64encode(hashlib.sha1(request.body).digest()))
         raise ValueError('Invalid signature method.')
 
 
