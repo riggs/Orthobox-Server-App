@@ -82,8 +82,8 @@ _session = None
 
 def _launch(request):
     tool_provider = _authorize_tool_provider(request)
-    #global _session
-    #_session = tool_provider
+    global _session
+    _session = tool_provider
     username = tool_provider.username(default="beautiful")
     if tool_provider.is_outcome_service():
         return render_to_response("templates/lti_assessment.pt", locals(),  request)
