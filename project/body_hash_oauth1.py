@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-__author__ = 'riggs'
+import base64
+import hashlib
 
 from requests_oauthlib import OAuth1, OAuth1Session
 from requests_oauthlib.oauth1_auth import CONTENT_TYPE_FORM_URLENCODED, to_native_str
@@ -114,19 +115,10 @@ class BodyHashClient(Client):
         return params
 
     def hash_body(self, request):
-        body = request.body
-        if self.signature_method == SIGNATURE_PLAINTEXT:
-            sig = signature.sign_plaintext(self.client_secret,
-                                            self.resource_owner_secret)
-        elif self.signature_method == SIGNATURE_HMAC:
-            sig = signature.sign_hmac_sha1(body, self.client_secret,
-                                           self.resource_owner_secret)
-        elif self.signature_method == SIGNATURE_RSA:
-            sig = signature.sign_rsa_sha1(body, self.rsa_key)
-        else:
-            raise ValueError('Invalid signature method.')
+        if self.signature_method in (SIGNATURE_HMAC, SIGNATURE_RSA):
+            return base64.b64encode(hashlib.sha1(request.body).digest())
+        raise ValueError('Invalid signature method.')
 
-        return sig
 
     def sign(self, uri, http_method='GET', body=None, headers=None, realm=None):
         __doc__ = Client.sign.__doc__
