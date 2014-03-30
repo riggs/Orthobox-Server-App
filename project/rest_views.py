@@ -42,7 +42,8 @@ def display_results(request):
     params = {'duration': data['duration'],
               'error_number': len(data['errors']),
               'activity': _RESULTS['activity'],
-              'username': _RESULTS['username']}
+              'username': _RESULTS['username'],
+              'pokes': data.get('pokes')}
     return render_to_response('templates/{0}.pt'.format(result), params, request)
 
 

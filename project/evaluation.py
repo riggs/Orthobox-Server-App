@@ -45,10 +45,10 @@ def evaluate(data):
 
 def _pokey_box(data):
     # Make sure they actually poked stuff
-    if len(data['pokes']):
+    if len(data['pokes']) >= _CRITERIA[_POKEY]['pokes']:
         result = "pass"
     else:
-        result = "fail"
+        result = "incomplete"
     return result
 
 

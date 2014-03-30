@@ -10,7 +10,6 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 <body>
 <div id="inner">
 	<h2>${activity}</h2>
-	<h2>Bi-Manual Dexterity</h2>
 	<h3>P</h3>
 	<p>Congratulations, ${username}.</p>
 	<p>You completed your first trial of the <strong>${activity}</strong> task. <br/> You received a <strong>passing</strong> score taking <strong>${duration}</strong> seconds and making <strong>${error_number}</strong> errors.</p>

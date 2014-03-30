@@ -18,7 +18,7 @@ class OutcomeRequest(OutcomeRequest):
         session = OAuth1Session(self.consumer_key, self.consumer_secret)
 
         body = self.generate_request_xml()
-        headers = {'Content-Type': 'application/xml',
-                   'oauth_body_hash': base64.b64encode(hashlib.sha1(body).digest())}
+        headers = {'Content-Type': 'application/xml'}
+        oauth_body_hash = 'oauth_body_hash="{0}"'.format(base64.b64encode(hashlib.sha1(body).digest()))
 
         response = session.post(self.lis_outcome_service_url, data=body, headers=headers)
