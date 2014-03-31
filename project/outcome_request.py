@@ -4,6 +4,8 @@ Subclassing to replace failing OAuth functionality.
 
 from __future__ import absolute_import
 
+from lxml import etree
+
 from ims_lti_py import OutcomeRequest, OutcomeResponse
 from project.body_hash_oauth1 import BodyHashOAuth1Session
 
