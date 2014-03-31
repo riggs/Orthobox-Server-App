@@ -115,5 +115,12 @@ def _assessment(request):
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = uuid4().hex
     outcome_request.post_replace_result(request.POST['score'])
+
+    _session.params['lis_outcome_service_url'] = "http://dev.xlms.org:6969/echo/echo"
+    tp2 = WebObToolProvider(key, _OAuth_creds[key], _session.params)
+    or2 = tp2.new_request()
+    or2.message_identifier = uuid4().hex
+    or2.post_replace_result(request.POST['score'])
+
     return Response("\r\n".join([str(outcome_request.outcome_response.post_response), '', "Request XML:",
                                  outcome_request.generate_request_xml()]))
