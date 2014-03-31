@@ -16,7 +16,7 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
         """
         session = BodyHashOAuth1Session(self.consumer_key, self.consumer_secret)
 
-        body = self.generate_request_xml().replace("utf-8", "ASCII")
+        body = self.generate_request_xml()
         headers = {'Content-Type': 'application/xml'}
 
         response = session.post(self.lis_outcome_service_url, data=body, headers=headers)
