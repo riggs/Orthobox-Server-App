@@ -6,10 +6,8 @@ import hashlib
 
 from requests_oauthlib import OAuth1, OAuth1Session
 from requests_oauthlib.oauth1_auth import CONTENT_TYPE_FORM_URLENCODED, to_native_str
-from oauthlib.common import extract_params, generate_nonce, generate_timestamp, log, urlparse, Request
-from oauthlib.oauth1 import Client, SIGNATURE_HMAC, SIGNATURE_TYPE_AUTH_HEADER, SIGNATURE_PLAINTEXT, SIGNATURE_RSA, \
-    SIGNATURE_TYPE_BODY
-from oauthlib.oauth1.rfc5849 import signature
+from oauthlib.common import extract_params, generate_nonce, generate_timestamp, log, Request
+from oauthlib.oauth1 import Client, SIGNATURE_HMAC, SIGNATURE_TYPE_AUTH_HEADER, SIGNATURE_RSA, SIGNATURE_TYPE_BODY
 
 
 class BodyHashOAuth1Session(OAuth1Session):

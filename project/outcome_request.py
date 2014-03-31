@@ -32,8 +32,7 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
         return outcome_response
 
     def generate_request_xml(self):
-        root = etree.Element('imsx_POXEnvelopeRequest', xmlns =
-        'http://www.imsglobal.org/lis/oms1p0/pox')
+        root = etree.Element('imsx_POXEnvelopeRequest', xmlns='http://www.imsglobal.org/lis/oms1p0/pox')
 
         header = etree.SubElement(root, 'imsx_POXHeader')
         header_info = etree.SubElement(header, 'imsx_POXRequestHeaderInfo')
@@ -43,8 +42,7 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
                                               'imsx_messageIdentifier')
         message_identifier.text = self.message_identifier
         body = etree.SubElement(root, 'imsx_POXBody')
-        request = etree.SubElement(body, '%s%s' %(self.operation,
-                                                  'Request'))
+        request = etree.SubElement(body, '%s%s' %(self.operation, 'Request'))
         record = etree.SubElement(request, 'resultRecord')
 
         guid = etree.SubElement(record, 'sourcedGUID')
@@ -60,4 +58,4 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
             text_string = etree.SubElement(result_score, 'textString')
             text_string.text = self.score.__str__()
 
-        return etree.tostring(root, xml_declaration = True, encoding = 'utf-8')
+        return etree.tostring(root, xml_declaration=True, encoding='utf-8')
