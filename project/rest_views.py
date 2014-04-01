@@ -55,7 +55,7 @@ def display_results(request):
               'error_number': len(data['errors']),
               'activity': metadata['activity'],
               'username': metadata['username'],
-              'pokes': data.get('pokes'),
+              'pokes': len(data.get('pokes')),
               'session': session,
               'version': metadata['version']}
     return render_to_response('templates/{0}.pt'.format(metadata['result']), params, request)
