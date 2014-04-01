@@ -14,7 +14,6 @@ from pyramid.response import FileResponse
 from .evaluation import evaluate, _select_criteria
 from .data_store import fake_DB
 from .tool_provider import WebObToolProvider
-from .lti_views import _OAuth_creds
 
 
 _OAuth_creds = {u"consumer_key": u"shared_secret",
