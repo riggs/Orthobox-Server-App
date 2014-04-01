@@ -47,10 +47,11 @@ def echo_request(request):
 @demo.get()
 def display_results(request):
     session = request.matchdict['session']
-    metadata = _RESULTS.get(session)
-    if metadata is None:
+    try:
+        metadata = _RESULTS[session]
+        data = metadata['data']
+    except KeyError:
         return HTTPNotFound('Unknown session')
-    data = metadata['data']
     params = {'duration': data['duration'],
               'error_number': len(data['errors']),
               'activity': metadata['activity'],
