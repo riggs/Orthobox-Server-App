@@ -53,8 +53,8 @@ def display_results(request):
     data = metadata['data']
     params = {'duration': data['duration'],
               'error_number': len(data['errors']),
-              'activity': _RESULTS['activity'],
-              'username': _RESULTS['username'],
+              'activity': metadata['activity'],
+              'username': metadata['username'],
               'pokes': data.get('pokes'),
               'session': session}
     return render_to_response('templates/{0}.pt'.format(metadata['result']), params, request)
