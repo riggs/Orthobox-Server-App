@@ -23,6 +23,8 @@ _RESULTS = {}
 
 _GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
 
+_VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/${session}.mp4"
+
 demo = Service(name='demo', path='/demo/{session}', description="SimPortal demo")
 configure = Service(name='configure', path='/configure/{version}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session}.jnlp', description='Generated jnlp file for session')
@@ -58,7 +60,8 @@ def display_results(request):
               'username': metadata['username'],
               'pokes': len(data.get('pokes')),
               'session': session,
-              'version': metadata['version']}
+              'version': metadata['version'],
+              'video_url': _VIDEO_URL.format(session=session)}
     return render_to_response('templates/{0}.pt'.format(metadata['result']), params, request)
 
 

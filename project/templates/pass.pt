@@ -14,7 +14,7 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 	<p>Congratulations, ${username}.</p>
 	<p>You completed your first trial of the <strong>${activity}</strong> task. <br/> You received a <strong>passing</strong> score taking <strong>${duration}</strong> seconds and making <strong>${error_number}</strong> errors.</p>
 
-	    <h3><a href="https://s3.amazonaws.com/orthoboxes-video/${session}.mp4">View Video</a></h3>
+	    <h3><a href="${video_url}">View Video</a></h3>
 
 </div>
 </body>
