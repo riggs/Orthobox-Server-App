@@ -14,10 +14,12 @@ API:
 2. Receive data
     A. Verify session credentials
     B. Save JSON
-    C. Report result to Moodle
+    C. Report pass/fail result to Moodle
     D. Delete session credentials
 
 3. Display activity result
+    A. Moodle will have pass/fail info, not detailed error data
+    B. Details retrievable by either student or instructor
 
 4. Display video
 
