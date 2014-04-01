@@ -87,7 +87,7 @@ def _post_grade(session, result):
         return
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
-    key = session.oauth_consumer_key
+    key = tool_provider.oauth_consumer_key
 
     outcome_request = WebObToolProvider(key, _OAuth_creds[key], tool_provider.params).new_request()
     outcome_request.message_identifier = session
