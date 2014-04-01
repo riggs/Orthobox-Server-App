@@ -4,7 +4,6 @@ Cornice services.
 
 from __future__ import division, absolute_import, print_function
 
-
 import json
 from cornice import Service
 from pyramid.renderers import render_to_response
@@ -22,15 +21,12 @@ _OAuth_creds = {u"consumer_key": u"shared_secret",
 
 _RESULTS = {}
 
-
 _GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
 
-demo = Service(name='demo', path='/demo/{session}',
-               description="SimPortal demo")
-criteria = Service(name='criteria', path='/criteria/{version}',
-                   description="SimPortal demo evaluation parameters")
+demo = Service(name='demo', path='/demo/{session}', description="SimPortal demo")
+criteria = Service(name='criteria', path='/criteria/{version}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session}.jnlp', description='Generated jnlp file for session')
-jar = Service(name='jar', path='/jar/orthobox.jar')
+jar = Service(name='jar', path='/jar/orthobox.jar')  # This can go away if/when python is running under apache
 
 last_request = Service(name='last_request', path='/last_request',
                        description="last_request")
@@ -51,17 +47,17 @@ def echo_request(request):
 @demo.get()
 def display_results(request):
     session = request.matchdict['session']
-    value = _RESULTS.get(session)
-    if value is None:
+    metadata = _RESULTS.get(session)
+    if metadata is None:
         return HTTPNotFound('Unknown session')
-    result, data = value
+    data = metadata['data']
     params = {'duration': data['duration'],
               'error_number': len(data['errors']),
               'activity': _RESULTS['activity'],
               'username': _RESULTS['username'],
               'pokes': data.get('pokes'),
               'session': session}
-    return render_to_response('templates/{0}.pt'.format(result), params, request)
+    return render_to_response('templates/{0}.pt'.format(metadata['result']), params, request)
 
 
 @demo.post()
@@ -69,10 +65,14 @@ def generate_results(request):
     """Set the value.
     """
     session = request.matchdict['session']
+    metadata = _RESULTS.get(session)
+    if metadata is None:
+        return HTTPNotFound('Unknown session')
     data = _parse_json(request)
     data['duration'] /= 1000
     result = evaluate(data)
-    _RESULTS[session] = (result, data)
+    metadata['result': result]
+    metadata['data': data]
 
     _post_grade(session, result)
 
@@ -80,17 +80,18 @@ def generate_results(request):
 
 
 def _post_grade(session, result):
-    session = fake_DB[session]
-    key = session.oauth_consumer_key
-    tool_provider = WebObToolProvider(key, _OAuth_creds[key], session.params)
+
+    tool_provider = fake_DB[session]
 
     if not tool_provider.is_outcome_service():
         return
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
-    outcome_request = tool_provider.new_request()
+    key = session.oauth_consumer_key
+
+    outcome_request = WebObToolProvider(key, _OAuth_creds[key], tool_provider.params).new_request()
     outcome_request.message_identifier = session
-    outcome_request.post_replace_result(_GRADES[result])
+    outcome_request.post_replace_result(str(_GRADES[result]))
 
 
 @criteria.get()

@@ -32,11 +32,12 @@ def lti_root(request):
 @view_config(route_name='lti')
 def lti(request):
     _RESULTS['last_request'] = request
+    tool_provider = _authorize_tool_provider(request)
     path = request.matchdict['path']
     if path == 'launch':
-        return _launch(request)
-    if path == 'assessment':
-        return _assessment(request)
+        return _launch(request, tool_provider)
+    #if path == 'assessment':
+    #    return _assessment(request, tool_provider)
     raise HTTPUnauthorized()
 
 
@@ -73,19 +74,12 @@ def _authorize_tool_provider(request):
 
     return tool_provider
 
-_session = None
 
-def _launch(request):
-    tool_provider = _authorize_tool_provider(request)
-    global _session
-    _session = tool_provider
-    username = tool_provider.username(default="beautiful")
-    #if tool_provider.is_outcome_service():
-    #    return render_to_response("templates/lti_assessment.pt", locals(),  request)
-    activity = activity_name(tool_provider.custom_params['custom_box_version'])
-    _RESULTS['username'] = username
-    _RESULTS['activity'] = activity
+def _launch(request, tool_provider):
     session = new_id()
+    username = tool_provider.username(default="beautiful")
+    activity = activity_name(tool_provider.custom_params['custom_box_version'])
+    _RESULTS[session] = {'username': username, 'activity': activity}
     fake_DB[session] = tool_provider
     #fake_DB[tool_provider.tool_consumer_instance_guid]\
     #       [tool_provider.user_id][tool_provider.context_id]\
@@ -93,13 +87,9 @@ def _launch(request):
     return render_to_response("templates/demo.pt", locals(), request)
 
 
-def _assessment(request):
-    global _session
-    if _session is None:
-        raise HTTPBadRequest("Tool didn't launch")
-    key = _session.oauth_consumer_key
-    tool_provider = WebObToolProvider(key, _OAuth_creds[key], _session.params)
-
+def _assessment(request, tool_provider):
+    #if tool_provider.is_outcome_service():
+    #    return render_to_response("templates/lti_assessment.pt", locals(),  request)
     if not tool_provider.is_outcome_service():
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 

@@ -17,5 +17,5 @@ fake_DB = {}
 
 
 def new_id():
-    return 'test'
+    #return 'test'
     return uuid4().hex
