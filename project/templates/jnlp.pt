@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="" href="">
+<jnlp spec="1.0+" codebase="http://staging.xlms.org" href="jnlp/{uid}.jnlp">
     <information>
         <title>Orthobox xlms client app</title>
         <vendor>Synaptic Design</vendor>
@@ -7,9 +7,8 @@
     </information>
     <resources>
         <!-- Application Resources -->
-        <j2se version="1.7+" href=
-                "http://java.sun.com/products/autodl/j2se"/>
-        <jar href="http://staging.xlms.org/orthobox.jar"
+        <j2se version="1.7+" href= "http://java.sun.com/products/autodl/j2se"/>
+        <jar href="orthobox.jar"
              main="true" />
 
     </resources>
@@ -18,7 +17,11 @@
             main-class="com.synapticdesign.orthobox.OrthoBox"
             width="300"
             height="400">
-        <argument>${url}</argument>
     </application-desc>
     <update check="background"/>
+    <security>
+        <all-permissions/>
+    </security>
+    <argument>${url}</argument><!--UUID -->
+    <argument>${session}</argument><!--FILENAME -->
 </jnlp>
