@@ -22,6 +22,9 @@ _OAuth_creds = {u"consumer_key": u"shared_secret",
 
 _RESULTS = {}
 
+
+_GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
+
 demo = Service(name='demo', path='/demo/{session}',
                description="SimPortal demo")
 criteria = Service(name='criteria', path='/criteria/{version}',
@@ -77,17 +80,17 @@ def generate_results(request):
 
 
 def _post_grade(session, result):
-    return
-    tool_provider = fake_DB[session]
-    key = tool_provider.oauth_consumer_key
-    tool_provider = WebObToolProvider(key, _OAuth_creds[key], tool_provider.params)
+    session = fake_DB[session]
+    key = session.oauth_consumer_key
+    tool_provider = WebObToolProvider(key, _OAuth_creds[key], session.params)
 
     if not tool_provider.is_outcome_service():
+        return
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = session
-    outcome_request.post_replace_result(request.POST['score'])
+    outcome_request.post_replace_result(_GRADES[result])
 
 
 @criteria.get()
