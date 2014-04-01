@@ -71,8 +71,8 @@ def generate_results(request):
     data = _parse_json(request)
     data['duration'] /= 1000
     result = evaluate(data)
-    metadata['result': result]
-    metadata['data': data]
+    metadata['result'] = result
+    metadata['data'] = data
 
     _post_grade(session, result)
 
