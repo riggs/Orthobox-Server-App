@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://staging.xlms.org" href="jnlp/{uid}.jnlp">
+<jnlp spec="1.0+" codebase="http://staging.xlms.org" href="jnlp/${uid}.jnlp">
     <information>
         <title>Orthobox xlms client app</title>
         <vendor>Synaptic Design</vendor>
@@ -23,5 +23,5 @@
         <all-permissions/>
     </security>
     <argument>${url}</argument><!--UUID -->
-    <argument>${session}</argument><!--FILENAME -->
+    <argument>${session}.mp4</argument><!--FILENAME -->
 </jnlp>
