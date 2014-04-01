@@ -27,6 +27,7 @@ jar = Service(name='jar', path='/jar/orthobox.jar')
 last_request = Service(name='last_request', path='/last_request',
                        description="last_request")
 
+
 def _parse_json(request):
     try:
         return json.loads(request.body)
@@ -37,6 +38,7 @@ def _parse_json(request):
 @last_request.get()
 def echo_request(request):
     return str(_RESULTS['last_request'])
+
 
 @demo.get()
 def display_results(request):
@@ -91,6 +93,7 @@ def generate_jnlp(request):
     response = render_to_response("templates/jnlp.pt", {'url': url, 'uid': uid, 'session': session}, request)
     response.content_type = 'application/x-java-jnlp-file'
     return response
+
 
 @jar.get()
 def serve_jar(request):
