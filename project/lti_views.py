@@ -92,13 +92,11 @@ def _launch(request):
     activity = activity_name(tool_provider.custom_params['custom_box_version'])
     _RESULTS['username'] = username
     _RESULTS['activity'] = activity
-    """
     uid = new_id()
-    fake_DB[uid] = tool_provider
-    fake_DB[tool_provider.tool_consumer_instance_guid]\
-           [tool_provider.user_id][tool_provider.context_id]\
-           [tool_provider.resource_link_id][tool_provider.consumer_key] = uid
-    """
+    fake_DB[uid] = hash(tool_provider)
+    #fake_DB[tool_provider.tool_consumer_instance_guid]\
+    #       [tool_provider.user_id][tool_provider.context_id]\
+    #       [tool_provider.resource_link_id][tool_provider.consumer_key] = uid
     return render_to_response("templates/demo.pt", locals(), request)
 
 
@@ -113,14 +111,8 @@ def _assessment(request):
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     outcome_request = tool_provider.new_request()
-    outcome_request.message_identifier = m_id = uuid4().hex
+    outcome_request.message_identifier = uuid4().hex
     outcome_request.post_replace_result(request.POST['score'])
-
-    _session.params['lis_outcome_service_url'] = "http://dev.xlms.org:6969/echo/echo"
-    tp2 = WebObToolProvider(key, _OAuth_creds[key], _session.params)
-    or2 = tp2.new_request()
-    or2.message_identifier = m_id
-    or2.post_replace_result(request.POST['score'])
 
     return Response("\r\n".join([str(outcome_request.outcome_response.post_response), '', "Request XML:",
                                  outcome_request.generate_request_xml()]))

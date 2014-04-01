@@ -9,9 +9,9 @@ import json
 from cornice import Service
 from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
-from pyramid.response import Response
+from pyramid.response import FileResponse
 
-from .evaluation import evaluate, _select_criteria, activity_name
+from .evaluation import evaluate, _select_criteria
 from .data_store import fake_DB
 
 
@@ -22,9 +22,11 @@ demo = Service(name='demo', path='/demo/{session}',
 criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{uid}.jnlp', description='Generated jnlp file for session')
+jar = Service(name='jar', path='/jar/orthobox.jar')
 
 last_request = Service(name='last_request', path='/last_request',
                        description="last_request")
+
 
 def _parse_json(request):
     try:
@@ -36,6 +38,7 @@ def _parse_json(request):
 @last_request.get()
 def echo_request(request):
     return str(_RESULTS['last_request'])
+
 
 @demo.get()
 def display_results(request):
@@ -84,10 +87,14 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    #return Response("Working on it")
     uid = request.matchdict['uid']
-    session = hash(fake_DB[uid])
+    session = fake_DB[uid]
     url = 'http://staging.xlms.org:8128/demo/{session}'.format(session=session)
-    response = render_to_response("templates/jnlp.pt", {'url': url}, request)
+    response = render_to_response("templates/jnlp.pt", {'url': url, 'uid': uid, 'session': session}, request)
     response.content_type = 'application/x-java-jnlp-file'
     return response
+
+
+@jar.get()
+def serve_jar(request):
+    return FileResponse('/var/www/html/orthobox.jar', request=request)
