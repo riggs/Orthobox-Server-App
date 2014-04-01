@@ -23,7 +23,7 @@ _RESULTS = {}
 
 _GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
 
-_VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/${session}.mp4"
+_VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/{session}.mp4"
 
 demo = Service(name='demo', path='/demo/{session}', description="SimPortal demo")
 configure = Service(name='configure', path='/configure/{version}', description="SimPortal demo evaluation parameters")
