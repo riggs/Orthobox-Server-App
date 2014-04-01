@@ -13,7 +13,7 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 	<h3>
         <script src="https://www.java.com/js/deployJava.js"></script>
         <script>
-            var url = "http://staging.xlms.org:8128/jnlp/${uid}.jnlp";
+            var url = "http://staging.xlms.org:8128/jnlp/${session}.jnlp";
             deployJava.createWebStartLaunchButton(url, '1.6.0');
         </script>
     </h3>

@@ -21,7 +21,7 @@ demo = Service(name='demo', path='/demo/{session}',
                description="SimPortal demo")
 criteria = Service(name='criteria', path='/criteria/{version}',
                    description="SimPortal demo evaluation parameters")
-jnlp = Service(name='jnlp', path='/jnlp/{uid}.jnlp', description='Generated jnlp file for session')
+jnlp = Service(name='jnlp', path='/jnlp/{session}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox.jar')
 
 last_request = Service(name='last_request', path='/last_request',
@@ -87,10 +87,9 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    uid = request.matchdict['uid']
-    session = fake_DB[uid]
+    session = request.matchdict['session']
     url = 'http://staging.xlms.org:8128/demo/{session}'.format(session=session)
-    response = render_to_response("templates/jnlp.pt", {'url': url, 'uid': uid, 'session': session}, request)
+    response = render_to_response("templates/jnlp.pt", {'url': url, 'session': session}, request)
     response.content_type = 'application/x-java-jnlp-file'
     return response
 

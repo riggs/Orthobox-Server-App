@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://staging.xlms.org:8128" href="jnlp/${uid}.jnlp">
+<jnlp spec="1.0+" codebase="http://staging.xlms.org:8128" href="jnlp/${session}.jnlp">
     <information>
         <title>Orthobox xlms client app</title>
         <vendor>Synaptic Design</vendor>

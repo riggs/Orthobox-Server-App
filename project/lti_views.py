@@ -92,11 +92,11 @@ def _launch(request):
     activity = activity_name(tool_provider.custom_params['custom_box_version'])
     _RESULTS['username'] = username
     _RESULTS['activity'] = activity
-    uid = new_id()
-    fake_DB[uid] = hash(tool_provider)
+    session = new_id()
+    fake_DB[session] = tool_provider
     #fake_DB[tool_provider.tool_consumer_instance_guid]\
     #       [tool_provider.user_id][tool_provider.context_id]\
-    #       [tool_provider.resource_link_id][tool_provider.consumer_key] = uid
+    #       [tool_provider.resource_link_id][tool_provider.consumer_key] = session
     return render_to_response("templates/demo.pt", locals(), request)
 
 
