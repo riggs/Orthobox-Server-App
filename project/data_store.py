@@ -16,4 +16,4 @@ fake_DB = defaultdict(_DB)
 
 
 def new_id():
-    return str(uuid4())
+    return uuid4().hex
