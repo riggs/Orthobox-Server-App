@@ -25,8 +25,6 @@ from .rest_views import _RESULTS
 _OAuth_creds = {u"consumer_key": u"shared_secret",
                 u"triangulation_key": u"triangulation_secret",
                 u"manipulation_key": u"manipulation_secret",
-                u"MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98&":
-                    u"MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98"
                }
 
 """

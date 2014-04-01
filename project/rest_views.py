@@ -13,6 +13,8 @@ from pyramid.response import FileResponse
 
 from .evaluation import evaluate, _select_criteria
 from .data_store import fake_DB
+from .tool_provider import WebObToolProvider
+from .lti_views import _OAuth_creds
 
 
 _RESULTS = {}
@@ -42,8 +44,8 @@ def echo_request(request):
 
 @demo.get()
 def display_results(request):
-    key = request.matchdict['session']
-    value = _RESULTS.get(key)
+    session = request.matchdict['session']
+    value = _RESULTS.get(session)
     if value is None:
         return HTTPNotFound('Unknown session')
     result, data = value
@@ -51,7 +53,8 @@ def display_results(request):
               'error_number': len(data['errors']),
               'activity': _RESULTS['activity'],
               'username': _RESULTS['username'],
-              'pokes': data.get('pokes')}
+              'pokes': data.get('pokes'),
+              'session': session}
     return render_to_response('templates/{0}.pt'.format(result), params, request)
 
 
@@ -59,12 +62,29 @@ def display_results(request):
 def generate_results(request):
     """Set the value.
     """
-    key = request.matchdict['session']
+    session = request.matchdict['session']
     data = _parse_json(request)
     data['duration'] /= 1000
     result = evaluate(data)
-    _RESULTS[key] = (result, data)
+    _RESULTS[session] = (result, data)
+
+    _post_grade(session, result)
+
     return result, data
+
+
+def _post_grade(session, result):
+    return
+    tool_provider = fake_DB[session]
+    key = tool_provider.oauth_consumer_key
+    tool_provider = WebObToolProvider(key, _OAuth_creds[key], tool_provider.params)
+
+    if not tool_provider.is_outcome_service():
+        raise HTTPBadRequest("Tool wasn't launched as an outcome service")
+
+    outcome_request = tool_provider.new_request()
+    outcome_request.message_identifier = session
+    outcome_request.post_replace_result(request.POST['score'])
 
 
 @criteria.get()
