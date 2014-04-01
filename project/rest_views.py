@@ -24,7 +24,7 @@ _RESULTS = {}
 _GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
 
 demo = Service(name='demo', path='/demo/{session}', description="SimPortal demo")
-criteria = Service(name='criteria', path='/criteria/{version}', description="SimPortal demo evaluation parameters")
+configure = Service(name='configure', path='/configure/{version}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox.jar')  # This can go away if/when python is running under apache
 
@@ -95,14 +95,14 @@ def _post_grade(session, result):
     outcome_request.post_replace_result(str(_GRADES[result]))
 
 
-@criteria.get()
+@configure.get()
 def get_criteria(request):
     """Returns the evaluation parameters.
     """
     return _select_criteria(request)
 
 
-@criteria.post()
+@configure.post()
 def set_criteria(request):
     """Set the evaluation parameters.
     """
