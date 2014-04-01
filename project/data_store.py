@@ -12,7 +12,8 @@ from uuid import uuid4
 def _DB():
     return defaultdict(_DB)
 
-fake_DB = defaultdict(_DB)
+#fake_DB = defaultdict(_DB)
+fake_DB = {}
 
 
 def new_id():
