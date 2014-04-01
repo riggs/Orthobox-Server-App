@@ -57,7 +57,7 @@ def display_results(request):
               'username': metadata['username'],
               'pokes': data.get('pokes'),
               'session': session,
-              'versoin': metadata['version']}
+              'version': metadata['version']}
     return render_to_response('templates/{0}.pt'.format(metadata['result']), params, request)
 
 
