@@ -78,8 +78,9 @@ def _authorize_tool_provider(request):
 def _launch(request, tool_provider):
     session = new_id()
     username = tool_provider.username(default="beautiful")
-    activity = activity_name(tool_provider.custom_params['custom_box_version'])
-    _RESULTS[session] = {'username': username, 'activity': activity}
+    version = tool_provider.custom_params.get('custom_box_version')
+    activity = activity_name(version)
+    _RESULTS[session] = {'username': username, 'activity': activity, 'version': version}
     fake_DB[session] = tool_provider
     #fake_DB[tool_provider.tool_consumer_instance_guid]\
     #       [tool_provider.user_id][tool_provider.context_id]\
