@@ -17,6 +17,10 @@ from .tool_provider import WebObToolProvider
 from .lti_views import _OAuth_creds
 
 
+_OAuth_creds = {u"consumer_key": u"shared_secret",
+                u"triangulation_key": u"triangulation_secret",
+                u"manipulation_key": u"manipulation_secret"}
+
 _RESULTS = {}
 
 demo = Service(name='demo', path='/demo/{session}',

@@ -19,13 +19,8 @@ from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
 from .tool_provider import WebObToolProvider
 from .data_store import fake_DB, new_id
 from .evaluation import activity_name
-from .rest_views import _RESULTS
+from .rest_views import _RESULTS, _OAuth_creds
 
-
-_OAuth_creds = {u"consumer_key": u"shared_secret",
-                u"triangulation_key": u"triangulation_secret",
-                u"manipulation_key": u"manipulation_secret",
-               }
 
 """
 @view_config(route_name='lti_root')
