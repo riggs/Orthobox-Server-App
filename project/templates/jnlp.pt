@@ -17,11 +17,11 @@
             main-class="com.synapticdesign.orthobox.OrthoBox"
             width="300"
             height="400">
+        <argument>${url}</argument><!--UUID -->
+        <argument>${session}.mp4</argument><!--FILENAME -->    
     </application-desc>
     <update check="background"/>
     <security>
         <all-permissions/>
     </security>
-    <argument>${url}</argument><!--UUID -->
-    <argument>${session}.mp4</argument><!--FILENAME -->
 </jnlp>
