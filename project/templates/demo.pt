@@ -20,7 +20,7 @@ h3 {font-family: Helvetica Neue Bold, Helvetica, Arial; color:#414141; font-weig
 	<p>Hello, ${username}.</p>
 	<p>You may conduct your trial of the <strong>${activity}</strong> task by clicking the Launch button above. <br/>
        When finished, click the Results link below to receive your evaluation. </p>
-    <h3><a href="/demo/test">View Results</a></h3>
+    <h3><a href="/demo/${session}">View Results</a></h3>
 </div>
 </body>
 </html>
