@@ -70,5 +70,5 @@ _BOX_TYPE[_POKEY] = _pokey_box
 _BOX_TYPE[_PEGGY] = _peggy_box
 
 # TODO: Session specific evaluation criteria
-_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 10}
+_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 9}
 _CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300}
