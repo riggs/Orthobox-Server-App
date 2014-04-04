@@ -74,7 +74,7 @@ def generate_results(request):
     if metadata is None:
         return HTTPNotFound('Unknown session')
     data = _parse_json(request)
-    data['duration'] /= 1000
+    data['duration'] = str(int(data['duration'])/1000)
     result = evaluate(data)
     metadata['result'] = result
     metadata['data'] = data
