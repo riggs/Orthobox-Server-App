@@ -10,10 +10,13 @@ httplib2==0.8
 ims-lti-py==0.6
 lxml==3.3.3
 oauth2==1.5.211
+oauthlib==0.6.1
 pyramid==1.4.5
 pyramid-chameleon==0.1
 repoze.lru==0.6
-simplejson==3.3.3
+requests==2.2.1
+requests-oauthlib==0.4.0
+simplejson==3.4.0
 translationstring==1.1
 venusian==1.0a8
 waitress==0.8.8
