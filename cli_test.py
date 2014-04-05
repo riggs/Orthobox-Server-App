@@ -17,7 +17,7 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.request import Request
 
-from project import _custom_config
+from orthobox import _custom_config
 
 def serve():
     config = _custom_config(Configurator())

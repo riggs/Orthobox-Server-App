@@ -1,5 +1,46 @@
-API
+API:
 
-Manually define project-related slug ('orthobox', etc.)
+1. Start via link in Moodle
+    A. Display 'Launch' button for Java Webstart, 'View Results' link.
+    B. /orthobox/launch to start LTI
+        * Generates URL & credentials for data upload
+            * Session ID (UUID) in URL
+            * Security token
+            # TODO: Some form of crypto... Pass/bake a public key into the Java or use client auth TLS?
+        * Generate URL for video upload
+        * Store session credentials
+        * Generate JNLP with URLs & credentials
 
-/orthobox/launch to start LTI
+2. Receive data
+    A. Verify session credentials
+    B. Save JSON
+    C. Report pass/fail result to Moodle
+    D. Delete session credentials
+
+3. Display activity result
+    A. Moodle will have pass/fail info, not detailed error data
+    B. Details retrievable by either student or instructor
+
+4. Display video
+
+5. Generate, store, & display OAuth credentials
+
+
+DBs:
+
+1. Session: Session ID -> Session credentials
+    A. Used by Java to upload data
+    B. Need to store token
+2. Data: Session ID -> data
+    A. Store raw JSON
+    B. key:value for flexibility in JSON
+    C. Include UID, video link if applicable
+    D. Export to do analytics
+3. Moodle: Moodle identifier -> UID
+    A. Nested key:value store?
+        * site ID:{Moodle UID:UID, context:resource:{OAuth key & secret, UID:session credentials}}
+        * site ID based on slug
+4. OAuth: nonce store
+    A. Time-limited
+    B. Not unlike a cache
+    C. In-memory is probably sufficient

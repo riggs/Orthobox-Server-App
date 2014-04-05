@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
 """
 Extending ims_lti_py to WebOb
 """
 
 from __future__ import division, absolute_import, print_function
-__author__ = 'riggs'
 
 
 from ims_lti_py.request_validator import RequestValidatorMixin

@@ -1,13 +1,17 @@
+# -*- coding: utf-8 -*-
 """
 Evaluation logic and criteria for activities
 """
 
-from __future__ import division, absolute_import, print_function
+from __future__ import division, absolute_import, print_function, unicode_literals
 __author__ = 'riggs'
 
 
 from pyramid.httpexceptions import HTTPNotFound
 
+_PASS = 'pass'
+_FAIL = 'fail'
+_INCOMPLETE = 'incomplete'
 
 _POKEY = "pokey_dev"
 _PEGGY = "peggy_dev"
@@ -22,22 +26,16 @@ def activity_name(version):
     return _ACTIVITY_NAME.get(version, "Unknown Activity")
 
 
-def _pass(*_):
-    """placeholder function.
-    """
-    return "pass"
-
-
 def evaluate(data):
     # TODO: Audit function logic
     # Will every test have errors & duration?
-    box_type = data['version']
+    box_type = data.get('version')
     if box_type not in _BOX_TYPE: # Unknown box
-        return "pass"
+        return _PASS
     if len(data['errors']) > _CRITERIA[box_type]['errors']:
-        result = "fail"  # value used to retrieve template file
+        result = _FAIL  # value used to retrieve template file
     elif data['duration'] > _CRITERIA[box_type]['timeout']:
-        result = "incomplete"
+        result = _INCOMPLETE
     else:
         result = _BOX_TYPE[box_type](data)
     return result
@@ -45,16 +43,19 @@ def evaluate(data):
 
 def _pokey_box(data):
     # Make sure they actually poked stuff
-    if len(data['pokes']):
-        result = "pass"
+    if len(data['pokes']) >= _CRITERIA[_POKEY]['pokes']:
+        result = _PASS
     else:
-        result = "fail"
+        result = _INCOMPLETE
     return result
 
 
 def _peggy_box(data):
-    # TODO: determine evaluation criteria
-    result = _pass(data)
+    # Don't drop stuff inside of people
+    if len(data['drops']) >= _CRITERIA[_PEGGY]['drops']:
+        result = _FAIL
+    else:
+        result = _PASS
     return result
 
 
@@ -70,5 +71,5 @@ _BOX_TYPE[_POKEY] = _pokey_box
 _BOX_TYPE[_PEGGY] = _peggy_box
 
 # TODO: Session specific evaluation criteria
-_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 10}
-_CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300}
+_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 9}
+_CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300, 'drops': 0}
