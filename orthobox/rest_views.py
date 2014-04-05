@@ -3,7 +3,7 @@
 Cornice services.
 """
 
-from __future__ import division, absolute_import, print_function
+from __future__ import division, absolute_import, print_function, unicode_literals
 
 import json
 from cornice import Service
@@ -90,7 +90,6 @@ def _post_grade(session, result):
     tool_provider = fake_DB[session]
 
     if not tool_provider.is_outcome_service():
-        return
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     key = tool_provider.oauth_consumer_key

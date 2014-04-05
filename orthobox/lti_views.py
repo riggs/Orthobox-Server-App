@@ -3,22 +3,20 @@
 LTI services
 """
 
-from __future__ import division, absolute_import, print_function
+from __future__ import division, absolute_import, print_function, unicode_literals
 __author__ = 'riggs'
 
 from datetime import datetime
 from calendar import timegm
-from uuid import uuid4
 
 from oauth2 import Error as OAuthError
 
 from pyramid.view import view_config
-from pyramid.response import Response
 from pyramid.renderers import render_to_response
-from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
+from pyramid.httpexceptions import HTTPBadRequest
 
 from orthobox.tool_provider import WebObToolProvider
-from orthobox.data_store import fake_DB, new_session
+from orthobox.data_store import fake_DB, new_session, get_OAuth_creds
 from orthobox.evaluation import activity_name
 from orthobox.rest_views import _RESULTS, _OAuth_creds
 
@@ -32,8 +30,7 @@ def lti_launch(request):
     version = tool_provider.custom_params.get('custom_box_version')
     activity = activity_name(version)
     _RESULTS[session] = {'username': username, 'activity': activity, 'version': version}
-    fake_DB[session] = tool_provider
-    return render_to_response("templates/demo.pt", locals(), request)
+    return render_to_response("templates/lti_launch.pt", locals(), request)
 
 
 def _authorize_tool_provider(request):
@@ -46,7 +43,7 @@ def _authorize_tool_provider(request):
     if key is None:
         raise HTTPBadRequest("Missing OAuth data. Params:\r\n{0}".format(str(params)))
 
-    secret = _OAuth_creds.get(key)
+    secret = get_OAuth_creds(key)
     if secret is None:
         raise HTTPBadRequest("Invalid OAuth consumer key")
 

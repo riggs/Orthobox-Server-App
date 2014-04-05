@@ -3,7 +3,7 @@
 Evaluation logic and criteria for activities
 """
 
-from __future__ import division, absolute_import, print_function
+from __future__ import division, absolute_import, print_function, unicode_literals
 __author__ = 'riggs'
 
 
