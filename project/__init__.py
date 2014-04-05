@@ -1,4 +1,6 @@
-"""Main entry point
+# -*- coding: utf-8 -*-
+"""
+Main entry point
 """
 from pyramid.config import Configurator
 
@@ -7,7 +9,6 @@ def _custom_config(config):
     config.include("cornice")
     config.include("pyramid_chameleon")
     config.scan("project.rest_views")
-    #config.add_route('lti_root', 'lti')
     config.add_route('lti', 'lti/{path}')
     config.scan("project.lti_views")
     return config

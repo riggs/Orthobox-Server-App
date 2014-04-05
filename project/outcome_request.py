@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Subclassing to replace failing OAuth functionality.
 """

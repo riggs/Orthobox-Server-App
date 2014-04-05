@@ -27,16 +27,14 @@ API:
 
 DBs:
 
-1. Session: URI -> Session credentials
+1. Session: Session ID -> Session credentials
     A. Used by Java to upload data
-    B. Session ID implicit in URL
-    C. Still need to store token
+    B. Need to store token
 2. Data: Session ID -> data
     A. Store raw JSON
     B. key:value for flexibility in JSON
     C. Include UID, video link if applicable
     D. Export to do analytics
-
 3. Moodle: Moodle identifier -> UID
     A. Nested key:value store?
         * site ID:{Moodle UID:UID, context:resource:{OAuth key & secret, UID:session credentials}}

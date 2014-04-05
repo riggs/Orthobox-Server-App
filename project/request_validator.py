@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Extending ims_lti_py to WebOb
 """

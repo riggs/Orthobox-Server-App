@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 LTI services
 """
@@ -20,13 +21,6 @@ from .tool_provider import WebObToolProvider
 from .data_store import fake_DB, new_id
 from .evaluation import activity_name
 from .rest_views import _RESULTS, _OAuth_creds
-
-
-"""
-@view_config(route_name='lti_root')
-def lti_root(request):
-    return render_to_response("templates/lti_root.pt", {}, request)
-"""
 
 
 @view_config(route_name='lti')
@@ -98,5 +92,4 @@ def _assessment(request, tool_provider):
     outcome_request.message_identifier = uuid4().hex
     outcome_request.post_replace_result(request.POST['score'])
 
-    return Response("\r\n".join([str(outcome_request.outcome_response.post_response), '', "Request XML:",
-                                 outcome_request.generate_request_xml()]))
+    return Response(str(outcome_request.outcome_response.post_response))
