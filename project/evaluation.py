@@ -28,7 +28,7 @@ def activity_name(version):
 def evaluate(data):
     # TODO: Audit function logic
     # Will every test have errors & duration?
-    box_type = data['version']
+    box_type = data.get('version')
     if box_type not in _BOX_TYPE: # Unknown box
         return _PASS
     if len(data['errors']) > _CRITERIA[box_type]['errors']:
