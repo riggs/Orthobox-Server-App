@@ -28,8 +28,8 @@ moodle:
     moodle_uid: {'uid': uid, 'username': tool_provider.lis_person_name_full}
     moodle_resource_id: {'consumer_key': <OAuth consumer key>, 'consumer_secret': <OAuth shared secret>}
 Notes:
-    moodle_uid = hashlib.sha1(instance_id + user_id)
-    moodle_resource_id = hashlib.sha1(instance_id + resource_id)
+    moodle_uid = hashlib.sha1(instance_id + user_id).hexdigest()
+    moodle_resource_id = hashlib.sha1(instance_id + resource_id).hexdigest()
     where:
     instance_id = tool_provider.tool_consumer_instance_guid
     user_id = tool_provider.user_id
@@ -41,14 +41,12 @@ from __future__ import division, absolute_import, print_function
 
 from collections import defaultdict
 from uuid import uuid4
+from hashlib import sha1
+
+import lmdb
 
 
-def _DB():
-    return defaultdict(_DB)
-
-#fake_DB = defaultdict(_DB)
 fake_DB = {}
-
 
 def new_id():
     return uuid4().hex

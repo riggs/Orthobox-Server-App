@@ -9,7 +9,7 @@ def _custom_config(config):
     config.include("cornice")
     config.include("pyramid_chameleon")
     config.scan("project.rest_views")
-    config.add_route('lti', 'lti/{path}')
+    config.add_route('lti_launch', 'launch')
     config.scan("project.lti_views")
     return config
 
