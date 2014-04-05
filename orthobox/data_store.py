@@ -39,7 +39,6 @@ Notes:
 
 from __future__ import division, absolute_import, print_function
 
-from collections import defaultdict
 from uuid import uuid4
 from hashlib import sha1
 

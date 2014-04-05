@@ -11,9 +11,9 @@ from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.response import FileResponse
 
-from .evaluation import evaluate, _select_criteria
-from .data_store import fake_DB
-from .tool_provider import WebObToolProvider
+from orthobox.evaluation import evaluate, _select_criteria
+from orthobox.data_store import fake_DB
+from orthobox.tool_provider import WebObToolProvider
 
 
 _OAuth_creds = {u"consumer_key": u"shared_secret",

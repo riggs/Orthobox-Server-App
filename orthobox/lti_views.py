@@ -17,17 +17,17 @@ from pyramid.response import Response
 from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
 
-from .tool_provider import WebObToolProvider
-from .data_store import fake_DB, new_id
-from .evaluation import activity_name
-from .rest_views import _RESULTS, _OAuth_creds
+from orthobox.tool_provider import WebObToolProvider
+from orthobox.data_store import fake_DB, new_session
+from orthobox.evaluation import activity_name
+from orthobox.rest_views import _RESULTS, _OAuth_creds
 
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
     _RESULTS['last_request'] = request
     tool_provider = _authorize_tool_provider(request)
-    session = new_id()
+    session = new_session(tool_provider)
     username = tool_provider.username(default="beautiful")
     version = tool_provider.custom_params.get('custom_box_version')
     activity = activity_name(version)
