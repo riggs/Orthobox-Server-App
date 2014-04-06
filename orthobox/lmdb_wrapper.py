@@ -105,7 +105,7 @@ class LMDB_Dict(MutableMapping):
 
     def clear(self):
         with self.txn(True) as txn:
-            txn.drop(self.db)
+            txn.drop(self.db, delete=False)
 
     def setdefault(self, key, default=None):
         with self.txn(True) as txn:
