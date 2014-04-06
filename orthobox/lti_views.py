@@ -58,11 +58,14 @@ def _authorize_tool_provider(request):
     if now - int(tool_provider.oauth_timestamp) > 60 * 60:
         raise HTTPBadRequest("Request timed out")
 
-    timestamp = _OAuth_creds.get(tool_provider.oauth_nonce)
-    if timestamp is None:
-        _OAuth_creds[tool_provider.oauth_nonce] = now
-    elif now - timestamp > 60 * 60:
-        raise HTTPBadRequest("OAuth nonce timeout")
+    _validate_nonce(tool_provider.oauth_nonce, now)
 
     return tool_provider
 
+_OAuth_creds = {}
+def _validate_nonce(nonce, now)
+    timestamp = _OAuth_creds.get(nonce)
+    if timestamp is None:
+        _OAuth_creds[nonce] = now
+    elif now - timestamp > 60 * 60:
+        raise HTTPBadRequest("OAuth nonce timeout")
