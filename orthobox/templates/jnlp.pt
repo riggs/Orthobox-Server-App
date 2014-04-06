@@ -21,6 +21,7 @@
         <argument>${session_id}.mp4</argument><!-- video upload filename -->
         <!-- TODO: implement basic security
         <argument>${upload_token}</argument><!-- Auth token -->
+        -->
     </application-desc>
     <update check="background"/>
     <security>
