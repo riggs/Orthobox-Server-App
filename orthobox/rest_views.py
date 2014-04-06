@@ -148,7 +148,7 @@ def generate_jnlp(request):
     params['upload_token'] = get_upload_token(session_id)
 
     response = render_to_response("templates/jnlp.pt", params, request)
-    response.content_type = 'application/x-java-jnlp-file'
+    response.content_type = str('application/x-java-jnlp-file')
     return response
 
 
