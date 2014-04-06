@@ -13,8 +13,8 @@ _PASS = 'pass'
 _FAIL = 'fail'
 _INCOMPLETE = 'incomplete'
 
-_POKEY = "pokey_dev"
-_PEGGY = "peggy_dev"
+_POKEY = 1
+_PEGGY = 2
 
 _BOX_TYPE = {}
 _CRITERIA = {}
