@@ -142,9 +142,12 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    session_id = request.matchdict['session_id']
-    url = 'http://staging.xlms.org:8128/results/{session_id}'.format(session_id=session_id)
-    response = render_to_response("templates/jnlp.pt", {'url': url, 'session_id': session_id}, request)
+    params = {}
+    params['session_id'] = session_id = request.matchdict['session_id']
+    params['url'] = 'http://staging.xlms.org:8128/results/{session_id}'.format(session_id=session_id)
+    params['upload_token'] = get_upload_token(session_id)
+
+    response = render_to_response("templates/jnlp.pt", params, request)
     response.content_type = 'application/x-java-jnlp-file'
     return response
 
