@@ -68,7 +68,7 @@ def display_results(request):
         return HTTPNotFound('Unknown session')
     params = {'duration': data['duration'],
               'error_number': len(data['errors']),
-              'pokes': len(data.get('pokes')),
+              'pokes': len(data.get('pokes', '')),
               'session_id': session_id}
     params.update(get_metadata(session_id))
     return render_to_response('templates/{0}.pt'.format(params['result']), params, request)
