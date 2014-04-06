@@ -63,7 +63,7 @@ def _authorize_tool_provider(request):
     return tool_provider
 
 _OAuth_creds = {}
-def _validate_nonce(nonce, now)
+def _validate_nonce(nonce, now):
     timestamp = _OAuth_creds.get(nonce)
     if timestamp is None:
         _OAuth_creds[nonce] = now
