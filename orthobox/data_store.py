@@ -75,6 +75,8 @@ _MOODLE_DB = LMDB_Dict(_LMDB_ENV, 'moodle')
 _OAUTH_DB = LMDB_Dict(_LMDB_ENV, 'oauth')
 _UNREGISTERED_OAUTH = LMDB_Dict(_LMDB_ENV, 'unregistered_oauth')
 
+_DATABASES = (_SESSIONS_DB, _DATA_DB, _USERS_DB, _METADATA_DB, _MOODLE_DB, _UNREGISTERED_OAUTH, _OAUTH_DB)
+
 _VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/{session_id}.mp4"
 
 
