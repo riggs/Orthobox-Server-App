@@ -8,9 +8,9 @@ def _custom_config(config):
     # TODO: See if traversal & cornice will play nicely enough
     config.include("cornice")
     config.include("pyramid_chameleon")
-    config.scan("project.rest_views")
+    config.scan("orthobox.rest_views")
     config.add_route('lti_launch', 'launch')
-    config.scan("project.lti_views")
+    config.scan("orthobox.lti_views")
     return config
 
 def main(global_config, **settings):
