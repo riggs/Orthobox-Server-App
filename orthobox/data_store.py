@@ -17,13 +17,13 @@ Note: Remove after successful use
 
 data:   # 'Sanitized' copy to be kept for later analysis.
     session_id: {'uid': uid
-                 'video': <identifier (URL) for video>,
+                 'video_url': <identifier (URL) for video>,
                  'data': <raw JSON received>}
 
 metadata:
     session_id: {'username': username,
                  'activity': <activity display name>,
-                 'video': <identifier (URL) for video>,
+                 'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
                  'version': <activity version string>}
 
@@ -130,19 +130,19 @@ def new_session(tool_provider):
     _USERS_DB[uid] = _encode(user)
 
     video_url = _VIDEO_URL.format(session_id=session_id)
-    _DATA_DB[session_id] = _encode({'uid': uid, 'video': video_url})
+    _DATA_DB[session_id] = _encode({'uid': uid, 'video_url': video_url})
 
     # Generate metadata for session
     # session_id: {'username': username,
     #              'activity': <activity display name>,
-    #              'video': <identifier (URL) for video>,
+    #              'video_url': <identifier (URL) for video>,
     #              'result': <pass/fail/incomplete status>,
     #              'version': <activity version string>}
     metadata = {}
     metadata['username'] = tool_provider.username(default="lovely")
     metadata['version'] = version = tool_provider.custom_params.get('custom_box_version')
     metadata['activity'] = activity_name(version)
-    metadata['video'] = video_url
+    metadata['video_url'] = video_url
     metadata['result'] = _INCOMPLETE
 
     _METADATA_DB[session_id] = _encode(metadata)
@@ -174,7 +174,7 @@ def store_result_data(session_id, json_data):
 
     _DATA_DB:
     session_id: {'uid': uid,
-                 'video': <identifier (URL) for video>,
+                 'video_url': <identifier (URL) for video>,
                  'data': <raw JSON received>}
     """
     session = _decode(_DATA_DB[session_id])
@@ -188,7 +188,7 @@ def get_result_data(session_id):
 
     _DATA_DB:
     session_id: {'uid': uid,
-                 'video': <identifier (URL) for video>,
+                 'video_url': <identifier (URL) for video>,
                  'data': <raw JSON received>}
     """
     return _decode(_DATA_DB[session_id])['data']
@@ -201,7 +201,7 @@ def get_metadata(session_id):
     metadata:
         session_id: {'username': username,
                      'activity': <activity display name>,
-                     'video': <identifier (URL) for video>,
+                     'video_url': <identifier (URL) for video>,
                      'result': <pass/fail/incomplete status>,
                      'version': <activity version string>}
     """
