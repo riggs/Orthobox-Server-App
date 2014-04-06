@@ -22,7 +22,6 @@ from orthobox.evaluation import activity_name
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
-    _RESULTS['last_request'] = request
     tool_provider = _authorize_tool_provider(request)
     params = {}
     params['session_id'] = session_id = new_session(tool_provider)
