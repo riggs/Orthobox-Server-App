@@ -18,7 +18,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.data_store import new_session, get_oauth_creds, get_upload_token
 from orthobox.evaluation import activity_name
-from orthobox.rest_views import _RESULTS, _OAuth_creds
+from orthobox.rest_views import _RESULTS
 
 
 @view_config(route_name='lti_launch')

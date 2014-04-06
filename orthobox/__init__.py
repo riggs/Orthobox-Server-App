@@ -4,6 +4,8 @@ Main entry point
 """
 from pyramid.config import Configurator
 
+from orthobox import data_store; del data_store    # Instantiate DB
+
 def _custom_config(config):
     # TODO: See if traversal & cornice will play nicely enough
     config.include("cornice")
