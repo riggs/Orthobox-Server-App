@@ -4,15 +4,18 @@ Dict-like wrapper for simple lmdb access.
 """
 from __future__ import division, absolute_import, print_function, unicode_literals
 
+import lmdb
+
+from tempfile import mkdtemp
 from collections import MutableMapping
 
 
-class LMDB(MutableMapping):
+class LMDB_Dict(MutableMapping):
     """
     A naïve abstraction for lmdb.
     """
-    def __init__(self, environment, db_name=None, encoding='utf-8'):
-        self.env = environment
+    def __init__(self, environment=None, db_name=None, encoding='utf-8'):
+        self.env = environment if isinstance(environment, lmdb.Environment) else lmdb.open(mkdtemp())
         self.encoding = encoding
         self.db = environment.open_db(self._encode(db_name) if db_name else None)
 
@@ -29,7 +32,7 @@ class LMDB(MutableMapping):
             raise TypeError("Unable to decode", binary)
 
     def txn(self, write=False):
-        # TODO: limit multiple transactions
+        # TODO: prevent multiple write transactions
         return self.env.begin(db=self.db, write=write)
 
     def __len__(self):
@@ -99,7 +102,6 @@ class LMDB(MutableMapping):
             key, value = cursor.item()
             cursor.delete()
             return tuple(map(self._decode, (key, value)))
-
 
     def clear(self):
         with self.txn(True) as txn:

@@ -21,6 +21,8 @@ _CRITERIA = {}
 _ACTIVITY_NAME = {_PEGGY: "Object Manipulation",
                   _POKEY: "Triangulation"}
 
+_GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
+
 
 def activity_name(version):
     return _ACTIVITY_NAME.get(version, "Unknown Activity")
@@ -39,6 +41,10 @@ def evaluate(data):
     else:
         result = _BOX_TYPE[box_type](data)
     return result
+
+
+def get_moodle_grade(result):
+    return str(_GRADES[result])
 
 
 def _pokey_box(data):

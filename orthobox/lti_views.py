@@ -16,7 +16,7 @@ from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest
 
 from orthobox.tool_provider import WebObToolProvider
-from orthobox.data_store import fake_DB, new_session, get_OAuth_creds
+from orthobox.data_store import new_session, get_oauth_creds, get_upload_token
 from orthobox.evaluation import activity_name
 from orthobox.rest_views import _RESULTS, _OAuth_creds
 
@@ -25,12 +25,12 @@ from orthobox.rest_views import _RESULTS, _OAuth_creds
 def lti_launch(request):
     _RESULTS['last_request'] = request
     tool_provider = _authorize_tool_provider(request)
-    session = new_session(tool_provider)
-    username = tool_provider.username(default="beautiful")
-    version = tool_provider.custom_params.get('custom_box_version')
-    activity = activity_name(version)
-    _RESULTS[session] = {'username': username, 'activity': activity, 'version': version}
-    return render_to_response("templates/lti_launch.pt", locals(), request)
+    params = {}
+    params['session_id'] = session_id = new_session(tool_provider)
+    params['username'] = tool_provider.username(default="lovely")
+    params['activity'] = activity_name(tool_provider.custom_params.get('custom_box_version'))
+    params['upload_token'] = get_upload_token(session_id)
+    return render_to_response("templates/lti_launch.pt", params, request)
 
 
 def _authorize_tool_provider(request):
@@ -43,7 +43,7 @@ def _authorize_tool_provider(request):
     if key is None:
         raise HTTPBadRequest("Missing OAuth data. Params:\r\n{0}".format(str(params)))
 
-    secret = get_OAuth_creds(key)
+    secret = get_oauth_creds(key)
     if secret is None:
         raise HTTPBadRequest("Invalid OAuth consumer key")
 
