@@ -109,7 +109,7 @@ class LMDB_Dict(MutableMapping):
 
     def setdefault(self, key, default=None):
         with self.txn(True) as txn:
-            result = txn.get(self._encode(key), default or '')
+            result = txn.get(self._encode(key))
             if result is not None:
                 return self._decode(result)
             txn.put(self._encode(key), self._encode(default or ''))
