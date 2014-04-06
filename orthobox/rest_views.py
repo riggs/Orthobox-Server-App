@@ -52,7 +52,7 @@ def add_oauth_creds(request):
 
 @last_request.get()
 def echo_request(request):
-    return str(_RESULTS['last_request'])
+    return str(_RESULTS.get('last_request'))
 
 
 @results.get()
