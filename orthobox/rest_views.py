@@ -17,20 +17,12 @@ from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade
 from orthobox.tool_provider import WebObToolProvider
 
 
-# _OAuth_creds = {u"consumer_key": u"shared_secret",
-#                 u"triangulation_key": u"triangulation_secret",
-#                 u"manipulation_key": u"manipulation_secret"}
-
-_RESULTS = {}   # FIXME
-
 results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
 configure = Service(name='configure', path='/configure/{version}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox.jar')  # This can go away if/when python is running under apache
 
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
-last_request = Service(name='last_request', path='/last_request',
-                       description="last_request")
 
 
 def _parse_json(request):
@@ -47,12 +39,7 @@ def add_oauth_creds(request):
     """
     # TODO: Authentication
     key, secret = new_oauth_creds()
-    return {key: secret}
-
-
-@last_request.get()
-def echo_request(request):
-    return str(_RESULTS.get('last_request'))
+    return {"consumer_key": key, "consumer_secret": secret}
 
 
 @results.get()
