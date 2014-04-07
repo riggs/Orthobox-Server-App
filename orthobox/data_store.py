@@ -210,6 +210,22 @@ def get_metadata(session_id):
     return _decode(_METADATA_DB[session_id])
 
 
+def store_result(session_id, result):
+    """
+    Store result for realzies
+
+    metadata:
+        session_id: {'username': username,
+                     'activity': <activity display name>,
+                     'video_url': <identifier (URL) for video>,
+                     'result': <pass/fail/incomplete status>,
+                     'version_string': <activity version string>}
+    """
+    session = _decode(_METADATA_DB[session_id])
+    session['result'] = result
+    _METADATA_DB[session_id] = _encode(session)
+
+
 def delete_session_credentials(session_id):
     """
     _SESSIONS_DB:
