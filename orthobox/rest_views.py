@@ -13,12 +13,12 @@ from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_result_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds)
-from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade
+from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _get_box_name
 from orthobox.tool_provider import WebObToolProvider
 
 
 results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
-configure = Service(name='configure', path='/configure/{version}', description="SimPortal demo evaluation parameters")
+configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox.jar')  # This can go away if/when python is running under apache
 
@@ -70,6 +70,7 @@ def generate_results(request):
 
     data = _parse_json(request)
     data['duration'] = int(data['duration']) / 1000
+    data['version_string'] = _get_box_name(data['version'])
 
     store_result_data(session_id, data)
 

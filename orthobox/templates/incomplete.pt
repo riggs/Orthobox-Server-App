@@ -45,12 +45,12 @@
             <strong>incomplete</strong> score. You took <strong>${duration}</strong> seconds and made
             <strong>${error_number}</strong> errors.</p>
 
-        <p tal:case="'peggy_dev'">You completed your first trial of the <strong>${activity}</strong> task. <br/>You
+        <p tal:case="'peggy'">You completed your first trial of the <strong>${activity}</strong> task. <br/>You
             received an
             <strong>incomplete</strong> score. You took <strong>${duration}</strong> seconds and made
             <strong>${error_number}</strong> errors.</p>
 
-        <p tal:case="'pokey_dev'">You completed your first trial of the <strong>${activity}</strong> task. <br/>You
+        <p tal:case="'pokey'">You completed your first trial of the <strong>${activity}</strong> task. <br/>You
             received an
             <strong>incomplete</strong> score. You completed <strong>${pokes}</strong> pokes in
             <strong>${duration}</strong>
