@@ -38,7 +38,7 @@
 
     <p>Try again, ${username}.</p>
 
-    <div tal:switch="version">
+    <div tal:switch="version_string">
 
         <p tal:case="None">You completed your first trial of the <strong>${activity}</strong> task.
             <br/>You received an
