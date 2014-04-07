@@ -12,7 +12,7 @@ from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_result_data, delete_session_credentials, get_session_params,
-                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds)
+                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result)
 from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _get_box_name
 from orthobox.tool_provider import WebObToolProvider
 
@@ -72,9 +72,10 @@ def generate_results(request):
     data['duration'] = int(data['duration']) / 1000
     data['version_string'] = _get_box_name(data['version'])
 
-    store_result_data(session_id, data)
-
     result = evaluate(data)
+
+    store_result_data(session_id, data)
+    store_result(session_id, result)
 
     _post_grade(session_id, result)
 
