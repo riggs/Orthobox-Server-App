@@ -84,4 +84,4 @@ def _select_criteria(request):
 
 
 def _get_box_name(version):
-    return _BOX_STRING(version)
+    return _BOX_STRING[version]
