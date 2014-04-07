@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Extending ims_lti_py to WebOb
 """
@@ -7,8 +8,8 @@ from __future__ import division, absolute_import, print_function
 from collections import defaultdict
 from ims_lti_py.tool_provider import ToolProvider
 
-from .request_validator import WebObRequestValidatorMixin
-from .outcome_request import OutcomeRequestOAuthlib
+from orthobox.request_validator import WebObRequestValidatorMixin
+from orthobox.outcome_request import OutcomeRequestOAuthlib
 
 
 class WebObToolProvider(WebObRequestValidatorMixin, ToolProvider):

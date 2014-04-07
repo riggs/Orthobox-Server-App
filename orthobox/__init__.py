@@ -1,15 +1,18 @@
-"""Main entry point
+# -*- coding: utf-8 -*-
+"""
+Main entry point
 """
 from pyramid.config import Configurator
+
+from orthobox import data_store; del data_store    # Instantiate DB
 
 def _custom_config(config):
     # TODO: See if traversal & cornice will play nicely enough
     config.include("cornice")
     config.include("pyramid_chameleon")
-    config.scan("project.rest_views")
-    #config.add_route('lti_root', 'lti')
-    config.add_route('lti', 'lti/{path}')
-    config.scan("project.lti_views")
+    config.scan("orthobox.rest_views")
+    config.add_route('lti_launch', 'launch')
+    config.scan("orthobox.lti_views")
     return config
 
 def main(global_config, **settings):

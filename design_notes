@@ -23,23 +23,24 @@ API:
 
 4. Display video
 
+5. Generate, store, & display OAuth credentials
 
 
-DB:
+DBs:
 
-1. URI -> Session credentials
+1. Session: Session ID -> Session credentials
     A. Used by Java to upload data
-    B. Session ID implicit in URL
-    C. Still need to store token
-2. Session ID -> data
+    B. Need to store token
+2. Data: Session ID -> data
     A. Store raw JSON
     B. key:value for flexibility in JSON
     C. Include UID, video link if applicable
     D. Export to do analytics
-3. Moodle identifier -> UID
-    A. Nested key:value store
+3. Moodle: Moodle identifier -> UID
+    A. Nested key:value store?
         * site ID:{Moodle UID:UID, context:resource:{OAuth key & secret, UID:session credentials}}
         * site ID based on slug
-4. OAuth nonce store
+4. OAuth: nonce store
     A. Time-limited
     B. Not unlike a cache
+    C. In-memory is probably sufficient
