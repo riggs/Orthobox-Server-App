@@ -20,7 +20,7 @@ from orthobox.tool_provider import WebObToolProvider
 results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
 configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
-jar = Service(name='jar', path='/jar/orthobox.jar')  # This can go away if/when python is running under apache
+jar = Service(name='jar', path='/jar/orthobox-signed.jar')  # This can go away if/when python is running under apache
 
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
 
