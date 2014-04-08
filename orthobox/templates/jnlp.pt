@@ -8,7 +8,7 @@
     <resources>
         <!-- Application Resources -->
         <j2se version="1.7+" href= "http://java.sun.com/products/autodl/j2se"/>
-        <jar href="jar/orthobox.jar"
+        <jar href="jar/orthobox-signed.jar"
              main="true" />
 
     </resources>
