@@ -66,6 +66,7 @@ def generate_results(request):
     """
     Set the value.
     """
+    # TODO: Ensure the proper box version was run
     session_id = _validate_request(request)
 
     data = _parse_json(request)
@@ -143,4 +144,4 @@ def generate_jnlp(request):
 
 @jar.get()
 def serve_jar(request):
-    return FileResponse('/var/www/html/orthobox.jar', request=request)
+    return FileResponse('/var/www/html/orthobox-signed.jar', request=request)
