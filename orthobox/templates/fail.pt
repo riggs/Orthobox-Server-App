@@ -38,7 +38,7 @@
 
     <p>Practice makes perfect, ${username}.</p>
 
-    <p>You completed your first trial of the <strong>${activity}</strong> task. You received a <strong>failing</strong>
+    <p>You completed your trial of the <strong>${activity}</strong> task in <strong>${duration}</strong> seconds. You received a <strong>failing</strong>
         score because you made <strong>${error_number}</strong> errors.</p>
 
     <h3><a href="${video_url}">View Video</a></h3>

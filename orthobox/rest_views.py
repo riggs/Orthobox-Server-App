@@ -135,7 +135,10 @@ def generate_jnlp(request):
     params = {}
     params['session_id'] = session_id = request.matchdict['session_id']
     params['url'] = 'http://staging.xlms.org:8128/results/{session_id}'.format(session_id=session_id)
-    params['upload_token'] = get_upload_token(session_id)
+    try:
+        params['upload_token'] = get_upload_token(session_id)
+    except KeyError:
+        raise HTTPNotFound("Unknown session. (Have you already run this activity?)")
 
     response = render_to_response("templates/jnlp.pt", params, request)
     response.content_type = str('application/x-java-jnlp-file')
