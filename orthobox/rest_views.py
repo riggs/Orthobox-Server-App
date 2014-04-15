@@ -17,10 +17,11 @@ from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _g
 from orthobox.tool_provider import WebObToolProvider
 
 
-results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
+results = Service(name='results', path='/{session_id}/results', description="SimPortal results")
+view_results = Service(name='view_results', path='/{session_id}/view_results', description="SimPortal results")
 configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
-jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
-jar = Service(name='jar', path='/jar/orthobox-signed.jar')  # This can go away if/when python is running under apache
+jnlp = Service(name='jnlp', path='/{session_id}/launch.jnlp', description='Generated jnlp file for session')
+jar = Service(name='jar', path='/orthobox-signed.jar')  # This can go away if/when python is running under apache
 
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
 
@@ -134,7 +135,7 @@ def set_criteria(request):
 def generate_jnlp(request):
     params = {}
     params['session_id'] = session_id = request.matchdict['session_id']
-    params['url'] = 'http://staging.xlms.org:8128/results/{session_id}'.format(session_id=session_id)
+    params['url'] = 'http://staging.xlms.org:8128/{session_id}/results'.format(session_id=session_id)
     try:
         params['upload_token'] = get_upload_token(session_id)
     except KeyError:

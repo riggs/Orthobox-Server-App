@@ -37,7 +37,7 @@
     <h3>
         <script src="https://www.java.com/js/deployJava.js"></script>
         <script>
-            var url = "http://staging.xlms.org:8128/jnlp/${session_id}.jnlp";
+            var url = "http://staging.xlms.org:8128/${session_id}/launch.jnlp";
             deployJava.createWebStartLaunchButton(url, '1.6.0');
         </script>
     </h3>
@@ -46,7 +46,7 @@
     <p>You may conduct your trial of the <strong>${activity}</strong> task by clicking the Launch button above. <br/>
         When finished, click the Results link below to receive your evaluation. </p>
 
-    <h3><a href="/results/${session_id}">View Results</a></h3>
+    <h3><a href="/${session_id}/results">View Results</a></h3>
 </div>
 </body>
 </html>

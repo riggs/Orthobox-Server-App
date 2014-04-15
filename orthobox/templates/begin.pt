@@ -1,0 +1,26 @@
+<html>
+<head>
+    <link href="http://staging.xlms.org/pfi.css" type="text/css" rel="stylesheet">
+    <script>
+        function ToResultsPage() {
+            var destination = "http://staging.xlms.org:8128/${session_id}/view_results";
+            setTimeout("window.location ='"+destination +"'", 3000);
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div id="inner" class="begin">
+    <h2>Bi-Manual Dexterity</h2>
+
+    <h3><a href="http://staging.xlms.org:8128/${session_id}/launch.jnlp" onclick="ToResultsPage()">Launch Exercise</a></h3>
+    <hr>
+    <p>The java module will open in an external window.</p>
+
+    <p>The exercise will begin when you remove the tools from the box.</p>
+
+    <p>When you have finished the exercise, your results will appear on this page.</p>
+
+</div>
+</body>
+</html>
