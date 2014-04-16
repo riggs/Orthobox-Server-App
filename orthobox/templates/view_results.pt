@@ -1,0 +1,15 @@
+<html>
+<head>
+    <link href="${css_url}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div id="inner" class="begin">
+    <h2>${activity}</h2>
+
+    <p>Once you have completed the exercise, your results will be posted on the following page.</p>
+
+    <h3><a href="${results_url}">View Results</a></h3>
+
+</div>
+</body>
+</html>

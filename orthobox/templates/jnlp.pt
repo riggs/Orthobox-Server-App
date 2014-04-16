@@ -7,9 +7,8 @@
     </information>
     <resources>
         <!-- Application Resources -->
-        <j2se version="1.7+" href= "http://java.sun.com/products/autodl/j2se"/>
-        <jar href="orthobox-signed.jar"
-             main="true" />
+        <j2se version="1.7+" href="http://java.sun.com/products/autodl/j2se"/>
+        <jar href="orthobox-signed.jar" main="true"/>
 
     </resources>
     <application-desc
@@ -17,8 +16,10 @@
             main-class="com.synapticdesign.orthobox.OrthoBox"
             width="300"
             height="400">
-        <argument>${url}</argument><!-- URL to post data -->
-        <argument>${session_id}.mp4</argument><!-- video upload filename -->
+        <argument>${results_url}</argument>
+        <!-- URL to post data -->
+        <argument>${session_id}.mp4</argument>
+        <!-- video upload filename -->
         <!-- TODO: implement basic security -->
         <!-- argument>${upload_token}</argument --><!-- Auth token -->
     </application-desc>

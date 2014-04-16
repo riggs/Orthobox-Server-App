@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Orthobox-Server-App.iml" filepath="$PROJECT_DIR$/.idea/Orthobox-Server-App.iml" />
+      <module fileurl="file://$USER_HOME$/Dropbox/Synaptic/crest/LMS/PFI/.idea/PFI.iml" filepath="$USER_HOME$/Dropbox/Synaptic/crest/LMS/PFI/.idea/PFI.iml" />
     </modules>
   </component>
 </project>
