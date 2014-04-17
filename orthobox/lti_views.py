@@ -35,7 +35,7 @@ def lti_launch(request):
 @view_config(route_name='lti_progress')
 def lti_progress(request):
     tool_provider = _authorize_tool_provider(request)
-    return render_to_response("templates/triangulation.html", {}, request)
+    return render_to_response("templates/triangulation.pt", {}, request)
 
 
 def _authorize_tool_provider(request):
