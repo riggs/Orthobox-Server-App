@@ -12,7 +12,7 @@
 <body>
 <div id="main">
     <div class="description">
-        <h2><img src="triangle.png"  width="20px" height="20px" /> Triangulation: Natalie Doud</h2>
+        <h2><img src="http://staging.xlms.org/graphs/triangle.png"  width="20px" height="20px" /> Triangulation: Natalie Doud</h2>
         <h4><strong>8</strong> attempts</h4>
         <h4><strong>2 of 3</strong> consecutive successes</h4>
     </div>
