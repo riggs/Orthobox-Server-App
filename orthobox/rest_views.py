@@ -108,7 +108,7 @@ def generate_results(request):
     session_id = _validate_request(request)
 
     data = _parse_json(request)
-    data['duration'] = int(data['duration']) / 1000
+    data['duration'] = int(data['duration']) // 1000
     data['version_string'] = _get_box_name(data['version'])
 
     result = evaluate(data)
