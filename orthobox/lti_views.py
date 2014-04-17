@@ -4,7 +4,6 @@ LTI services
 """
 
 from __future__ import division, absolute_import, print_function, unicode_literals
-__author__ = 'riggs'
 
 from datetime import datetime
 from calendar import timegm
@@ -18,13 +17,15 @@ from pyramid.httpexceptions import HTTPBadRequest
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.data_store import new_session, get_oauth_creds, get_upload_token
 from orthobox.evaluation import activity_name
+from orthobox.rest_views import _url_params
 
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
     tool_provider = _authorize_tool_provider(request)
-    params = {}
-    params['session_id'] = session_id = new_session(tool_provider)
+    session_id = new_session(tool_provider)
+    params = _url_params(session_id)
+    params['session_id'] = session_id
     params['username'] = tool_provider.username(default="lovely")
     params['activity'] = activity_name(tool_provider.custom_params.get('custom_box_version'))
     params['upload_token'] = get_upload_token(session_id)
