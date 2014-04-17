@@ -28,7 +28,7 @@ def lti_launch(request):
     params['username'] = tool_provider.username(default="lovely")
     params['activity'] = activity_name(tool_provider.custom_params.get('custom_box_version'))
     params['upload_token'] = get_upload_token(session_id)
-    return render_to_response("templates/lti_launch.pt", params, request)
+    return render_to_response("templates/begin.pt", params, request)
 
 
 def _authorize_tool_provider(request):

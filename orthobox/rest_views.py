@@ -17,12 +17,28 @@ from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _g
 from orthobox.tool_provider import WebObToolProvider
 
 
+<<<<<<< HEAD
 results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
 configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox-signed.jar')  # This can go away if/when python is running under apache
 session_data = Service(name='session_data', path='/session_data')
 
+=======
+_BASE_URL = "http://staging.xlms.org"
+_CSS_PATH = "/pfi.css"
+_RESULTS_PATH = '/{session_id}/results'
+_WAITING_PATH = '/{session_id}/view_results'
+_JNLP_PATH = '/{session_id}/launch.jnlp'
+
+results = Service(name='results', path=_RESULTS_PATH)
+view_results = Service(name='view_results', path=_WAITING_PATH)
+jnlp = Service(name='jnlp', path=_JNLP_PATH, description='Generated jnlp file for session')
+configure = Service(name='configure', path='/configure/{version_string}',
+                    description="SimPortal demo evaluation parameters")
+jar = Service(name='jar', path='/orthobox-signed.jar')  # FIXME: Irrelevant under apache
+
+# TODO: Some sort of security to limit credential generation
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
 
 
@@ -33,9 +49,31 @@ def _parse_json(request):
         raise HTTPBadRequest('Malformed JSON')
 
 
+def _url_params(session_id):
+    _PORT = ':8128'  # FIXME: Irrelevant under apache
+
+    return {'css_url': ''.join([_BASE_URL, _CSS_PATH]),
+            'jnlp_url': _PORT.join([_BASE_URL, _JNLP_PATH]).format(session_id=session_id),
+            'waiting_url': _PORT.join([_BASE_URL, _WAITING_PATH]).format(session_id=session_id),
+            'results_url': _PORT.join([_BASE_URL, _RESULTS_PATH]).format(session_id=session_id),
+            'relaunch_url': '/launch'}
+
+
 @session_data.get()
 def return_session_data(request):
     return dump_session_data()
+
+
+@view_results.get()
+def waiting_page(request):
+    """
+    Display page while waiting for session to proceed.
+    """
+    session_id = request.matchdict['session_id']
+    params = _url_params(session_id)
+    params.update(get_metadata(session_id))
+    return render_to_response("templates/view_results.pt", params, request)
+>>>>>>> origin/master
 
 
 @new_oauth.get()
@@ -59,10 +97,11 @@ def display_results(request):
         data = get_result_data(session_id)
     except KeyError:
         return HTTPNotFound('Unknown session')
-    params = {'duration': data['duration'],
-              'error_number': len(data['errors']),
-              'pokes': len(data.get('pokes', '')),
-              'session_id': session_id}
+    params = _url_params(session_id)
+    params.update({'duration': data['duration'],
+                   'error_number': len(data['errors']),
+                   'pokes': len(data.get('pokes', '')),
+                   'session_id': session_id})
     params.update(get_metadata(session_id))
     return render_to_response('templates/{0}.pt'.format(params['result']), params, request)
 
@@ -98,6 +137,7 @@ def _validate_request(request):
     except KeyError:
         raise HTTPNotFound('Unknown session')
     # TODO: Validate token
+    assert token
     return session_id
 
 
@@ -138,9 +178,9 @@ def set_criteria(request):
 
 @jnlp.get()
 def generate_jnlp(request):
-    params = {}
-    params['session_id'] = session_id = request.matchdict['session_id']
-    params['url'] = 'http://staging.xlms.org:8128/results/{session_id}'.format(session_id=session_id)
+    session_id = request.matchdict['session_id']
+    params = _url_params(session_id)
+    params['session_id'] = session_id
     try:
         params['upload_token'] = get_upload_token(session_id)
     except KeyError:
