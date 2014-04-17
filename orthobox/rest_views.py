@@ -17,14 +17,6 @@ from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _g
 from orthobox.tool_provider import WebObToolProvider
 
 
-<<<<<<< HEAD
-results = Service(name='demo', path='/results/{session_id}', description="SimPortal results")
-configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
-jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
-jar = Service(name='jar', path='/jar/orthobox-signed.jar')  # This can go away if/when python is running under apache
-session_data = Service(name='session_data', path='/session_data')
-
-=======
 _BASE_URL = "http://staging.xlms.org"
 _CSS_PATH = "/pfi.css"
 _RESULTS_PATH = '/{session_id}/results'
@@ -40,6 +32,8 @@ jar = Service(name='jar', path='/orthobox-signed.jar')  # FIXME: Irrelevant unde
 
 # TODO: Some sort of security to limit credential generation
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
+
+session_data = Service(name='session_data', path='/session_data')
 
 
 def _parse_json(request):
@@ -73,7 +67,6 @@ def waiting_page(request):
     params = _url_params(session_id)
     params.update(get_metadata(session_id))
     return render_to_response("templates/view_results.pt", params, request)
->>>>>>> origin/master
 
 
 @new_oauth.get()
