@@ -9,9 +9,9 @@ with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
 
 
-setup(name='project',
+setup(name='orthobox',
     version=0.1,
-    description='project',
+    description='orthobox',
     long_description=README,
     classifiers=[
         "Programming Language :: Python",
@@ -29,7 +29,7 @@ setup(name='project',
     install_requires=['cornice', 'waitress'],
     entry_points = """\
     [paste.app_factory]
-    main = project:main
+    main = orthobox:main
     """,
     paster_plugins=['pyramid'],
 )

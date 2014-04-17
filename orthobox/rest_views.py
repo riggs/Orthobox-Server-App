@@ -12,7 +12,7 @@ from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_result_data, delete_session_credentials, get_session_params,
-                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result)
+                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result, dump_session_data)
 from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _get_box_name
 from orthobox.tool_provider import WebObToolProvider
 
@@ -21,6 +21,7 @@ results = Service(name='demo', path='/results/{session_id}', description="SimPor
 configure = Service(name='configure', path='/configure/{version_string}', description="SimPortal demo evaluation parameters")
 jnlp = Service(name='jnlp', path='/jnlp/{session_id}.jnlp', description='Generated jnlp file for session')
 jar = Service(name='jar', path='/jar/orthobox-signed.jar')  # This can go away if/when python is running under apache
+session_data = Service(name='session_data', path='/session_data')
 
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
 
@@ -30,6 +31,11 @@ def _parse_json(request):
         return json.loads(request.body)
     except ValueError:
         raise HTTPBadRequest('Malformed JSON')
+
+
+@session_data.get()
+def return_session_data(request):
+    return dump_session_data()
 
 
 @new_oauth.get()
