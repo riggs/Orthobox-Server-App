@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pass</title>
+<link href="http://staging.xlms.org/graphs/css/graph.css" type="text/css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/flot/jquery.flot.min.js"></script>
+
+</head>
+
+<body>
+<div id="main">
+    <div class="description">
+        <h2><img src="triangle.png"  width="20px" height="20px" /> Triangulation: Natalie Doud</h2>
+        <h4><strong>8</strong> attempts</h4>
+        <h4><strong>2 of 3</strong> consecutive successes</h4>
+    </div>
+<!-- Graph HTML -->
+<div id="graph-wrapper">
+<h5><span>Errors per trial: </span>Less than 10 to pass</h5>
+    <div class="graph-info">
+        <a href="javascript:void(0)" class="error1">Fail</a>
+        <a href="javascript:void(0)" class="error2">Pass</a>
+      
+    </div>
+ 
+    <div class="graph-container">
+        <div id="graph-lines"></div>
+    </div>
+</div>
+</div>
+<!-- end Graph HTML -->
+<script>
+$(document).ready(function () {
+    // Graph scripts here
+});
+var graphData = [{
+        // fail
+        data: [ [1, 50], [2, 30], [3, 20], [6, 10]],
+        color: '#e55b30'
+    }, {
+        // pass
+        data: [ [4, 5], [5, 4], [7, 3], [8, 2]],
+        color: '#c80963',
+        points: { radius: 4, fillColor: '#c80963' }
+    }
+	
+];
+
+// Lines
+$.plot($('#graph-lines'), graphData, {
+    series: {
+        points: {
+            show: true,
+            radius: 5
+        },
+        lines: {
+            show: false
+        },
+        shadowSize: 0
+    },
+    grid: {
+        color: '#646464',
+        borderColor: 'transparent',
+        borderWidth: 20,
+        hoverable: true
+    },
+    xaxis: {
+        tickColor: 'transparent',
+        tickDecimals: 0
+    },
+    yaxis: {
+        tickSize: 10
+    }
+});
+
+
+
+// Tooltip #################################################
+	function showTooltip(x, y, contents) {
+		$('<div id="tooltip">' + contents + '</div>').css({
+			top: y - 16,
+			left: x + 20
+		}).appendTo('body').fadeIn();
+	}
+
+	var previousPoint = null;
+
+	$('#graph-lines').bind('plothover', function (event, pos, item) {
+		if (item) {
+			if (previousPoint != item.dataIndex) {
+				previousPoint = item.dataIndex;
+				$('#tooltip').remove();
+				var x = item.datapoint[0],
+					y = item.datapoint[1];
+					showTooltip(item.pageX, item.pageY, y + ' errors on trial #' + x );
+			}
+		} else {
+			$('#tooltip').remove();
+			previousPoint = null;
+		}
+	});
+
+</script>
+</body>
+
+</html>

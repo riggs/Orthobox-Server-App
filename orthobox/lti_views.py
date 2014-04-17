@@ -32,6 +32,12 @@ def lti_launch(request):
     return render_to_response("templates/begin.pt", params, request)
 
 
+@view_config(route_name='lti_progress')
+def lti_progress(request):
+    tool_provider = _authorize_tool_provider(request)
+    return render_to_response("templates/triangulation.html", {}, request)
+
+
 def _authorize_tool_provider(request):
     """
     Create and validate WebObToolProvider from request.
