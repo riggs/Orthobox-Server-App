@@ -199,6 +199,10 @@ def get_result_data(session_id):
     return _decode(_DATA_DB[session_id])['data']
 
 
+def dump_session_data():
+    return dict(_DATA_DB)
+
+
 def get_metadata(session_id):
     """
     Retreive data from metadata DB for session
