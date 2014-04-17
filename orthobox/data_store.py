@@ -25,7 +25,8 @@ metadata:
                  'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
-                 'version_string': <activity version string>}
+                 'version_string': <activity version string>,
+                 'return_url': <lti spec 'launch_presentation_return_url'>}
 
 users:
     uid: {'moodle_uid': moodle_uid,
@@ -139,13 +140,15 @@ def new_session(tool_provider):
     #              'activity': <activity display name>,
     #              'video_url': <identifier (URL) for video>,
     #              'result': <pass/fail/incomplete status>,
-    #              'version_string': <activity version string>}
+    #              'version_string': <activity version string>,
+    #              'return_url': <lti spec 'launch_presentation_return_url'>}
     metadata = {}
     metadata['username'] = tool_provider.username(default="lovely")
     metadata['version_string'] = version_string = tool_provider.custom_params.get('custom_box_version')
     metadata['activity'] = activity_name(version_string)
     metadata['video_url'] = video_url
     metadata['result'] = _INCOMPLETE
+    metadata['return_url'] = tool_provider.launch_presentation_return_url
 
     _METADATA_DB[session_id] = _encode(metadata)
 
@@ -205,7 +208,8 @@ def get_metadata(session_id):
                      'activity': <activity display name>,
                      'video_url': <identifier (URL) for video>,
                      'result': <pass/fail/incomplete status>,
-                     'version_string': <activity version string>}
+                     'version_string': <activity version string>,
+                     'return_url': <lti spec 'launch_presentation_return_url'>}
     """
     return _decode(_METADATA_DB[session_id])
 
@@ -219,7 +223,8 @@ def store_result(session_id, result):
                      'activity': <activity display name>,
                      'video_url': <identifier (URL) for video>,
                      'result': <pass/fail/incomplete status>,
-                     'version_string': <activity version string>}
+                     'version_string': <activity version string>,
+                     'return_url': <lti spec 'launch_presentation_return_url'>}
     """
     session = _decode(_METADATA_DB[session_id])
     session['result'] = result

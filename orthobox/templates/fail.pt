@@ -1,48 +1,21 @@
 <html>
 <head>
-    <style type="text/css">
-        body {
-            background-color: #f3f3f3;
-            margin: 20px;
-        }
-
-        h2, h3, h3 a, p {
-            font-family: Helvetica Neue Light, Helvetica, Arial;
-            color: #414141;
-        }
-
-        h3 {
-            font-family: Helvetica Neue Bold, Helvetica, Arial;
-            color: #FFF;
-            font-weight: bold;
-            display: inline-block;
-            padding: 30px;
-            background-color: #e32552;
-            text-align: center;
-            font-size: 300%;
-        }
-
-        #inner {
-            margin: auto;
-            text-align: center;
-            width: 60%;
-            height: 60%;
-        }
-    </style>
+    <link href="${css_url}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div id="inner">
-    <h2>${activity}</h2>
-
-    <h3>F</h3>
-
-    <p>Practice makes perfect, ${username}.</p>
-
-    <p>You completed your trial of the <strong>${activity}</strong> task in <strong>${duration}</strong> seconds. You received a <strong>failing</strong>
-        score because you made <strong>${error_number}</strong> errors.</p>
-
-    <h3><a href="${video_url}">View Video</a></h3>
-
+<div id="inner" class="fail">
+    <h2>${activity}: Trial 4</h2>
+    <h3>Failed Attempt</h3>
+    <hr>
+    <div tal:switch="version_string">
+    <h4 tal:case="'pokey'">${pokes} pokes</h4>
+    </div>
+    <h4>in ${duration} seconds</h4>
+    <h4>with ${error_number} errors</h4>
+    <p>Practice makes perfect.</p>
+    <!-- FIXME: Figure out what if any URLs will work here -->
+    <button class="secondary" onclick="window.location.href='${return_url}'">&lt; Return to course</button>
+    <button class="primry" onclick="window.location.href='${relaunch_url}'">Repeat &gt;</button>
 </div>
 </body>
 </html>
