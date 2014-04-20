@@ -186,7 +186,7 @@ def get_grade(uid, box_type):
                     'sessions': <list of session_ids>}}
     }
     """
-    return _decode(_USERS_DB[uid][box_type]['grade'])
+    return _decode(_USERS_DB[uid])[box_type]['grade']
 
 
 def store_grade(uid, box_type, grade):
@@ -199,7 +199,9 @@ def store_grade(uid, box_type, grade):
                     'sessions': <list of session_ids>}}
     }
     """
-    _USERS_DB[uid][box_type]['grade'] = _encode(grade)
+    data = _decode(_USERS_DB[uid])
+    data[box_type]['grade'] = grade
+    _USERS_DB[uid] = _encode(data)
 
 
 def get_uid_for_session(session_id):
@@ -210,7 +212,7 @@ def get_uid_for_session(session_id):
                  'data': <raw JSON received>}
     }
     """
-    return _decode(_DATA_DB[session_id]['uid'])
+    return _decode(_DATA_DB[session_id])['uid']
 
 
 def get_upload_token(session_id):
