@@ -8,7 +8,7 @@
 
     <h3>Incomplete Attempt</h3>
     <hr>
-    <div tal:switch="version_string">
+    <div tal:switch="activity_string">
     <h4 tal:case="'pokey'">${pokes} pokes</h4>
     </div>
     <h4>in ${duration} seconds</h4>
