@@ -26,7 +26,7 @@ def lti_launch(request):
     try:
         session_id = _new_session(tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ', e.message)
+        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
     params = _url_params(session_id)
     params['session_id'] = session_id
@@ -56,13 +56,13 @@ def _new_session(tool_provider):
     try:
         verify_resource_oauth(moodle_resource_id, tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ', e.message)
+        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     try:
         session_id = authorize_user(moodle_uid, tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ', e.message)
+        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     store_session_params(session_id, params=tool_provider.params)
@@ -78,12 +78,12 @@ def _authorize_tool_provider(request):
 
     key = params.get('oauth_consumer_key')
     if key is None:
-        log.debug('HTTPUnauthorized: ', str(params))
+        log.debug('HTTPUnauthorized: ' + str(params))
         raise HTTPUnauthorized("Missing OAuth data. Params:\r\n{0}".format(str(params)))
 
     secret = get_oauth_creds(key)
     if secret is None:
-        log.debug('HTTPUnauthorized: ', str(params))
+        log.debug('HTTPUnauthorized: ' + str(params))
         raise HTTPUnauthorized("Invalid OAuth consumer key")
 
     tool_provider = WebObToolProvider(key, secret, params)
@@ -91,7 +91,7 @@ def _authorize_tool_provider(request):
     try:
         tool_provider.valid_request(request)
     except OAuthError as e:
-        log.debug('HTTPUnauthorized: ', e.message)
+        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     now = timegm(datetime.utcnow().utctimetuple())
