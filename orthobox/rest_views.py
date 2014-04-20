@@ -131,7 +131,7 @@ def _validate_request(request):
     try:
         token = get_upload_token(session_id)
     except KeyError:
-        log.debug('HTTPNotFound: Unknown session' + session_id)
+        log.debug('HTTPNotFound: Unknown session %s', session_id)
         raise HTTPNotFound('Unknown session')
     # TODO: Validate token
     assert token
@@ -149,7 +149,7 @@ def _post_grade(session_id, grade):
 
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = session_id
-    log.debug(outcome_request.generate_request_xml)
+    log.debug(outcome_request.generate_request_xml())
     outcome_response = outcome_request.post_replace_result(round(grade, 2))    # Round to 2 digits for moodle
 
     # TODO: Verify HTTP response for success
