@@ -13,7 +13,7 @@ from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
-                                 dump_session_data, get_box_name)
+                                 dump_session_data, get_box_name, log)
 from orthobox.evaluation import evaluate, _select_criteria
 from orthobox.tool_provider import WebObToolProvider
 
@@ -41,6 +41,7 @@ def _parse_json(request):
     try:
         return json.loads(request.body)
     except ValueError:
+        log.debug('HTTPBadRequest: Malformed JSON')
         raise HTTPBadRequest('Malformed JSON')
 
 
@@ -90,7 +91,8 @@ def display_results(request):
     try:
         data = get_result_data(session_id)
     except KeyError:
-        return HTTPNotFound('Unknown session')
+        log.debug('HTTPNotFound: Unknown session ' + session_id)
+        raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
     params.update({'duration': data['duration'],
                    'error_number': len(data['errors']),
@@ -129,6 +131,7 @@ def _validate_request(request):
     try:
         token = get_upload_token(session_id)
     except KeyError:
+        log.debug('HTTPNotFound: Unknown session' + session_id)
         raise HTTPNotFound('Unknown session')
     # TODO: Validate token
     assert token
@@ -141,6 +144,7 @@ def _post_grade(session_id, grade):
     tool_provider = WebObToolProvider(key, get_oauth_creds(key), params)
 
     if not tool_provider.is_outcome_service():
+        log.debug('HTTPBadRequest: Not launched as outcome service')
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     outcome_request = tool_provider.new_request()
@@ -180,6 +184,7 @@ def generate_jnlp(request):
     try:
         params['upload_token'] = get_upload_token(session_id)
     except KeyError:
+        log.debug('HTTPNotFound: Unknown session (already run?)' + session_id)
         raise HTTPNotFound("Unknown session. (Have you already run this activity?)")
 
     response = render_to_response("templates/jnlp.pt", params, request)
