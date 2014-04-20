@@ -13,9 +13,8 @@
     <h4>in ${duration} seconds</h4>
     <h4>with ${error_number} errors</h4>
     <p>Practice makes perfect.</p>
-    <!-- FIXME: Figure out what if any URLs will work here -->
     <button class="secondary" onclick="window.location.href='${return_url}'">&lt; Return to course</button>
-    <button class="primry" onclick="window.location.href='${relaunch_url}'">Repeat &gt;</button>
+    <!-- button class="primry" onclick="window.location.href='${relaunch_url}'">Repeat &gt;</button -->
 </div>
 </body>
 </html>

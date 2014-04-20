@@ -30,7 +30,10 @@ metadata:
 
 users:
     uid: {'moodle_uid': moodle_uid,
-          'sessions': <list of session_ids>}
+          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>},
+          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>}}
 
 moodle:
     moodle_uid: uid
@@ -58,9 +61,7 @@ import lmdb
 
 from os import environ
 from uuid import uuid4
-from hashlib import sha1
 
-from orthobox.evaluation import activity_name, _INCOMPLETE
 from orthobox.lmdb_wrapper import LMDB_Dict
 
 _10_GB = 10737418240  # Size of address-space for mmap, largest capacity for environment, not a memory requirement.
@@ -80,6 +81,19 @@ _DATABASES = (_SESSIONS_DB, _DATA_DB, _USERS_DB, _METADATA_DB, _MOODLE_DB, _UNRE
 
 _VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/{session_id}.mp4"
 
+# The evaluation strings below are used to determine template file name to be served.
+_PASS = 'pass'
+_FAIL = 'fail'
+_INCOMPLETE = 'incomplete'
+
+_POKEY = 'pokey'
+_PEGGY = 'peggy'
+
+_BOX_VERSION = {1: _POKEY, 2: _PEGGY}
+
+_ACTIVITY_NAME = {_PEGGY: "Object Manipulation",
+                  _POKEY: "Triangulation"}
+
 
 def new_oauth_creds():
     # TODO: Authentication so this can be run automatically
@@ -97,39 +111,46 @@ def get_oauth_creds(key):
     return secret
 
 
-def new_session(tool_provider):
-    """
-    Generate new session data
-    """
-    instance_id = tool_provider.tool_consumer_instance_guid
-    user_id = tool_provider.user_id
-    resource_id = tool_provider.resource_link_id
-    moodle_uid = _sha1_hex(instance_id, user_id)
-    moodle_resource_id = _sha1_hex(instance_id, resource_id)
+def store_session_params(session_id, params):
+    _SESSIONS_DB[session_id] = _encode({'upload_token': uuid4().hex,
+                                        'tool_provider_params': params})
 
-    # Verify OAuth creds for this resource
+
+def verify_resource_oauth(moodle_resource_id, tool_provider):
     resource = _MOODLE_DB.get(moodle_resource_id)
     if resource:    # Resource have been used before
         cred_dict = _decode(resource)
         assert tool_provider.consumer_key == cred_dict.get('consumer_key') and \
-               tool_provider.consumer_secret == cred_dict.get('consumer_secret'),\
+               tool_provider.consumer_secret == cred_dict.get('consumer_secret'), \
             "Invalid OAuth credentials for resource"
     else:   # New resource_id, 'register' credentials with it
         key = tool_provider.consumer_key
         _OAUTH_DB[key] = secret = _UNREGISTERED_OAUTH.pop(key)
         _MOODLE_DB[moodle_resource_id] = _encode({'consumer_key': key, 'consumer_secret': secret})
 
+
+def authorize_user(moodle_uid, tool_provider):
+
     session_id = uuid4().hex
 
-    _SESSIONS_DB[session_id] = _encode({'upload_token': uuid4().hex,
-                                        'tool_provider_params': tool_provider.params})
+    activity_string = tool_provider.custom_params.get('custom_box_version')
 
+    # _MOODLE_DB = {
     # moodle_uid: uid
     # moodle_resource_id: {'consumer_key': oauth_consumer_key, 'consumer_secret': oauth_shared_secret}
+    # }
     uid = _MOODLE_DB.setdefault(moodle_uid, uuid4().hex)
 
-    user = _decode(_USERS_DB.setdefault(uid, _encode({'moodle_uid': moodle_uid, 'sessions': []})))
-    user['sessions'].append(session_id)
+    # _USERS_DB = {
+    # uid: {'moodle_uid': moodle_uid,
+    #       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+    #                 'sessions': <list of session_ids>},
+    #       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+    #                 'sessions': <list of session_ids>}}
+    # }
+    user = _decode(_USERS_DB.setdefault(uid, _encode(_new_user(moodle_uid))))
+    assert user[activity_string]['grade'] < 1.0, "Already completed activity"
+    user[activity_string]['sessions'].append(session_id)
     _USERS_DB[uid] = _encode(user)
 
     video_url = _VIDEO_URL.format(session_id=session_id)
@@ -140,12 +161,12 @@ def new_session(tool_provider):
     #              'activity': <activity display name>,
     #              'video_url': <identifier (URL) for video>,
     #              'result': <pass/fail/incomplete status>,
-    #              'version_string': <activity version string>,
+    #              'activity_string': <activity version string>,
     #              'return_url': <lti spec 'launch_presentation_return_url'>}
     metadata = {}
     metadata['username'] = tool_provider.username(default="lovely")
-    metadata['version_string'] = version_string = tool_provider.custom_params.get('custom_box_version')
-    metadata['activity'] = activity_name(version_string)
+    metadata['activity_string'] = activity_string
+    metadata['activity'] = activity_display_name(activity_string)
     metadata['video_url'] = video_url
     metadata['result'] = _INCOMPLETE
     metadata['return_url'] = tool_provider.launch_presentation_return_url
@@ -155,25 +176,64 @@ def new_session(tool_provider):
     return session_id
 
 
+def get_grade(uid, box_type):
+    """
+    _USERS_DB = {
+    uid: {'moodle_uid': moodle_uid,
+          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>},
+          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>}}
+    }
+    """
+    return _decode(_USERS_DB[uid][box_type]['grade'])
+
+
+def store_grade(uid, box_type, grade):
+    """
+    _USERS_DB = {
+    uid: {'moodle_uid': moodle_uid,
+          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>},
+          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>}}
+    }
+    """
+    _USERS_DB[uid][box_type]['grade'] = _encode(grade)
+
+
+def get_uid_for_session(session_id):
+    """
+    _DATA_DB = {
+    session_id: {'uid': uid
+                 'video_url': <identifier (URL) for video>,
+                 'data': <raw JSON received>}
+    }
+    """
+    return _decode(_DATA_DB[session_id]['uid'])
+
+
 def get_upload_token(session_id):
     """
-    _SESSIONS_DB:
+    _SESSIONS_DB = {
     session_id: {'upload_token': token,
                  'tool_provider_params': tool_provider.params}
+    }
     """
     return _decode(_SESSIONS_DB[session_id])['upload_token']
 
 
 def get_session_params(session_id):
     """
-    _SESSIONS_DB:
+    _SESSIONS_DB = {
     session_id: {'upload_token': token,
                  'tool_provider_params': tool_provider.params}
+    }
     """
     return _decode(_SESSIONS_DB[session_id])['tool_provider_params']
 
 
-def store_result_data(session_id, json_data):
+def store_activity_data(session_id, json_data):
     """
     Store json_data for session_id
 
@@ -244,13 +304,27 @@ def delete_session_credentials(session_id):
     del _SESSIONS_DB[session_id]
 
 
+def get_box_name(version):
+    return _BOX_VERSION[version]
+
+
+def activity_display_name(version_string):
+    return _ACTIVITY_NAME.get(version_string, "Unknown Activity")
+
+
+def _new_user(moodle_uid):
+    """
+    uid: {'moodle_uid': moodle_uid,
+          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>},
+          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                    'sessions': <list of session_ids>}}
+    """
+    return {'moodle_uid': moodle_uid,
+            _POKEY: {'grade': 0.0, 'sessions': []},
+            _PEGGY: {'grade': 0.0, 'sessions': []}}
+
+
 _encode = json.dumps
 
 _decode = json.loads
-
-
-def _sha1_hex(*args):
-    h = sha1()
-    for item in args:
-        h.update(item)
-    return h.hexdigest()

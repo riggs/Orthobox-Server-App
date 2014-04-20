@@ -7,50 +7,41 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 
 from pyramid.httpexceptions import HTTPNotFound
 
+from orthobox.data_store import (_POKEY, _PEGGY, _PASS, _FAIL, _INCOMPLETE, get_uid_for_session, get_grade, store_grade)
 
-_PASS = 'pass'
-_FAIL = 'fail'
-_INCOMPLETE = 'incomplete'
 
-_POKEY = 'pokey'
-_PEGGY = 'peggy'
-
-_BOX_STRING = {1: _POKEY, 2: _PEGGY}
+_REQUIRED_SUCCESSES = 3
 
 _BOX_FUNCTION = {}
 _CRITERIA = {}
-
-_ACTIVITY_NAME = {_PEGGY: "Object Manipulation",
-                  _POKEY: "Triangulation"}
-
-_GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
 
 # TODO: Session specific evaluation criteria
 _CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 9}
 _CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300, 'drops': 0}
 
 
-def activity_name(version_string):
-    return _ACTIVITY_NAME.get(version_string, "Unknown Activity")
-
-
-def evaluate(data):
-    # TODO: Audit function logic
+def evaluate(session_id, data):
+    # TODO: Audit evaluation logic
     # Will every test have errors & duration?
     box_type = data.get('version_string')
-    if box_type not in _BOX_FUNCTION:   # Unknown box
-        return _PASS
-    if len(data['errors']) > _CRITERIA[box_type]['errors']:
-        result = _FAIL  # value used to retrieve template file
-    elif data['duration'] > _CRITERIA[box_type]['timeout']:
+    errors = data.get('errors', [])
+    duration = data['duration']
+    if len(errors) > _CRITERIA[box_type]['errors']:
+        result = _FAIL
+    elif duration > _CRITERIA[box_type]['timeout']:
         result = _INCOMPLETE
     else:
         result = _BOX_FUNCTION[box_type](data)
-    return result
 
+    uid = get_uid_for_session(session_id)
+    if result is _PASS:     # Add completion credit to grade
+        grade = get_grade(uid, box_type)
+        grade += 1 / _REQUIRED_SUCCESSES
+    else:
+        grade = 0
+    store_grade(uid, box_type, grade)
 
-def get_moodle_grade(result):
-    return str(_GRADES[result])
+    return result, grade
 
 
 def _pokey_box(data):
@@ -75,13 +66,8 @@ def _peggy_box(data):
 _BOX_FUNCTION[_PEGGY] = _peggy_box
 
 
-def _select_criteria(request):
-    key = request.matchdict['version_string']
-    value = _CRITERIA.get(key)
+def _select_criteria(version):
+    value = _CRITERIA.get(version)
     if value is None:
         raise HTTPNotFound('Unknown hardware version')
     return value
-
-
-def _get_box_name(version):
-    return _BOX_STRING[version]

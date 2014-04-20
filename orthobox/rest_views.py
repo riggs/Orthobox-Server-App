@@ -11,9 +11,10 @@ from pyramid.renderers import render_to_response
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.response import FileResponse
 
-from orthobox.data_store import (get_upload_token, store_result_data, delete_session_credentials, get_session_params,
-                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result, dump_session_data)
-from orthobox.evaluation import evaluate, _select_criteria, get_moodle_grade, _get_box_name
+from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
+                                 get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
+                                 dump_session_data, get_box_name)
+from orthobox.evaluation import evaluate, _select_criteria
 from orthobox.tool_provider import WebObToolProvider
 
 
@@ -109,14 +110,14 @@ def generate_results(request):
 
     data = _parse_json(request)
     data['duration'] = int(data['duration']) // 1000
-    data['version_string'] = _get_box_name(data['version'])
+    data['version_string'] = get_box_name(data['version'])
 
-    result = evaluate(data)
+    result, grade = evaluate(session_id, data)
 
-    store_result_data(session_id, data)
+    store_activity_data(session_id, data)
     store_result(session_id, result)
 
-    _post_grade(session_id, result)
+    _post_grade(session_id, grade)
 
     delete_session_credentials(session_id)
 
@@ -134,7 +135,7 @@ def _validate_request(request):
     return session_id
 
 
-def _post_grade(session_id, result):
+def _post_grade(session_id, grade):
     params = get_session_params(session_id)
     key = params['oauth_consumer_key']
     tool_provider = WebObToolProvider(key, get_oauth_creds(key), params)
@@ -144,7 +145,7 @@ def _post_grade(session_id, result):
 
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = session_id
-    outcome_request.post_replace_result(get_moodle_grade(result))
+    outcome_request.post_replace_result(round(grade, 2))    # Round to 2 digits for moodle
 
     # TODO: Verify HTTP response for success
 
@@ -154,7 +155,8 @@ def get_criteria(request):
     """
     Returns the evaluation parameters.
     """
-    return _select_criteria(request)
+    key = request.matchdict['version_string']
+    return _select_criteria(key)
 
 
 @configure.post()
