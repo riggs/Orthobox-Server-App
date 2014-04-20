@@ -12,12 +12,12 @@ from hashlib import sha1
 from oauth2 import Error as OAuthError
 from pyramid.view import view_config
 from pyramid.renderers import render_to_response
-from pyramid.httpexceptions import HTTPBadRequest, HTTPUnauthorized
+from pyramid.httpexceptions import HTTPUnauthorized
 
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
-                                 get_oauth_creds, activity_display_name)
+                                 get_oauth_creds, activity_display_name, log)
 
 
 @view_config(route_name='lti_launch')
@@ -26,6 +26,7 @@ def lti_launch(request):
     try:
         session_id = _new_session(tool_provider)
     except AssertionError as e:
+        log.debug('HTTPUnauthorized: ', e.message)
         raise HTTPUnauthorized(e.message)
     params = _url_params(session_id)
     params['session_id'] = session_id
@@ -55,11 +56,13 @@ def _new_session(tool_provider):
     try:
         verify_resource_oauth(moodle_resource_id, tool_provider)
     except AssertionError as e:
+        log.debug('HTTPUnauthorized: ', e.message)
         raise HTTPUnauthorized(e.message)
 
     try:
         session_id = authorize_user(moodle_uid, tool_provider)
     except AssertionError as e:
+        log.debug('HTTPUnauthorized: ', e.message)
         raise HTTPUnauthorized(e.message)
 
     store_session_params(session_id, params=tool_provider.params)
@@ -75,22 +78,26 @@ def _authorize_tool_provider(request):
 
     key = params.get('oauth_consumer_key')
     if key is None:
-        raise HTTPBadRequest("Missing OAuth data. Params:\r\n{0}".format(str(params)))
+        log.debug('HTTPUnauthorized: ', str(params))
+        raise HTTPUnauthorized("Missing OAuth data. Params:\r\n{0}".format(str(params)))
 
     secret = get_oauth_creds(key)
     if secret is None:
-        raise HTTPBadRequest("Invalid OAuth consumer key")
+        log.debug('HTTPUnauthorized: ', str(params))
+        raise HTTPUnauthorized("Invalid OAuth consumer key")
 
     tool_provider = WebObToolProvider(key, secret, params)
 
     try:
         tool_provider.valid_request(request)
     except OAuthError as e:
-        raise HTTPBadRequest(e.message)
+        log.debug('HTTPUnauthorized: ', e.message)
+        raise HTTPUnauthorized(e.message)
 
     now = timegm(datetime.utcnow().utctimetuple())
     if now - int(tool_provider.oauth_timestamp) > 60 * 60:
-        raise HTTPBadRequest("Request timed out")
+        log.debug('HTTPUnauthorized: OAuth timeout')
+        raise HTTPUnauthorized("OAuth timeout")
 
     _validate_nonce(tool_provider.oauth_nonce, now)
 
@@ -103,7 +110,8 @@ def _validate_nonce(nonce, now):
     if timestamp is None:
         _OAuth_creds[nonce] = now
     elif now - timestamp > 60 * 60:
-        raise HTTPBadRequest("OAuth nonce timeout")
+        log.debug('HTTPUnauthorized: OAuth nonce timeout')
+        raise HTTPUnauthorized("OAuth nonce timeout")
 
 
 def _hash(*args):
