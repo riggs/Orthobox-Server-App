@@ -57,6 +57,6 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
             language = etree.SubElement(result_score, 'language')
             language.text = 'en'
             text_string = etree.SubElement(result_score, 'textString')
-            text_string.text = self.score.__str__()
+            text_string.text = str(self.score)
 
         return etree.tostring(root, xml_declaration=True, encoding='utf-8')
