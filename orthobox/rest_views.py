@@ -155,8 +155,7 @@ def get_criteria(request):
     """
     Returns the evaluation parameters.
     """
-    key = request.matchdict['version_string']
-    return _select_criteria(key)
+    return _select_criteria(request)
 
 
 @configure.post()

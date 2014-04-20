@@ -66,8 +66,9 @@ def _peggy_box(data):
 _BOX_FUNCTION[_PEGGY] = _peggy_box
 
 
-def _select_criteria(version):
-    value = _CRITERIA.get(version)
+def _select_criteria(request):
+    key = request.matchdict['version_string']
+    value = _CRITERIA.get(key)
     if value is None:
         raise HTTPNotFound('Unknown hardware version')
     return value
