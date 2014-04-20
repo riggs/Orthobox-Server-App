@@ -38,7 +38,7 @@ def evaluate(session_id, data):
         grade = get_grade(uid, box_type)
         grade += 1 / _REQUIRED_SUCCESSES
     else:
-        grade = 0.0
+        grade = 0
     store_grade(uid, box_type, grade)
 
     return result, grade

@@ -145,9 +145,11 @@ def _post_grade(session_id, grade):
 
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = session_id
-    outcome_request.post_replace_result(round(grade, 2))    # Round to 2 digits for moodle
+    outcome_response = outcome_request.post_replace_result(round(grade, 2))    # Round to 2 digits for moodle
 
     # TODO: Verify HTTP response for success
+
+    return outcome_response
 
 
 @configure.get()

@@ -56,13 +56,16 @@ Note: Keys are created in unregistered, then moved to oauth once associated with
 
 from __future__ import division, absolute_import, print_function, unicode_literals
 
-import json
 import lmdb
+import json
+import logging
 
 from os import environ
 from uuid import uuid4
 
 from orthobox.lmdb_wrapper import LMDB_Dict
+
+log = logging.getLogger('orthobox')
 
 _10_GB = 10737418240  # Size of address-space for mmap, largest capacity for environment, not a memory requirement.
 
