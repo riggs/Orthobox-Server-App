@@ -4,8 +4,7 @@
 </head>
 <body>
 <div id="inner" class="incomplete">
-    <h2>${activity}: Trial 4</h2>
-
+    <h2>${activity}: ${completion} complete</h2>
     <h3>Incomplete Attempt</h3>
     <hr>
     <div tal:switch="activity_string">

@@ -13,11 +13,12 @@ from orthobox.data_store import (_POKEY, _PEGGY, _PASS, _FAIL, _INCOMPLETE, get_
 _REQUIRED_SUCCESSES = 3
 
 _BOX_FUNCTION = {}
-_CRITERIA = {}
 
 # TODO: Session specific evaluation criteria
-_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 9}
-_CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300, 'drops': 0}
+_CRITERIA = {
+    _POKEY: {'errors': 5, 'timeout': 300, 'pokes': 9},
+    _PEGGY: {'errors': 5, 'timeout': 300, 'drops': 0}
+}
 
 
 def evaluate(session_id, data):
@@ -42,6 +43,13 @@ def evaluate(session_id, data):
     store_grade(uid, box_type, grade)
 
     return result, grade
+
+
+def get_progress_count(grade):
+    """
+    Returns number of consecutive successes, number of required consecutive successes.
+    """
+    return int(round(grade * _REQUIRED_SUCCESSES)), _REQUIRED_SUCCESSES
 
 
 def _pokey_box(data):

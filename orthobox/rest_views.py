@@ -14,7 +14,7 @@ from pyramid.response import FileResponse
 from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
                                  dump_session_data, get_box_name, log)
-from orthobox.evaluation import evaluate, _select_criteria
+from orthobox.evaluation import evaluate, _select_criteria, get_progress_count
 from orthobox.tool_provider import WebObToolProvider
 
 
@@ -99,6 +99,7 @@ def display_results(request):
                    'pokes': len(data.get('pokes', '')),
                    'session_id': session_id})
     params.update(get_metadata(session_id))
+    params['completion'] = "{0} of {1}".format(*get_progress_count(params['grade']))
     return render_to_response('templates/{0}.pt'.format(params['result']), params, request)
 
 
@@ -117,7 +118,7 @@ def generate_results(request):
     result, grade = evaluate(session_id, data)
 
     store_activity_data(session_id, data)
-    store_result(session_id, result)
+    store_result(session_id, result, grade)
 
     _post_grade(session_id, grade)
 

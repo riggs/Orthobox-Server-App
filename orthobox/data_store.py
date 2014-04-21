@@ -25,6 +25,7 @@ metadata:
                  'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
+                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>
                  'version_string': <activity version string>,
                  'return_url': <lti spec 'launch_presentation_return_url'>}
 
@@ -172,6 +173,7 @@ def authorize_user(moodle_uid, tool_provider):
     metadata['activity'] = activity_display_name(activity_string)
     metadata['video_url'] = video_url
     metadata['result'] = _INCOMPLETE
+    metadata['grade'] = 0.0
     metadata['return_url'] = tool_provider.launch_presentation_return_url
 
     _METADATA_DB[session_id] = _encode(metadata)
@@ -283,7 +285,7 @@ def get_metadata(session_id):
     return _decode(_METADATA_DB[session_id])
 
 
-def store_result(session_id, result):
+def store_result(session_id, result, grade):
     """
     Store result for realzies
 
@@ -297,6 +299,7 @@ def store_result(session_id, result):
     """
     session = _decode(_METADATA_DB[session_id])
     session['result'] = result
+    session['grade'] = grade
     _METADATA_DB[session_id] = _encode(session)
 
 
