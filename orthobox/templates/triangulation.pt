@@ -36,7 +36,9 @@
             </div>
     </div>
 </div>
+</tal:block>
 <!-- end Graph HTML -->
+<tal:block repeat="param params">
 <script>
     $(document).ready(function () {
         // Graph scripts here
@@ -101,14 +103,14 @@
 
 
 // Tooltip #################################################
-        function showTooltip_${param['uid']}(x, y, contents) {
+        function showTooltip(x, y, contents) {
             $('<div id="tooltip">' + contents + '</div>').css({
                 top: y - 16,
                 left: x + 20
             }).appendTo('body').fadeIn();
         }
 
-        var previousPoint_${param['uid']} = null;
+        var previousPoint = null;
         var failErrors = [6, 5, 3, 3, 3, 2],
             passErrors = [3, 1],
             errorLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1,2, 3, 4, 5, 6,7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
@@ -119,17 +121,17 @@
 
         $('#graph-lines-${param['uid']}}').bind('plothover', function (event, pos, item) {
             if (item) {
-                if (previousPoint_${param['uid']}} != item.dataIndex) {
-                    previousPoint_${param['uid']}} = item.dataIndex;
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
                     $('#tooltip').remove();
                     var x = item.datapoint[0],
                             e = hoverData[item.seriesIndex][item.dataIndex];
                     var message = item.seriesIndex != 2 ? e + ' errors on trial ' + x : e + ' second error'
-                    showTooltip_${param['uid']}}(item.pageX, item.pageY, message);
+                    showTooltip(item.pageX, item.pageY, message);
                 }
             } else {
                 $('#tooltip').remove();
-                previousPoint_${param['uid']}} = null;
+                previousPoint = null;
             }
         });
     });
