@@ -77,7 +77,8 @@ def lti_progress(request):
 def _gather_template_data(moodle_id, activity_data, activity):
     not_passing, passing, all_errors, hover_data = _build_graph_data(activity_data['sessions'])
     activity_name = activity_display_name(activity)
-    return {'not_passing': not_passing,
+    return {'uid': moodle_id.uid,
+            'not_passing': not_passing,
             'passing': passing,
             'all_errors': all_errors,
             'hover_data': hover_data,
