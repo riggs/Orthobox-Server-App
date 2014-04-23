@@ -62,7 +62,6 @@ def lti_progress(request):
 
     params = list()
     MoodleID = namedtuple('MoodleID', 'uid, username')
-    """
     if 'Instructor' in tool_provider.roles:
         users = get_user_data_by_context_id(context_id)
         for uid, user_data in users.items():
@@ -76,6 +75,7 @@ def lti_progress(request):
     moodle_id = MoodleID(**get_ids_from_moodle_uid(moodle_uid))
     activity_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
     params.append(_gather_template_data(moodle_id, activity_data, activity))
+    """
     return render_to_response("templates/triangulation.pt", {'params': params}, request)
 
 
