@@ -10,11 +10,13 @@
 </head>
 
 <body>
+<tal:block repeat="param params">
 <div id="main">
     <div class="description">
-        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/>${activity}: ${username}</h2>
-        <h4><strong>${attempts}</strong> attempts</h4>
-        <h4><strong>${completion}</strong> consecutive successes</h4>
+        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/>${param['activity']}
+            : ${param['username']}</h2>
+        <h4><strong>${param['attempts']}</strong> attempts</h4>
+        <h4><strong>${param['completion']}</strong> consecutive successes</h4>
 
     </div>
     <div class="legend">
@@ -40,20 +42,20 @@
         // Graph scripts here
         var graphData = [{
             // not_passing
-            data: ${not_passing},
+            data: ${param['not_passing']},
             color: '#d8082a',
             bars: { barWidth: .5, align: 'center' },
             points: {show:false}
 
         },{
             // passing
-            data: ${passing},
+            data: ${param['passing']},
             color: '#75c809',
             bars: { barWidth: .5, align: 'center' },
             points: {show: false}
         },{
             // errors
-            data: ${all_errors},
+            data: ${param['all_errors']},
             color: '#d8082a',
             points: { show: false},
             bars: {show: true, fillColor: '#d8082a', barWidth: .5, align: 'center'}
@@ -73,7 +75,7 @@
                 },
                 bars: {
                     show: true
-                },
+                }
             },
             grid: {
                 color: '#646464',
@@ -112,7 +114,7 @@
             errorLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1,2, 3, 4, 5, 6,7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
         /* var hoverData = [failErrors, passErrors, errorLength]; */
-        var hoverData = ${hover_data};
+        var hoverData = ${param['hover_data']};
 
 
         $('#graph-lines').bind('plothover', function (event, pos, item) {
@@ -133,6 +135,7 @@
     });
 
 </script>
+</tal:block>
 </body>
 
 </html>
