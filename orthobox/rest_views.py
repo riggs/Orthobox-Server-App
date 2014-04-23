@@ -97,6 +97,7 @@ def display_results(request):
     params.update({'duration': data['duration'],
                    'error_number': len([error for error in data['errors'] if error['len'] >= _ERROR_CUTOFF]),
                    'pokes': len(data.get('pokes', '')),
+                   'drops': len(data.get('drops', '')),
                    'session_id': session_id})
     params.update(get_metadata(session_id))
     params['completion'] = "{0} of {1}".format(*get_progress_count(params['grade']))

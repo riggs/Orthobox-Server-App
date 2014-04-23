@@ -5,10 +5,12 @@
 <body>
 <div id="inner" class="incomplete">
     <h2>${activity}: ${completion} complete</h2>
+
     <h3>Incomplete Attempt</h3>
     <hr>
     <div tal:switch="activity_string">
-    <h4 tal:case="'pokey'">${pokes} pokes</h4>
+        <h4 tal:case="'pokey'">${pokes} pokes</h4>
+        <h4 tal:case="'peggy'">${drops} drops</h4>
     </div>
     <h4>in ${duration} seconds</h4>
     <h4>with ${error_number} errors</h4>
