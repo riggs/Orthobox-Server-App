@@ -113,8 +113,9 @@ def _build_graph_data(session_ids):
             error_count += 1
 
         for drop in data.get('drops', []):
-            drops.append([i, drop['endtime']])
-            hover_data[3].append(drop['endtime'])
+            drop_time = drop['endtime'] / 1000
+            drops.append([i, drop_time])
+            hover_data[3].append(drop_time)
 
         metadata = get_metadata(session_id)
         if metadata['result'] == _PASS:
