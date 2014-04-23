@@ -158,6 +158,8 @@ def authorize_user(moodle_uid, context_id, tool_provider):
     #                                'sessions': <list of session_ids>}}}
     # }
     context = _decode(_USERS_DB.get(context_id, 'null'))  # 'null' is JSON for None.
+    if context is None:
+        context = dict()
     user = context.get(uid)
     if user is None:
          user = _new_user(moodle_uid)
