@@ -129,7 +129,7 @@ def store_session_params(session_id, params):
 
 def verify_resource_oauth(moodle_resource_id, tool_provider):
     resource = _MOODLE_DB.get(moodle_resource_id)
-    if resource:    # Resource have been used before
+    if resource:    # Resource has been used before
         cred_dict = _decode(resource)
         assert tool_provider.consumer_key == cred_dict.get('consumer_key') and \
                tool_provider.consumer_secret == cred_dict.get('consumer_secret'), \
@@ -148,7 +148,8 @@ def authorize_user(moodle_uid, context_id, tool_provider):
     #   moodle_uid: {'uid': uid, 'username': username}
     #   moodle_resource_id: {'consumer_key': oauth_consumer_key, 'consumer_secret': oauth_shared_secret}
     # }
-    uid = _MOODLE_DB.setdefault(moodle_uid, _encode({'uid': uuid4().hex, 'username': tool_provider.username()}))
+    uid = _decode(_MOODLE_DB.setdefault(moodle_uid,
+                                        _encode({'uid': uuid4().hex, 'username': tool_provider.username()})))
 
     # _USERS_DB = {
     #   context_id: {uid: {'moodle_uid': moodle_uid,
