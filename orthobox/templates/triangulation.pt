@@ -24,7 +24,7 @@
 
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
         <p tal:switch="param['activity_string']">
-            <img tal:case="'pokey'" src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
+            <img tal:case="'peggy'" src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
         </p>
     </div>
     <!-- Graph HTML -->
