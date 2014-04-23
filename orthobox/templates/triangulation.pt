@@ -36,9 +36,7 @@
             </div>
     </div>
 </div>
-</tal:block>
 <!-- end Graph HTML -->
-<tal:block repeat="param params">
 <script>
     $(document).ready(function () {
         // Graph scripts here
