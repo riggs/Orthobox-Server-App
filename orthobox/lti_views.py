@@ -66,16 +66,16 @@ def lti_progress(request):
         users = get_user_data_by_context_id(context_id)
         for uid, user_data in users.items():
             moodle_id = MoodleID(**get_ids_from_moodle_uid(user_data['moodle_uid']))
-            params.append(_gather_template_data(moodle_id, user_data, activity))
+            params.append(_gather_template_data(moodle_id, user_data[activity], activity))
     else:
         moodle_id = MoodleID(**get_ids_from_moodle_uid(moodle_uid))
-        user_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
-        params.append(_gather_template_data(moodle_id, user_data, activity))
+        activity_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
+        params.append(_gather_template_data(moodle_id, activity_data, activity))
     return render_to_response("templates/triangulation.pt", {'params': params}, request)
 
 
-def _gather_template_data(moodle_id, user_data, activity):
-    not_passing, passing, all_errors, hover_data = _build_graph_data(user_data['sessions'])
+def _gather_template_data(moodle_id, activity_data, activity):
+    not_passing, passing, all_errors, hover_data = _build_graph_data(activity_data['sessions'])
     activity_name = activity_display_name(activity)
     return {'not_passing': not_passing,
             'passing': passing,
@@ -84,7 +84,7 @@ def _gather_template_data(moodle_id, user_data, activity):
             'username': moodle_id.username,
             'activity': activity_name,
             'attempts': len(not_passing) + len(passing),
-            'completion': '{0} of {1}'.format(*get_progress_count(user_data['grade']))}
+            'completion': '{0} of {1}'.format(*get_progress_count(activity_data['grade']))}
 
 
 def _build_graph_data(session_ids):
