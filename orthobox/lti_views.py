@@ -70,7 +70,7 @@ def lti_progress(request):
     uid = moodle_ids['uid']
     username = moodle_ids['username']
     sessions = get_sesssions_by_uid(uid, context_id)
-    not_passing, passing, all_errors, hover_data = _build_graph_data(sessions[activity])
+    not_passing, passing, all_errors, hover_data = _build_graph_data(sessions[activity]['sessions'])
     params = {'not_passing': not_passing,
               'passing': passing,
               'all_errors': all_errors,
