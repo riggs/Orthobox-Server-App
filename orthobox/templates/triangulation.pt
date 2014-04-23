@@ -28,7 +28,7 @@
     <div id="graph-wrapper">
             <div class="graph-container">
 
-                <div id="graph-lines-${param['uid']}"></div>
+                <div id="graph-lines"></div>
         <p class="rotate time">Time in seconds</p>
 
         <p class="trial">Trial Number</p>
@@ -40,7 +40,7 @@
 <script>
     $(document).ready(function () {
         // Graph scripts here
-        var graphData_${param['uid']} = [{
+        var graphData = [{
             // not_passing
             data: ${param['not_passing']},
             color: '#d8082a',
@@ -64,7 +64,7 @@
         ];
 
 // Lines
-        $.plot($('#graph-lines-${param['uid']}'), graphData_${param['uid']}, {
+        $.plot($('#graph-lines'), graphData, {
             series: {
                 points: {
                     show: true,
