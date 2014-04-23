@@ -12,13 +12,13 @@
 <body>
 <div id="main">
     <div class="description">
-        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/> Triangulation: Natalie Doud</h2>
-        <h4><strong>8</strong> attempts</h4>
-        <h4><strong>2 of 3</strong> consecutive successes</h4>
+        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/>${activity}: ${username}</h2>
+        <h4><strong>${attempts}</strong> attempts</h4>
+        <h4><strong>${completion}</strong> consecutive successes</h4>
 
     </div>
     <div class="legend">
-        <h5><span>Errors per trial: </span>Less than 10 to pass</h5>
+        <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
 
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
     </div>
@@ -40,27 +40,20 @@
         // Graph scripts here
         var graphData = [{
             // not_passing
-            data: [[1, 321], [2, 243], [3, 220], [4, 211], [5, 132], [6, 118]],
+            data: ${not_passing},
             color: '#d8082a',
             bars: { barWidth: .5, align: 'center' },
             points: {show:false}
 
         },{
             // passing
-            data: [[7, 107], [8, 98]],
+            data: ${passing},
             color: '#75c809',
             bars: { barWidth: .5, align: 'center' },
             points: {show: false}
         },{
             // errors
-            data: [ [1, 2, 1], [1, 9, 8], [1, 22, 20], [1, 35, 31], [1, 66, 60], [1, 109, 100], [1, 300, 299],
-                [2, 4, 3], [2, 40, 35], [2, 88, 80], [2, 99, 93], [2, 195, 190],
-                [3, 10, 8], [3, 40, 33], [3, 200, 180],
-                [4, 30, 20], [4, 50, 40], [4, 94, 84],
-                [5, 6, 5], [5, 12, 10], [5, 20, 9],
-                [6, 10, 8], [6, 40, 30],
-                [7, 3, 2], [7, 50, 49], [7, 10, 8],
-                [8, 3, 2]],
+            data: ${all_errors},
             color: '#d8082a',
             points: { show: false},
             bars: {show: true, fillColor: '#d8082a', barWidth: .5, align: 'center'}
@@ -118,7 +111,8 @@
             passErrors = [3, 1],
             errorLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1,2, 3, 4, 5, 6,7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-        var hoverData = [failErrors, passErrors, errorLength];
+        /* var hoverData = [failErrors, passErrors, errorLength]; */
+        var hoverData = ${hover_data};
 
 
         $('#graph-lines').bind('plothover', function (event, pos, item) {

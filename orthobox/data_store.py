@@ -211,7 +211,7 @@ def get_session_data(session_id):
     return _decode(_DATA_DB[session_id]).get('data', {})
 
 
-def get_sessions_by_context_id(context_id):
+def get_user_data_by_context_id(context_id):
     """
     _USERS_DB = {
     context_id: {uid: {'moodle_uid': moodle_uid,
@@ -224,7 +224,7 @@ def get_sessions_by_context_id(context_id):
     return _decode(_USERS_DB[context_id])
 
 
-def get_sesssions_by_uid(uid, context_id):
+def get_user_data_by_uid(uid, context_id):
     return _decode(_USERS_DB[context_id]).get(uid, dict())
 
 

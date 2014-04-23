@@ -16,10 +16,10 @@ from pyramid.httpexceptions import HTTPUnauthorized
 
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
-from orthobox.evaluation import _ERROR_CUTOFF
+from orthobox.evaluation import _ERROR_CUTOFF, get_progress_count
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
                                  get_oauth_creds, activity_display_name, log, get_session_data, get_metadata, _PASS,
-                                 get_sesssions_by_uid, get_ids_from_moodle_uid)
+                                 get_user_data_by_uid, get_ids_from_moodle_uid)
 
 
 @view_config(route_name='lti_launch')
@@ -69,13 +69,17 @@ def lti_progress(request):
     moodle_ids = get_ids_from_moodle_uid(moodle_uid)
     uid = moodle_ids['uid']
     username = moodle_ids['username']
-    sessions = get_sesssions_by_uid(uid, context_id)
-    not_passing, passing, all_errors, hover_data = _build_graph_data(sessions[activity]['sessions'])
+    user_data = get_user_data_by_uid(uid, context_id)[activity]
+    not_passing, passing, all_errors, hover_data = _build_graph_data(user_data['sessions'])
+    activity_name = activity_display_name(activity)
     params = {'not_passing': not_passing,
               'passing': passing,
               'all_errors': all_errors,
               'hover_data': hover_data,
-              'username': username}
+              'username': username,
+              'activity': activity_name,
+              'attempts': len(not_passing) + len(passing),
+              'completion': '{0} of {1}'.format(*get_progress_count(user_data['grade']))}
     return render_to_response("templates/triangulation.pt", params, request)
 
 
