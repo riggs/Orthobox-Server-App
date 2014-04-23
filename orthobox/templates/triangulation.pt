@@ -28,7 +28,7 @@
     <div id="graph-wrapper">
             <div class="graph-container">
 
-                <div id="graph-lines"></div>
+                <div id="graph-lines-${param['uid']}"></div>
         <p class="rotate time">Time in seconds</p>
 
         <p class="trial">Trial Number</p>
@@ -40,7 +40,7 @@
 <script>
     $(document).ready(function () {
         // Graph scripts here
-        var graphData = [{
+        var graphData_${param['uid']} = [{
             // not_passing
             data: ${param['not_passing']},
             color: '#d8082a',
@@ -64,7 +64,7 @@
         ];
 
 // Lines
-        $.plot($('#graph-lines'), graphData, {
+        $.plot($('#graph-lines-${param['uid']}'), graphData_${param['uid']}, {
             series: {
                 points: {
                     show: true,
@@ -114,16 +114,16 @@
             errorLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1,2, 3, 4, 5, 6,7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
         /* var hoverData = [failErrors, passErrors, errorLength]; */
-        var hoverData = ${param['hover_data']};
+        var hoverData_${param['uid']} = ${param['hover_data']};
 
 
-        $('#graph-lines-${param['uid']}}').bind('plothover', function (event, pos, item) {
+        $('#graph-lines-${param['uid']}').bind('plothover', function (event, pos, item) {
             if (item) {
                 if (previousPoint != item.dataIndex) {
                     previousPoint = item.dataIndex;
                     $('#tooltip').remove();
                     var x = item.datapoint[0],
-                            e = hoverData[item.seriesIndex][item.dataIndex];
+                            e = hoverData_${param['uid']}[item.seriesIndex][item.dataIndex];
                     var message = item.seriesIndex != 2 ? e + ' errors on trial ' + x : e + ' second error'
                     showTooltip(item.pageX, item.pageY, message);
                 }
