@@ -25,7 +25,7 @@
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
     </div>
     <!-- Graph HTML -->
-    <div id="graph-wrapper">
+    <div id="graph-wrapper-${param['uid']}">
             <div class="graph-container">
 
                 <div id="graph-lines-${param['uid']}"></div>
