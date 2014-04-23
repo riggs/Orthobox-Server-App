@@ -25,7 +25,6 @@ from orthobox.data_store import (get_upload_token, verify_resource_oauth, author
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
-
     tool_provider = _authorize_tool_provider(request)
 
     try:
@@ -44,7 +43,6 @@ def lti_launch(request):
 
 @view_config(route_name='lti_progress')
 def lti_progress(request):
-
     tool_provider = _authorize_tool_provider(request)
 
     instance_id = tool_provider.tool_consumer_instance_guid
@@ -71,24 +69,21 @@ def lti_progress(request):
         moodle_id = MoodleID(**get_ids_from_moodle_uid(moodle_uid))
         activity_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
         params.append(_gather_template_data(moodle_id, activity_data, activity))
-    """
-    moodle_id = MoodleID(**get_ids_from_moodle_uid(moodle_uid))
-    activity_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
-    params.append(_gather_template_data(moodle_id, activity_data, activity))
-    """
     return render_to_response("templates/triangulation.pt", {'params': params}, request)
 
 
 def _gather_template_data(moodle_id, activity_data, activity):
-    not_passing, passing, all_errors, hover_data = _build_graph_data(activity_data['sessions'])
+    not_passing, passing, all_errors, drops, hover_data = _build_graph_data(activity_data['sessions'])
     activity_name = activity_display_name(activity)
     return {'uid': moodle_id.uid,
             'not_passing': not_passing,
             'passing': passing,
             'all_errors': all_errors,
+            'drops': drops,
             'hover_data': hover_data,
             'username': moodle_id.username,
             'activity': activity_name,
+            'activity_string': activity,
             'attempts': len(not_passing) + len(passing),
             'completion': '{0} of {1}'.format(*get_progress_count(activity_data['grade']))}
 
@@ -97,7 +92,9 @@ def _build_graph_data(session_ids):
     passing = list()
     not_passing = list()
     all_errors = list()  # each element: [trial #, end time, start time]
-    hover_data = [list(), list(), list()]   # [number of errors for not_passing, # of errors for passing, error length]
+    drops = list()
+    # [number of errors for not_passing, # of errors for passing, error length, drop time]
+    hover_data = [list(), list(), list(), list()]
     for i, session_id in enumerate(session_ids):
         i += 1  # 1-indexed for display purposes. PS: Namespaces rock
 
@@ -115,6 +112,10 @@ def _build_graph_data(session_ids):
             hover_data[2].append(len_ / 1000)
             error_count += 1
 
+        for drop in data.get('drops', []):
+            drops.append([i, drop['endtime']])
+            hover_data[3].append(drop['endtime'])
+
         metadata = get_metadata(session_id)
         if metadata['result'] == _PASS:
             passing.append([i, data['duration']])
@@ -123,8 +124,7 @@ def _build_graph_data(session_ids):
             not_passing.append([i, data['duration']])
             hover_data[0].append(error_count)
 
-
-    return not_passing, passing, all_errors, hover_data
+    return not_passing, passing, all_errors, drops, hover_data
 
 
 def _new_session(tool_provider):
@@ -189,6 +189,8 @@ def _authorize_tool_provider(request):
 
 
 _OAuth_creds = {}
+
+
 def _validate_nonce(nonce, now):
     timestamp = _OAuth_creds.get(nonce)
     if timestamp is None:

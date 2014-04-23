@@ -23,6 +23,9 @@
         <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
 
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
+        <p tal:switch="activity_string">
+            <img tal:case="'pokey'" src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
+        </p>
     </div>
     <!-- Graph HTML -->
     <div id="graph-wrapper-${param['uid']}">
@@ -59,6 +62,12 @@
             color: '#d8082a',
             points: { show: false},
             bars: {show: true, fillColor: '#d8082a', barWidth: .5, align: 'center'}
+        },{
+            // drop
+            data: ${param['drops']},
+            color: '#d8082a',
+            points: { show: true},
+            bars: {show: false}
         }
 
         ];
@@ -109,13 +118,8 @@
         }
 
         var previousPoint = null;
-        var failErrors = [6, 5, 3, 3, 3, 2],
-            passErrors = [3, 1],
-            errorLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1,2, 3, 4, 5, 6,7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-        /* var hoverData = [failErrors, passErrors, errorLength]; */
         var hoverData_${param['uid']} = ${param['hover_data']};
-
 
         $('#graph-lines-${param['uid']}').bind('plothover', function (event, pos, item) {
             if (item) {
@@ -124,7 +128,13 @@
                     $('#tooltip').remove();
                     var x = item.datapoint[0],
                             e = hoverData_${param['uid']}[item.seriesIndex][item.dataIndex];
-                    var message = item.seriesIndex != 2 ? e + ' errors on trial ' + x : e + ' second error'
+                    if (item.seriesIndex == 2) {
+                        var message = e + ' second error'
+                    } else if (item.seriesIndex == 3) {
+                        var message = 'Drop at ' + e + ' seconds'
+                    } else {
+                        message =  e + ' errors on trial ' + x
+                    }
                     showTooltip(item.pageX, item.pageY, message);
                 }
             } else {
