@@ -148,8 +148,9 @@ def authorize_user(moodle_uid, context_id, tool_provider):
     #   moodle_uid: {'uid': uid, 'username': username}
     #   moodle_resource_id: {'consumer_key': oauth_consumer_key, 'consumer_secret': oauth_shared_secret}
     # }
-    uid = _decode(_MOODLE_DB.setdefault(moodle_uid,
-                                        _encode({'uid': uuid4().hex, 'username': tool_provider.username()})))
+    moodle_ids = _decode(_MOODLE_DB.setdefault(moodle_uid,
+                                               _encode({'uid': uuid4().hex, 'username': tool_provider.username()})))
+    uid = moodle_ids['uid']
 
     # _USERS_DB = {
     #   context_id: {uid: {'moodle_uid': moodle_uid,
