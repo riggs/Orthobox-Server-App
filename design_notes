@@ -44,3 +44,14 @@ DBs:
     A. Time-limited
     B. Not unlike a cache
     C. In-memory is probably sufficient
+
+########################################################
+
+Feature wishlist:
+
+Get display-name from resource_link_title.
+
+Special 'setup' slug for new activities (or to change parameters?). Would require changing launch URL after use, using
+same credentials and resource_id.
+
+Object-oriented; especially User & Session objects. Objects serialize to JSON.

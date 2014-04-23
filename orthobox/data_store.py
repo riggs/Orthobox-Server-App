@@ -7,51 +7,58 @@ Database schema:
 1 lmdb environment, 7 databases: sessions, data, metadata, users, moodle, oauth, unregistered_oauth
 DB keys: utf-8 encoded text
 DB values: utf-8 encoded JSON
+
 uid = uuid4().hex
 session_id = uuid4().hex
 
-sessions:
+instance_id = tool_provider.tool_consumer_instance_guid
+moodle_uid = hashlib.sha1(instance_id + tool_provider.user_id).hexdigest()
+moodle_resource_id = hashlib.sha1(instance_id + tool_provider.resource_link_id).hexdigest()
+context_id = hashlib.sha1(instance_id + tool_provider.context_id)
+
+sessions = {
     session_id: {'upload_token': token,
                  'tool_provider_params': tool_provider.params}
+}
 Note: Remove after successful use
 
-data:   # 'Sanitized' copy to be kept for later analysis.
+data = {   # 'Sanitized' copy to be kept for later analysis.
     session_id: {'uid': uid
                  'video_url': <identifier (URL) for video>,
                  'data': <raw JSON received>}
+}
 
-metadata:
-    session_id: {'username': username,
+metadata = {
+    session_id: {'uid': uid,
+                 'context': context_id
                  'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
                  'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>
                  'version_string': <activity version string>,
                  'return_url': <lti spec 'launch_presentation_return_url'>}
+}
 
-users:
-    uid: {'moodle_uid': moodle_uid,
-          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>},
-          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>}}
+users = {
+    context_id: {uid: {'moodle_uid': moodle_uid,
+                       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>},
+                       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>}}}
+}
 
-moodle:
-    moodle_uid: uid
+moodle = {
+    moodle_uid: {'uid': uid, 'username': username}
     moodle_resource_id: {'consumer_key': <OAuth consumer key>, 'consumer_secret': <OAuth shared secret>}
-Notes:
-    moodle_uid = hashlib.sha1(instance_id + user_id).hexdigest()
-    moodle_resource_id = hashlib.sha1(instance_id + resource_id).hexdigest()
-    where:
-    instance_id = tool_provider.tool_consumer_instance_guid
-    user_id = tool_provider.user_id
-    resource_id = tool_provider.resource_link_id
+}
 
-oauth:
+oauth = {
     oauth_consumer_key: oauth_consumer_secret
+}
 
-unregistered_oauth:
+unregistered_oauth = {
     oauth_consumer_key: oauth_consumer_secret
+}
 Note: Keys are created in unregistered, then moved to oauth once associated with moodle_resource_id
 """
 
@@ -133,91 +140,137 @@ def verify_resource_oauth(moodle_resource_id, tool_provider):
         _MOODLE_DB[moodle_resource_id] = _encode({'consumer_key': key, 'consumer_secret': secret})
 
 
-def authorize_user(moodle_uid, tool_provider):
-
-    session_id = uuid4().hex
+def authorize_user(moodle_uid, context_id, tool_provider):
 
     activity_string = tool_provider.custom_params.get('custom_box_version')
 
     # _MOODLE_DB = {
-    # moodle_uid: uid
-    # moodle_resource_id: {'consumer_key': oauth_consumer_key, 'consumer_secret': oauth_shared_secret}
+    #   moodle_uid: {'uid': uid, 'username': username}
+    #   moodle_resource_id: {'consumer_key': oauth_consumer_key, 'consumer_secret': oauth_shared_secret}
     # }
-    uid = _MOODLE_DB.setdefault(moodle_uid, uuid4().hex)
+    uid = _MOODLE_DB.setdefault(moodle_uid, _encode({'uid': uuid4().hex, 'username': tool_provider.username()}))
 
     # _USERS_DB = {
-    # uid: {'moodle_uid': moodle_uid,
-    #       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-    #                 'sessions': <list of session_ids>},
-    #       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-    #                 'sessions': <list of session_ids>}}
+    #   context_id: {uid: {'moodle_uid': moodle_uid,
+    #                      'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+    #                                'sessions': <list of session_ids>},
+    #                      'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+    #                                'sessions': <list of session_ids>}}}
     # }
-    user = _decode(_USERS_DB.setdefault(uid, _encode(_new_user(moodle_uid))))
+    context = _decode(_USERS_DB.get(context_id, 'null'))  # 'null' is JSON for None.
+    user = context.get(uid)
+    if user is None:
+         user = _new_user(moodle_uid)
+
+    # FIXME: Throw an actual exception
     assert user[activity_string]['grade'] < 1.0, "Already completed activity"
+
+    session_id = uuid4().hex
+
     user[activity_string]['sessions'].append(session_id)
-    _USERS_DB[uid] = _encode(user)
+    context[uid] = user
+    _USERS_DB[context_id] = _encode(context)
 
     video_url = _VIDEO_URL.format(session_id=session_id)
     _DATA_DB[session_id] = _encode({'uid': uid, 'video_url': video_url})
 
     # Generate metadata for session
-    # session_id: {'username': username,
-    #              'activity': <activity display name>,
-    #              'video_url': <identifier (URL) for video>,
-    #              'result': <pass/fail/incomplete status>,
-    #              'activity_string': <activity version string>,
-    #              'return_url': <lti spec 'launch_presentation_return_url'>}
-    metadata = {}
-    metadata['username'] = tool_provider.username(default="lovely")
-    metadata['activity_string'] = activity_string
-    metadata['activity'] = activity_display_name(activity_string)
-    metadata['video_url'] = video_url
-    metadata['result'] = _INCOMPLETE
-    metadata['grade'] = 0.0
-    metadata['return_url'] = tool_provider.launch_presentation_return_url
+    # _METADATA_DB = {
+    #   session_id: {'uid': uid,
+    #                'context': context_id
+    #                'activity_string': <activity version string>,
+    #                'activity': <activity display name>,
+    #                'video_url': <identifier (URL) for video>,
+    #                'result': <pass/fail/incomplete status>,
+    #                'grade': <completion percentage>,
+    #                'return_url': <lti spec 'launch_presentation_return_url'>}
+    # }
+    metadata = {'uid': uid,
+                'context': context_id,
+                'activity_string': activity_string,
+                'activity': activity_display_name(activity_string),
+                'video_url': video_url,
+                'result': _INCOMPLETE,
+                'grade': 0.0,
+                'return_url': tool_provider.launch_presentation_return_url}
 
     _METADATA_DB[session_id] = _encode(metadata)
 
     return session_id
 
 
-def get_grade(uid, box_type):
+def get_ids_from_moodle_uid(moodle_uid):
+    return _decode(_MOODLE_DB[moodle_uid])
+
+
+def get_session_data(session_id):
+    return _decode(_DATA_DB[session_id]).get('data', {})
+
+
+def get_sessions_by_context_id(context_id):
     """
     _USERS_DB = {
-    uid: {'moodle_uid': moodle_uid,
-          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>},
-          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>}}
+    context_id: {uid: {'moodle_uid': moodle_uid,
+                       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>},
+                       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>}}}
     }
     """
-    return _decode(_USERS_DB[uid])[box_type]['grade']
+    return _decode(_USERS_DB[context_id])
 
 
-def store_grade(uid, box_type, grade):
+def get_sesssions_by_uid(uid, context_id):
+    return _decode(_USERS_DB[context_id]).get(uid, dict())
+
+
+def get_grade(uid, context_id, box_type):
+    """
+    Returns grade for particular activity.
+
+    _USERS_DB = {
+    context_id: {uid: {'moodle_uid': moodle_uid,
+                       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>},
+                       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>}}}
+    }
+    """
+    return _decode(_USERS_DB[context_id])[uid][box_type]['grade']
+
+
+def store_grade(uid, context_id, box_type, grade):
     """
     _USERS_DB = {
-    uid: {'moodle_uid': moodle_uid,
-          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>},
-          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>}}
+    context_id: {uid: {'moodle_uid': moodle_uid,
+                       'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>},
+                       'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                 'sessions': <list of session_ids>}}}
     }
     """
-    data = _decode(_USERS_DB[uid])
-    data[box_type]['grade'] = grade
-    _USERS_DB[uid] = _encode(data)
+    context = _decode(_USERS_DB[context_id])
+    context[uid][box_type]['grade'] = grade
+    _USERS_DB[context_id] = _encode(context)
 
 
-def get_uid_for_session(session_id):
+def get_ids_for_session(session_id):
     """
-    _DATA_DB = {
-    session_id: {'uid': uid
+    Returns (uid, context_id) for a given session_id.
+
+    _METADATA_DB = {
+    session_id: {'uid': uid,
+                 'context': context_id
+                 'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
-                 'data': <raw JSON received>}
+                 'result': <pass/fail/incomplete status>,
+                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>
+                 'version_string': <activity version string>,
+                 'return_url': <lti spec 'launch_presentation_return_url'>}
     }
     """
-    return _decode(_DATA_DB[session_id])['uid']
+    session = _decode(_METADATA_DB[session_id])
+    return session['uid'], session['context']
 
 
 def get_upload_token(session_id):
@@ -274,13 +327,15 @@ def get_metadata(session_id):
     """
     Retreive data from metadata DB for session
 
-    metadata:
-        session_id: {'username': username,
+    _METADATA_DB = {
+        session_id: {'uid': uid,
+                     'context': context_id
                      'activity': <activity display name>,
                      'video_url': <identifier (URL) for video>,
                      'result': <pass/fail/incomplete status>,
                      'version_string': <activity version string>,
                      'return_url': <lti spec 'launch_presentation_return_url'>}
+    }
     """
     return _decode(_METADATA_DB[session_id])
 
@@ -289,13 +344,15 @@ def store_result(session_id, result, grade):
     """
     Store result for realzies
 
-    metadata:
-        session_id: {'username': username,
+    _METADATA_DB = {
+        session_id: {'uid': uid,
+                     'context': context_id
                      'activity': <activity display name>,
                      'video_url': <identifier (URL) for video>,
                      'result': <pass/fail/incomplete status>,
                      'version_string': <activity version string>,
                      'return_url': <lti spec 'launch_presentation_return_url'>}
+    }
     """
     session = _decode(_METADATA_DB[session_id])
     session['result'] = result
@@ -322,11 +379,13 @@ def activity_display_name(version_string):
 
 def _new_user(moodle_uid):
     """
-    uid: {'moodle_uid': moodle_uid,
-          'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>},
-          'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
-                    'sessions': <list of session_ids>}}
+    _USERS_DB = {
+        context_id: {uid: {'moodle_uid': moodle_uid,
+                           'pokey': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                     'sessions': <list of session_ids>},
+                           'peggy': {'grade': <completion percentage: 0%, 33%, 66%, 100%>,
+                                     'sessions': <list of session_ids>}}}
+    }
     """
     return {'moodle_uid': moodle_uid,
             _POKEY: {'grade': 0.0, 'sessions': []},

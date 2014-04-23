@@ -13,8 +13,7 @@
     <h4>in ${duration} seconds</h4>
     <h4>with ${error_number} errors</h4>
 
-    <p>Try again, ${username}.</p>
-    <!-- FIXME: Figure out what if any URLs will work here -->
+    <p>Try again.</p>
     <button class="secondary" onclick="window.location.href='${return_url}'">&lt; Return to course</button>
     <!-- button class="primry" onclick="window.location.href='${relaunch_url}'">Repeat &gt;</button -->
     <!-- h3><a href="${video_url}">View Video</a></h3 -->

@@ -7,8 +7,10 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 
 from pyramid.httpexceptions import HTTPNotFound
 
-from orthobox.data_store import (_POKEY, _PEGGY, _PASS, _FAIL, _INCOMPLETE, get_uid_for_session, get_grade, store_grade)
+from orthobox.data_store import (_POKEY, _PEGGY, _PASS, _FAIL, _INCOMPLETE, get_ids_for_session, get_grade, store_grade)
 
+
+_ERROR_CUTOFF = 250
 
 _REQUIRED_SUCCESSES = 3
 
@@ -25,7 +27,7 @@ def evaluate(session_id, data):
     # TODO: Audit evaluation logic
     # Will every test have errors & duration?
     box_type = data.get('version_string')
-    errors = data.get('errors', [])
+    errors = [error for error in data.get('errors', []) if error['len'] >= _ERROR_CUTOFF]
     duration = data['duration']
     if len(errors) > _CRITERIA[box_type]['errors']:
         result = _FAIL
@@ -34,13 +36,13 @@ def evaluate(session_id, data):
     else:
         result = _BOX_FUNCTION[box_type](data)
 
-    uid = get_uid_for_session(session_id)
+    uid, context_id = get_ids_for_session(session_id)
     if result is _PASS:     # Add completion credit to grade
-        grade = get_grade(uid, box_type)
+        grade = get_grade(uid, context_id, box_type)
         grade += 1 / _REQUIRED_SUCCESSES
     else:
         grade = 0
-    store_grade(uid, box_type, grade)
+    store_grade(uid, context_id, box_type, grade)
 
     return result, grade
 

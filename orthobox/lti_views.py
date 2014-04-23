@@ -16,30 +16,101 @@ from pyramid.httpexceptions import HTTPUnauthorized
 
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
+from orthobox.evaluation import _ERROR_CUTOFF
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
-                                 get_oauth_creds, activity_display_name, log)
+                                 get_oauth_creds, activity_display_name, log, get_session_data, get_metadata, _PASS,
+                                 get_sesssions_by_uid, get_ids_from_moodle_uid)
 
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
+
     tool_provider = _authorize_tool_provider(request)
+
     try:
         session_id = _new_session(tool_provider)
     except AssertionError as e:
         log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
+
     params = _url_params(session_id)
     params['session_id'] = session_id
     params['username'] = tool_provider.username(default="lovely")
-    params['activity'] = activity_display_name(tool_provider.custom_params.get('custom_box_version'))
+    params['activity'] = activity_display_name(tool_provider.get_custom_param('box_version'))
     params['upload_token'] = get_upload_token(session_id)
     return render_to_response("templates/begin.pt", params, request)
 
 
 @view_config(route_name='lti_progress')
 def lti_progress(request):
+
     tool_provider = _authorize_tool_provider(request)
-    return render_to_response("templates/triangulation.pt", {}, request)
+
+    instance_id = tool_provider.tool_consumer_instance_guid
+    moodle_uid = _hash(instance_id, tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
+    context_id = _hash(instance_id, tool_provider.context_id)
+    activity = tool_provider.get_custom_param('box_version')
+
+    # Verify OAuth creds for this resource
+    try:
+        verify_resource_oauth(moodle_resource_id, tool_provider)
+    except AssertionError as e:
+        log.debug('HTTPUnauthorized: ' + e.message)
+        raise HTTPUnauthorized(e.message)
+
+    """
+    if 'Instructor' in tool_provider.roles:
+
+        pass
+
+    else:
+    """
+    moodle_ids = get_ids_from_moodle_uid(moodle_uid)
+    uid = moodle_ids['uid']
+    username = moodle_ids['username']
+    sessions = get_sesssions_by_uid(uid, context_id)
+    not_passing, passing, all_errors, hover_data = _build_graph_data(sessions[activity])
+    params = {'not_passing': not_passing,
+              'passing': passing,
+              'all_errors': all_errors,
+              'hover_data': hover_data,
+              'username': username}
+    return render_to_response("templates/triangulation.pt", params, request)
+
+
+def _build_graph_data(session_ids):
+    passing = list()
+    not_passing = list()
+    all_errors = list()  # each element: [trial #, end time, start time]
+    hover_data = [list(), list(), list()]   # [number of errors for not_passing, # of errors for passing, error length]
+    for i, session_id in enumerate(session_ids):
+        i += 1  # 1-indexed for display purposes. PS: Namespaces rock
+
+        data = get_session_data(session_id)
+        if not data:
+            continue
+
+        error_count = 0
+        for error in data['errors']:
+            if error['len'] <= _ERROR_CUTOFF:
+                continue
+            end = error['endtime']
+            len_ = error['len']
+            all_errors.append([i, end / 1000, (end - len_) / 1000])
+            hover_data[2].append(len_ / 1000)
+            error_count += 1
+
+        metadata = get_metadata(session_id)
+        if metadata['result'] == _PASS:
+            passing.append([i, data['duration']])
+            hover_data[1].append(error_count)
+        else:
+            not_passing.append([i, data['duration']])
+            hover_data[0].append(error_count)
+
+
+    return not_passing, passing, all_errors, hover_data
 
 
 def _new_session(tool_provider):
@@ -47,10 +118,9 @@ def _new_session(tool_provider):
     Generate new session data
     """
     instance_id = tool_provider.tool_consumer_instance_guid
-    user_id = tool_provider.user_id
-    resource_id = tool_provider.resource_link_id
-    moodle_uid = _hash(instance_id, user_id)
-    moodle_resource_id = _hash(instance_id, resource_id)
+    moodle_uid = _hash(instance_id, tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
+    context_id = _hash(instance_id, tool_provider.context_id)
 
     # Verify OAuth creds for this resource
     try:
@@ -60,7 +130,7 @@ def _new_session(tool_provider):
         raise HTTPUnauthorized(e.message)
 
     try:
-        session_id = authorize_user(moodle_uid, tool_provider)
+        session_id = authorize_user(moodle_uid, context_id, tool_provider)
     except AssertionError as e:
         log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
