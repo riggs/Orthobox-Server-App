@@ -23,9 +23,10 @@
         <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
 
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
-        <p tal:switch="param['activity_string']">
-            <img tal:case="'peggy'" src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
-        </p>
+        <div tal:switch="param['activity_string']">
+        <p tal:case="'peggy'">
+            <img src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
+        </p></div>
     </div>
     <!-- Graph HTML -->
     <div id="graph-wrapper-${param['uid']}">
