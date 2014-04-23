@@ -25,8 +25,8 @@
         <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
     </div>
     <!-- Graph HTML -->
-    <div id="graph-wrapper-${param['uid']}">
-            <div class="graph-container-${param['uid']}}">
+    <div id="graph-wrapper">
+            <div class="graph-container">
 
                 <div id="graph-lines-${param['uid']}"></div>
         <p class="rotate time">Time in seconds</p>
@@ -40,7 +40,7 @@
 <script>
     $(document).ready(function () {
         // Graph scripts here
-        var graphData = [{
+        var graphData_${param['uid']} = [{
             // not_passing
             data: ${param['not_passing']},
             color: '#d8082a',
@@ -64,7 +64,7 @@
         ];
 
 // Lines
-        $.plot($('#graph-lines-${param['uid']}'), graphData, {
+        $.plot($('#graph-lines-${param['uid']}'), graphData_${param['uid']}, {
             series: {
                 points: {
                     show: true,
