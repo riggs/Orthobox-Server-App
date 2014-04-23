@@ -67,7 +67,7 @@ _BOX_FUNCTION[_POKEY] = _pokey_box
 
 def _peggy_box(data):
     # Don't drop stuff inside of people
-    if len(data['drops']) >= _CRITERIA[_PEGGY]['drops']:
+    if len(data['drops']) > _CRITERIA[_PEGGY]['drops']:
         result = _FAIL
     else:
         result = _PASS
