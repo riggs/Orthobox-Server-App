@@ -116,9 +116,10 @@ def generate_results(request):
     data['duration'] = int(data['duration']) // 1000
     data['version_string'] = get_box_name(data['version'])
 
+    store_activity_data(session_id, data)
+
     result, grade = evaluate(session_id, data)
 
-    store_activity_data(session_id, data)
     store_result(session_id, result, grade)
 
     _post_grade(session_id, grade)
