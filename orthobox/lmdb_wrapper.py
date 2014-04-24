@@ -64,26 +64,17 @@ class LMDB_Dict(MutableMapping):
             if not txn.delete(self._encode(key)):   # Returns False if no key found
                 raise KeyError(key)
 
-    def iterkeys(self):
-        with self.txn() as txn:
-            return (self._decode(key) for key in txn.cursor().iternext(values=False))
-
     def keys(self):
-        return list(self.iterkeys())
-
-    def itervalues(self):
         with self.txn() as txn:
-            return (self._decode(value) for value in txn.cursor().iternext(keys=False))
+            return [self._decode(key) for key in txn.cursor().iternext(values=False)]
 
     def values(self):
-        return list(self.itervalues())
-
-    def iteritems(self):
         with self.txn() as txn:
-            return (tuple(map(self._decode, item)) for item in txn.cursor().iternext())
+            return [self._decode(value) for value in txn.cursor().iternext(keys=False)]
 
     def items(self):
-        return list(self.iteritems())
+        with self.txn() as txn:
+            return [(map(self._decode, item)) for item in txn.cursor().iternext()]
 
     def get(self, key, default=None):
         with self.txn() as txn:
