@@ -27,7 +27,7 @@ def evaluate(session_id, data):
     # TODO: Audit evaluation logic
     # Will every test have errors & duration?
     box_type = data.get('version_string')
-    errors = [error for error in data.get('errors', []) if error['len'] >= _ERROR_CUTOFF]
+    errors = [error for error in data.get('errors', []) if error['duration'] >= _ERROR_CUTOFF]
     duration = data['duration']
     if len(errors) > _CRITERIA[box_type]['errors']:
         result = _FAIL
