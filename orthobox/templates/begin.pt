@@ -1,0 +1,24 @@
+<html>
+<head>
+    <link href="${css_url}" type="text/css" rel="stylesheet">
+    <script>
+        function ToWaitingPage() {
+            setTimeout("window.location = '${waiting_url}'", 3000);
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div id="inner" class="begin">
+    <h2>${activity}</h2>
+
+    <h3><a href="${jnlp_url}" onclick="ToWaitingPage()">Launch Exercise</a>
+    </h3>
+    <hr>
+    <p>The Java module will open in an external window.</p>
+
+    <p>The exercise will begin when you remove the tools from the box.</p>
+
+</div>
+</body>
+</html>

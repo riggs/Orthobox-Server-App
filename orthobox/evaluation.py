@@ -4,47 +4,54 @@ Evaluation logic and criteria for activities
 """
 
 from __future__ import division, absolute_import, print_function, unicode_literals
-__author__ = 'riggs'
-
 
 from pyramid.httpexceptions import HTTPNotFound
 
-_PASS = 'pass'
-_FAIL = 'fail'
-_INCOMPLETE = 'incomplete'
-
-_POKEY = "pokey_dev"
-_PEGGY = "peggy_dev"
-
-_BOX_TYPE = {}
-_CRITERIA = {}
-_ACTIVITY_NAME = {_PEGGY: "Object Manipulation",
-                  _POKEY: "Triangulation"}
-
-_GRADES = {"pass": 1.0, "fail": 0.0, "incomplete": 0.5}
+from orthobox.data_store import (_POKEY, _PEGGY, _PASS, _FAIL, _INCOMPLETE, get_ids_for_session, get_grade, store_grade)
 
 
-def activity_name(version):
-    return _ACTIVITY_NAME.get(version, "Unknown Activity")
+_ERROR_CUTOFF = 250
+
+_REQUIRED_SUCCESSES = 3
+
+_BOX_FUNCTION = {}
+
+# TODO: Session specific evaluation criteria
+_CRITERIA = {
+    _POKEY: {'errors': 10, 'timeout': 300, 'pokes': 9},
+    _PEGGY: {'errors': 10, 'timeout': 300, 'drops': 1}
+}
 
 
-def evaluate(data):
-    # TODO: Audit function logic
+def evaluate(session_id, data):
+    # TODO: Audit evaluation logic
     # Will every test have errors & duration?
-    box_type = data.get('version')
-    if box_type not in _BOX_TYPE: # Unknown box
-        return _PASS
-    if len(data['errors']) > _CRITERIA[box_type]['errors']:
-        result = _FAIL  # value used to retrieve template file
-    elif data['duration'] > _CRITERIA[box_type]['timeout']:
+    box_type = data.get('version_string')
+    errors = [error for error in data.get('errors', []) if error['duration'] >= _ERROR_CUTOFF]
+    duration = data['duration']
+    if len(errors) > _CRITERIA[box_type]['errors']:
+        result = _FAIL
+    elif duration > _CRITERIA[box_type]['timeout']:
         result = _INCOMPLETE
     else:
-        result = _BOX_TYPE[box_type](data)
-    return result
+        result = _BOX_FUNCTION[box_type](data)
+
+    uid, context_id = get_ids_for_session(session_id)
+    if result is _PASS:     # Add completion credit to grade
+        grade = get_grade(uid, context_id, box_type)
+        grade += 1 / _REQUIRED_SUCCESSES
+    else:
+        grade = 0
+    store_grade(uid, context_id, box_type, grade)
+
+    return result, grade
 
 
-def get_moodle_grade(result):
-    return str(_GRADES[result])
+def get_progress_count(grade):
+    """
+    Returns number of consecutive successes, number of required consecutive successes.
+    """
+    return int(round(grade * _REQUIRED_SUCCESSES)), _REQUIRED_SUCCESSES
 
 
 def _pokey_box(data):
@@ -55,27 +62,23 @@ def _pokey_box(data):
         result = _INCOMPLETE
     return result
 
+_BOX_FUNCTION[_POKEY] = _pokey_box
+
 
 def _peggy_box(data):
     # Don't drop stuff inside of people
-    if len(data['drops']) >= _CRITERIA[_PEGGY]['drops']:
+    if len(data['drops']) > _CRITERIA[_PEGGY]['drops']:
         result = _FAIL
     else:
         result = _PASS
     return result
 
+_BOX_FUNCTION[_PEGGY] = _peggy_box
+
 
 def _select_criteria(request):
-    key = request.matchdict['version']
+    key = request.matchdict['version_string']
     value = _CRITERIA.get(key)
     if value is None:
         raise HTTPNotFound('Unknown hardware version')
     return value
-
-
-_BOX_TYPE[_POKEY] = _pokey_box
-_BOX_TYPE[_PEGGY] = _peggy_box
-
-# TODO: Session specific evaluation criteria
-_CRITERIA[_POKEY] = {'errors': 5, 'timeout': 300, 'pokes': 9}
-_CRITERIA[_PEGGY] = {'errors': 5, 'timeout': 300, 'drops': 0}

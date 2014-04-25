@@ -12,6 +12,7 @@ def _custom_config(config):
     config.include("pyramid_chameleon")
     config.scan("orthobox.rest_views")
     config.add_route('lti_launch', 'launch')
+    config.add_route('lti_progress', 'progress')
     config.scan("orthobox.lti_views")
     return config
 

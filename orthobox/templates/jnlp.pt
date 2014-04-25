@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://staging.xlms.org:8128" href="jnlp/${session_id}.jnlp">
+<jnlp spec="1.0+" codebase="http://staging.xlms.org:8128" href="${session_id}/launch.jnlp">
     <information>
         <title>Orthobox xlms client app</title>
         <vendor>Synaptic Design</vendor>
@@ -7,9 +7,8 @@
     </information>
     <resources>
         <!-- Application Resources -->
-        <j2se version="1.7+" href= "http://java.sun.com/products/autodl/j2se"/>
-        <jar href="jar/orthobox.jar"
-             main="true" />
+        <j2se version="1.7+" href="http://java.sun.com/products/autodl/j2se"/>
+        <jar href="orthobox-signed.jar" main="true"/>
 
     </resources>
     <application-desc
@@ -17,10 +16,12 @@
             main-class="com.synapticdesign.orthobox.OrthoBox"
             width="300"
             height="400">
-        <argument>${url}</argument><!-- URL to post data -->
-        <argument>${session_id}.mp4</argument><!-- video upload filename -->
-        <!-- TODO: implement basic security
-        <argument>${upload_token}</argument><!-- Auth token -->
+        <argument>${results_url}</argument>
+        <!-- URL to post data -->
+        <argument>${session_id}.mp4</argument>
+        <!-- video upload filename -->
+        <!-- TODO: implement basic security -->
+        <!-- argument>${upload_token}</argument --><!-- Auth token -->
     </application-desc>
     <update check="background"/>
     <security>

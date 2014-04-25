@@ -51,12 +51,12 @@ class OutcomeRequestOAuthlib(OutcomeRequest):
         sourcedid = etree.SubElement(guid, 'sourcedId')
         sourcedid.text = self.lis_result_sourcedid
 
-        if self.score:
+        if self.score is not None:
             result = etree.SubElement(record, 'result')
             result_score = etree.SubElement(result, 'resultScore')
             language = etree.SubElement(result_score, 'language')
             language.text = 'en'
             text_string = etree.SubElement(result_score, 'textString')
-            text_string.text = self.score.__str__()
+            text_string.text = str(self.score)
 
         return etree.tostring(root, xml_declaration=True, encoding='utf-8')

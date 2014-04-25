@@ -74,7 +74,7 @@ class LMDB_Dict(MutableMapping):
 
     def items(self):
         with self.txn() as txn:
-            return [tuple(map(self._decode, item)) for item in txn.cursor().iternext()]
+            return [(map(self._decode, item)) for item in txn.cursor().iternext()]
 
     def get(self, key, default=None):
         with self.txn() as txn:

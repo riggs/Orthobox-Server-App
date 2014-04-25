@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Triangulation</title>
+<link href="http://staging.xlms.org/graphs/css/graph.css" type="text/css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://staging.xlms.org/graphs/js/flot/jquery.flot.min.js"></script>
+
+</head>
+
+<body>
+<tal:block repeat="param params">
+<div id="main">
+    <div class="description">
+        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/>${param['activity']}
+            : ${param['username']}</h2>
+        <h4><strong>${param['attempts']}</strong> attempts</h4>
+        <h4><strong>${param['completion']}</strong> consecutive successes</h4>
+
+    </div>
+    <div class="legend">
+        <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
+
+        <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
+        <div tal:switch="param['activity_string']">
+        <p tal:case="'peggy'">
+            <img src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
+        </p></div>
+    </div>
+    <!-- Graph HTML -->
+    <div id="graph-wrapper-${param['uid']}">
+            <div class="graph-container">
+
+                <div id="graph-lines-${param['uid']}"></div>
+        <p class="rotate time">Time in seconds</p>
+
+        <p class="trial">Trial Number</p>
+
+            </div>
+    </div>
+</div>
+<!-- end Graph HTML -->
+<script>
+    $(document).ready(function () {
+        // Graph scripts here
+        var graphData_${param['uid']} = [{
+            // not_passing
+            data: ${param['not_passing']},
+            color: '#d8082a',
+            bars: { barWidth: .5, align: 'center' },
+            points: {show:false}
+
+        },{
+            // passing
+            data: ${param['passing']},
+            color: '#75c809',
+            bars: { barWidth: .5, align: 'center' },
+            points: {show: false}
+        },{
+            // errors
+            data: ${param['all_errors']},
+            color: '#d8082a',
+            points: { show: false},
+            bars: {show: true, fillColor: '#d8082a', barWidth: .5, align: 'center'}
+        },{
+            // drop
+            data: ${param['drops']},
+            color: '#d8082a',
+            points: { show: true},
+            bars: {show: false}
+        }
+
+        ];
+
+// Lines
+        $.plot($('#graph-lines-${param['uid']}'), graphData_${param['uid']}, {
+            series: {
+                points: {
+                    show: true,
+                    radius: 5
+                },
+                lines: {
+                    show: false
+                },
+                bars: {
+                    show: true
+                }
+            },
+            grid: {
+                color: '#646464',
+                borderColor: 'transparent',
+                borderWidth: 20,
+                hoverable: true
+            },
+            xaxis: {
+                tickColor: 'transparent',
+                tickDecimals: 0,
+                axisLabelUseCanvas: false,
+                axisLabel: 'Trial Number'
+
+            },
+            yaxis: {
+                tickSize: 30,
+                axisLabel: 'Time in seconds',
+                axisLabelUseCanvas: false,
+                position: 'left'
+            }
+        });
+
+
+
+// Tooltip #################################################
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                top: y - 16,
+                left: x + 20
+            }).appendTo('body').fadeIn();
+        }
+
+        var previousPoint = null;
+
+        var hoverData_${param['uid']} = ${param['hover_data']};
+
+        $('#graph-lines-${param['uid']}').bind('plothover', function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    $('#tooltip').remove();
+                    var x = item.datapoint[0],
+                            e = hoverData_${param['uid']}[item.seriesIndex][item.dataIndex];
+                    if (item.seriesIndex == 2) {
+                        var message = e + ' second error'
+                    } else if (item.seriesIndex == 3) {
+                        var message = 'Drop at ' + e + ' seconds'
+                    } else {
+                        message =  e + ' errors on trial ' + x
+                    }
+                    showTooltip(item.pageX, item.pageY, message);
+                }
+            } else {
+                $('#tooltip').remove();
+                previousPoint = null;
+            }
+        });
+    });
+
+</script>
+</tal:block>
+</body>
+
+</html>
+
