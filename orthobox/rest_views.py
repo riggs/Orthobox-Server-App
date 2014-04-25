@@ -95,7 +95,7 @@ def display_results(request):
         raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
     params.update({'duration': data['duration'],
-                   'error_number': len([error for error in data['errors'] if error['len'] >= _ERROR_CUTOFF]),
+                   'error_number': len([error for error in data['errors'] if error['duration'] >= _ERROR_CUTOFF]),
                    'pokes': len(data.get('pokes', '')),
                    'drops': len(data.get('drops', '')),
                    'session_id': session_id})
