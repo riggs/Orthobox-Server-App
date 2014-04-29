@@ -150,6 +150,8 @@ def authorize_user(moodle_uid, context_id, tool_provider):
     # }
     moodle_ids = _decode(_MOODLE_DB.setdefault(moodle_uid,
                                                _encode({'uid': uuid4().hex, 'username': tool_provider.username()})))
+
+    log.debug(_encode(moodle_ids))
     uid = moodle_ids['uid']
 
     # _USERS_DB = {
