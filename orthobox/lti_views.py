@@ -47,9 +47,9 @@ def lti_progress(request):
     tool_provider = _authorize_tool_provider(request)
 
     instance_id = tool_provider.tool_consumer_instance_guid
-    moodle_uid = _hash(instance_id, tool_provider.user_id)
-    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
-    context_id = _hash(instance_id, tool_provider.context_id)
+    moodle_uid = _hash(instance_id, 'user_id=' + tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
+    context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
     activity = tool_provider.get_custom_param('box_version')
 
     # Verify OAuth creds for this resource
@@ -134,9 +134,9 @@ def _new_session(tool_provider):
     Generate new session data
     """
     instance_id = tool_provider.tool_consumer_instance_guid
-    moodle_uid = _hash(instance_id, tool_provider.user_id)
-    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
-    context_id = _hash(instance_id, tool_provider.context_id)
+    moodle_uid = _hash(instance_id, 'user_id=' + tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
+    context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
 
     # Verify OAuth creds for this resource
     try:
