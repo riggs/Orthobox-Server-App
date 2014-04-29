@@ -109,6 +109,7 @@ def generate_results(request):
     """
     Set the value.
     """
+    log.debug(request.body)
     # TODO: Ensure the proper box version was run
     session_id = _validate_request(request)
 

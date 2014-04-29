@@ -25,6 +25,7 @@ from orthobox.data_store import (get_upload_token, verify_resource_oauth, author
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
+    log.debug(request.body)
     tool_provider = _authorize_tool_provider(request)
 
     try:
