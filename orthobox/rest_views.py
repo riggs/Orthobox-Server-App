@@ -66,6 +66,10 @@ def waiting_page(request):
     Display page while waiting for session to proceed.
     """
     session_id = request.matchdict['session_id']
+    return _render_waiting_page(session_id, request)
+
+
+def _render_waiting_page(session_id, request):
     params = _url_params(session_id)
     params.update(get_metadata(session_id))
     return render_to_response("templates/view_results.pt", params, request)
@@ -91,8 +95,11 @@ def display_results(request):
     try:
         data = get_result_data(session_id)
     except KeyError:
-        log.debug('HTTPNotFound: Unknown session ' + session_id)
-        raise HTTPNotFound('Unknown session')
+        try:
+            return _render_waiting_page(session_id, request)
+        except KeyError:
+            log.debug('HTTPNotFound: Unknown session ' + session_id)
+            raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
     params.update({'duration': data['duration'],
                    'error_number': len([error for error in data['errors'] if error['duration'] >= _ERROR_CUTOFF]),
