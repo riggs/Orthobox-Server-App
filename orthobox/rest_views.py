@@ -94,15 +94,11 @@ def display_results(request):
         log.debug('HTTPNotFound: Unknown session ' + session_id)
         raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
-    try:
-        params.update({'duration': data['duration'],
+    params.update({'duration': data['duration'],
                    'error_number': len([error for error in data['errors'] if error['duration'] >= _ERROR_CUTOFF]),
                    'pokes': len(data.get('pokes', '')),
                    'drops': len(data.get('drops', '')),
                    'session_id': session_id})
-    except KeyError:
-        log.debug(data['errors'])
-        raise
     params.update(get_metadata(session_id))
     params['completion'] = "{0} of {1}".format(*get_progress_count(params['grade']))
     return render_to_response('templates/{0}.pt'.format(params['result']), params, request)

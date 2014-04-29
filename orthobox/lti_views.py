@@ -104,12 +104,12 @@ def _build_graph_data(session_ids):
 
         error_count = 0
         for error in data['errors']:
-            if error['len'] <= _ERROR_CUTOFF:
+            if error['duration'] <= _ERROR_CUTOFF:
                 continue
             end = error['endtime']
-            len_ = error['len']
-            all_errors.append([i, end / 1000, (end - len_) / 1000])
-            hover_data[2].append(len_ / 1000)
+            duration = error['duration']
+            all_errors.append([i, end / 1000, (end - duration) / 1000])
+            hover_data[2].append(duration / 1000)
             error_count += 1
 
         for drop in data.get('drops', []):
