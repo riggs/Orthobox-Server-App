@@ -54,6 +54,35 @@ def get_progress_count(grade):
     return int(round(grade * _REQUIRED_SUCCESSES)), _REQUIRED_SUCCESSES
 
 
+def _normalize_errors(raw_errors):
+    if not raw_errors:
+        return list()
+    errors = iter(raw_errors)  # Need to operate non-destructively upon raw_errors
+    combined = list()
+    error = errors.next()
+    endtime = error.get('len') or error.get('duration') or 2    # Minimum length
+    len_ = error['endtime']
+    error_count = 1
+    for error in errors:
+        new_endtime = error.get('len') or error.get('duration') or 2
+        new_len = error['endtime']
+        if new_endtime - new_len - _ERROR_CUTOFF <= endtime:  # Combine errors
+            error_count += 1
+            len_ += new_endtime - endtime
+            endtime = new_endtime
+        else:  # Save current error, move new -> current
+            combined.append(_error(endtime, len_, error_count))
+            endtime, len_ = new_endtime, new_len
+            error_count = 1
+
+    combined.append(_error(endtime, len_, error_count))
+    return combined
+
+
+def _error(endtime, duration, count):
+    return {'endtime': endtime, 'duration': duration, 'error_count': count}
+
+
 def _pokey_box(data):
     # Make sure they actually poked stuff
     if len(data['pokes']) >= _CRITERIA[_POKEY]['pokes']:

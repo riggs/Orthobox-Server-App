@@ -14,7 +14,7 @@ from pyramid.response import FileResponse
 from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
                                  dump_session_data, get_box_name, log)
-from orthobox.evaluation import evaluate, _select_criteria, get_progress_count, _ERROR_CUTOFF
+from orthobox.evaluation import evaluate, _select_criteria, get_progress_count, _normalize_errors
 from orthobox.tool_provider import WebObToolProvider
 
 
@@ -102,7 +102,7 @@ def display_results(request):
             raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
     params.update({'duration': data['duration'],
-                   'error_number': len([error for error in data['errors'] if error['duration'] >= _ERROR_CUTOFF]),
+                   'error_number': len(data['errors']),
                    'pokes': len(data.get('pokes', '')),
                    'drops': len(data.get('drops', '')),
                    'session_id': session_id})
@@ -123,6 +123,8 @@ def generate_results(request):
     data = _parse_json(request)
     data['duration'] = int(data['duration']) // 1000
     data['version_string'] = get_box_name(data['version'])
+    data['raw_errors'] = raw_errors = data.get('errors')
+    data['errors'] = _normalize_errors(raw_errors)
 
     store_activity_data(session_id, data)
 
