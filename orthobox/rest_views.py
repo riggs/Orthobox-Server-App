@@ -123,7 +123,7 @@ def generate_results(request):
     data = _parse_json(request)
     data['duration'] = int(data['duration']) // 1000
     data['version_string'] = get_box_name(data['version'])
-    data['raw_errors'] = raw_errors = data.get('errors')
+    data['raw_errors'] = raw_errors = data.get('errors', [])
     data['errors'] = _normalize_errors(raw_errors)
 
     store_activity_data(session_id, data)

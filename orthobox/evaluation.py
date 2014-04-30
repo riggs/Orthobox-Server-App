@@ -70,6 +70,8 @@ def _normalize_errors(raw_errors):
             error_count += 1
             len_ += new_endtime - endtime
             endtime = new_endtime
+        elif len_ <= _ERROR_CUTOFF:     # Ignore
+            pass
         else:  # Save current error, move new -> current
             combined.append(_error(endtime, len_, error_count))
             endtime, len_ = new_endtime, new_len
