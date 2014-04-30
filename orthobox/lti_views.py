@@ -97,6 +97,7 @@ def _build_graph_data(session_ids):
     # [number of errors for not_passing, # of errors for passing, error length, drop time]
     hover_data = [list(), list(), list(), list()]
     for i, session_id in enumerate(session_ids):
+        # TODO: Ignore 'blank' sessions
         i += 1  # 1-indexed for display purposes. PS: Namespaces rock
 
         data = get_session_data(session_id)
