@@ -17,7 +17,7 @@ from pyramid.httpexceptions import HTTPUnauthorized
 
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
-from orthobox.evaluation import _ERROR_CUTOFF, get_progress_count
+from orthobox.evaluation import get_progress_count
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
                                  get_oauth_creds, activity_display_name, log, get_session_data, get_metadata, _PASS,
                                  get_user_data_by_uid, get_ids_from_moodle_uid, get_user_data_by_context_id)
@@ -105,8 +105,6 @@ def _build_graph_data(session_ids):
 
         error_count = 0
         for error in data['errors']:
-            if error['duration'] <= _ERROR_CUTOFF:
-                continue
             end = error['endtime']
             duration = error['duration']
             all_errors.append([i, end / 1000, (end - duration) / 1000])
