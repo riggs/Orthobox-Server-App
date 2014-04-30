@@ -60,12 +60,12 @@ def _normalize_errors(raw_errors):
     errors = iter(raw_errors)  # Need to operate non-destructively upon raw_errors
     combined = list()
     error = errors.next()
-    endtime = error.get('len') or error.get('duration') or 2    # Minimum length
-    len_ = error['endtime']
+    len_ = error.get('len') or error.get('duration') or 2    # Minimum length
+    endtime = error['endtime']
     error_count = 1
     for error in errors:
-        new_endtime = error.get('len') or error.get('duration') or 2
-        new_len = error['endtime']
+        new_len = error.get('len') or error.get('duration') or 2
+        new_endtime = error['endtime']
         if new_endtime - new_len - _ERROR_CUTOFF <= endtime:  # Combine errors
             error_count += 1
             len_ += new_endtime - endtime
