@@ -117,7 +117,6 @@ def generate_results(request):
     Set the value.
     """
     log.debug(request.body)
-    # TODO: Ensure the proper box version was run
     session_id = _validate_request(request)
 
     data = _parse_json(request)
@@ -200,6 +199,8 @@ def generate_jnlp(request):
     except KeyError:
         log.debug('HTTPNotFound: Unknown session (already run?)' + session_id)
         raise HTTPNotFound("Unknown session. (Have you already run this activity?)")
+
+    params['box_version'] = get_session_params(session_id)['custom_box_version']
 
     response = render_to_response("templates/jnlp.pt", params, request)
     response.content_type = str('application/x-java-jnlp-file')
