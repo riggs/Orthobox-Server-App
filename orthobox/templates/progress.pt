@@ -20,7 +20,7 @@
 
     </div>
     <div class="legend">
-        <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
+        <h5><span>Errors per trial: </span>None shall pass</h5>
 
         <p><img src="http://medjules.com/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
         <div tal:switch="param['activity_string']">
