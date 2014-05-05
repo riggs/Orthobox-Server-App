@@ -19,6 +19,8 @@
         <argument>${results_url}</argument>
         <!-- URL to post data -->
         <argument>${session_id}.mp4</argument>
+        <!-- Box type for Java to verify proper box -->
+        <argument>${box_version}</argument>
         <!-- video upload filename -->
         <!-- TODO: implement basic security -->
         <!-- argument>${upload_token}</argument --><!-- Auth token -->

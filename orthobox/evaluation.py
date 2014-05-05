@@ -27,9 +27,8 @@ def evaluate(session_id, data):
     # TODO: Audit evaluation logic
     # Will every test have errors & duration?
     box_type = data.get('version_string')
-    errors = [error for error in data.get('errors', []) if error['duration'] >= _ERROR_CUTOFF]
     duration = data['duration']
-    if len(errors) > _CRITERIA[box_type]['errors']:
+    if len(data['errors']) > _CRITERIA[box_type]['errors']:
         result = _FAIL
     elif duration > _CRITERIA[box_type]['timeout']:
         result = _INCOMPLETE
@@ -52,6 +51,37 @@ def get_progress_count(grade):
     Returns number of consecutive successes, number of required consecutive successes.
     """
     return int(round(grade * _REQUIRED_SUCCESSES)), _REQUIRED_SUCCESSES
+
+
+def _normalize_errors(raw_errors):
+    if not raw_errors:
+        return list()
+    errors = iter(raw_errors)  # Need to operate non-destructively upon raw_errors
+    combined = list()
+    error = errors.next()
+    len_ = error.get('len') or error.get('duration') or 1    # Minimum length
+    endtime = error['endtime']
+    error_count = 1
+    for error in errors:
+        new_len = error.get('len') or error.get('duration') or 1
+        new_endtime = error['endtime']
+        if new_endtime - new_len - _ERROR_CUTOFF <= endtime:  # Combine errors
+            error_count += 1
+            len_ += new_endtime - endtime
+            endtime = new_endtime
+        else:  # Save current error, move new -> current
+            if len_ >= _ERROR_CUTOFF:
+                combined.append(_error(endtime, len_, error_count))
+            endtime, len_ = new_endtime, new_len
+            error_count = 1
+
+    if len_ >= _ERROR_CUTOFF:
+        combined.append(_error(endtime, len_, error_count))
+    return combined
+
+
+def _error(endtime, duration, count):
+    return {'endtime': endtime, 'duration': duration, 'error_count': count}
 
 
 def _pokey_box(data):

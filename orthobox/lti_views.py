@@ -17,7 +17,7 @@ from pyramid.httpexceptions import HTTPUnauthorized
 
 from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
-from orthobox.evaluation import _ERROR_CUTOFF, get_progress_count
+from orthobox.evaluation import get_progress_count
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
                                  get_oauth_creds, activity_display_name, log, get_session_data, get_metadata, _PASS,
                                  get_user_data_by_uid, get_ids_from_moodle_uid, get_user_data_by_context_id)
@@ -25,6 +25,7 @@ from orthobox.data_store import (get_upload_token, verify_resource_oauth, author
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
+    log.debug(request.body)
     tool_provider = _authorize_tool_provider(request)
 
     try:
@@ -46,9 +47,9 @@ def lti_progress(request):
     tool_provider = _authorize_tool_provider(request)
 
     instance_id = tool_provider.tool_consumer_instance_guid
-    moodle_uid = _hash(instance_id, tool_provider.user_id)
-    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
-    context_id = _hash(instance_id, tool_provider.context_id)
+    moodle_uid = _hash(instance_id, 'user_id=' + tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
+    context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
     activity = tool_provider.get_custom_param('box_version')
 
     # Verify OAuth creds for this resource
@@ -96,6 +97,7 @@ def _build_graph_data(session_ids):
     # [number of errors for not_passing, # of errors for passing, error length, drop time]
     hover_data = [list(), list(), list(), list()]
     for i, session_id in enumerate(session_ids):
+        # TODO: Ignore 'blank' sessions
         i += 1  # 1-indexed for display purposes. PS: Namespaces rock
 
         data = get_session_data(session_id)
@@ -104,12 +106,10 @@ def _build_graph_data(session_ids):
 
         error_count = 0
         for error in data['errors']:
-            if error['len'] <= _ERROR_CUTOFF:
-                continue
             end = error['endtime']
-            len_ = error['len']
-            all_errors.append([i, end / 1000, (end - len_) / 1000])
-            hover_data[2].append(len_ / 1000)
+            duration = error['duration']
+            all_errors.append([i, end / 1000, (end - duration) / 1000])
+            hover_data[2].append(duration / 1000)
             error_count += 1
 
         for drop in data.get('drops', []):
@@ -133,9 +133,9 @@ def _new_session(tool_provider):
     Generate new session data
     """
     instance_id = tool_provider.tool_consumer_instance_guid
-    moodle_uid = _hash(instance_id, tool_provider.user_id)
-    moodle_resource_id = _hash(instance_id, tool_provider.resource_link_id)
-    context_id = _hash(instance_id, tool_provider.context_id)
+    moodle_uid = _hash(instance_id, 'user_id=' + tool_provider.user_id)
+    moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
+    context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
 
     # Verify OAuth creds for this resource
     try:
