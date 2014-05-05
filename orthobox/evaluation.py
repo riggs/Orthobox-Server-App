@@ -18,8 +18,8 @@ _BOX_FUNCTION = {}
 
 # TODO: Session specific evaluation criteria
 _CRITERIA = {
-    _POKEY: {'errors': 10, 'timeout': 248, 'pokes': 9},
-    _PEGGY: {'errors': 10, 'timeout': 202, 'drops': 1}
+    _POKEY: {'errors': 0, 'timeout': 248, 'pokes': 9},
+    _PEGGY: {'errors': 0, 'timeout': 202, 'drops': 1}
 }
 
 
