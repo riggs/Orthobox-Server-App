@@ -8,7 +8,7 @@
     <resources>
         <!-- Application Resources -->
         <j2se version="1.7+" href="http://java.sun.com/products/autodl/j2se"/>
-        <jar href="${jar_path}" main="true"/>
+        <jar href="${jar_url}" main="true"/>
 
     </resources>
     <application-desc
