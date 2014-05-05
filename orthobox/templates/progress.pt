@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Triangulation</title>
-<link href="http://staging.xlms.org/graphs/css/graph.css" type="text/css" rel="stylesheet" />
+<link href="${css_url}" type="text/css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="http://staging.xlms.org/graphs/js/flot/jquery.flot.min.js"></script>
+<script src="http://xlms.org/graphs/js/flot/jquery.flot.min.js"></script>
 
 </head>
 
@@ -13,7 +13,7 @@
 <tal:block repeat="param params">
 <div id="main">
     <div class="description">
-        <h2><img src="http://staging.xlms.org/graphs/triangle.png" width="20px" height="20px"/>${param['activity']}
+        <h2><img src="http://xlms.org/graphs/triangle.png" width="20px" height="20px"/>${param['activity']}
             : ${param['username']}</h2>
         <h4><strong>${param['attempts']}</strong> attempts</h4>
         <h4><strong>${param['completion']}</strong> consecutive successes</h4>
@@ -22,10 +22,10 @@
     <div class="legend">
         <h5><span>Errors per trial: </span>Fewer than 10 to pass</h5>
 
-        <p><img src="http://staging.xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
+        <p><img src="http://xlms.org/graphs/touch.png" alt="touch" width="21" height="7"/> = error</p>
         <div tal:switch="param['activity_string']">
         <p tal:case="'peggy'">
-            <img src="http://staging.xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
+            <img src="http://xlms.org/graphs/drop.png" alt="drop" width="15" height="15" /> = drop
         </p></div>
     </div>
     <!-- Graph HTML -->
