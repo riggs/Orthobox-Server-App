@@ -51,7 +51,7 @@ def _url_params(session_id):
 
     return {'css_url': ''.join([_BASE_URL, _CSS_PATH]),
             'jnlp_url': _PORT.join([_BASE_URL, _JNLP_PATH]).format(session_id=session_id),
-            'jar_url': _PORT.join([_BASE_URL, _JAR_PATH]).format(session_id=session_id),
+            'jar_path': _JAR_PATH,
             'waiting_url': _PORT.join([_BASE_URL, _WAITING_PATH]).format(session_id=session_id),
             'results_url': _PORT.join([_BASE_URL, _RESULTS_PATH]).format(session_id=session_id),
             'relaunch_url': '/launch'}
