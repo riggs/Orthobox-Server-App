@@ -18,18 +18,19 @@ from orthobox.evaluation import evaluate, _select_criteria, get_progress_count, 
 from orthobox.tool_provider import WebObToolProvider
 
 
-_BASE_URL = "http://staging.xlms.org"
+_BASE_URL = "http://medjules.com"
 _CSS_PATH = "/pfi.css"
 _RESULTS_PATH = '/{session_id}/results'
 _WAITING_PATH = '/{session_id}/view_results'
 _JNLP_PATH = '/{session_id}/launch.jnlp'
+_JAR_PATH = '/orthobox-signed-20140504.jar'
 
 results = Service(name='results', path=_RESULTS_PATH)
 view_results = Service(name='view_results', path=_WAITING_PATH)
 jnlp = Service(name='jnlp', path=_JNLP_PATH, description='Generated jnlp file for session')
 configure = Service(name='configure', path='/configure/{version_string}',
                     description="SimPortal demo evaluation parameters")
-jar = Service(name='jar', path='/orthobox-signed.jar')  # FIXME: Irrelevant under apache
+jar = Service(name='jar', path=_JAR_PATH)  # FIXME: Irrelevant under apache
 
 # TODO: Some sort of security to limit credential generation
 new_oauth = Service(name='new_oauth', path='/new_oauth_creds')
@@ -50,6 +51,7 @@ def _url_params(session_id):
 
     return {'css_url': ''.join([_BASE_URL, _CSS_PATH]),
             'jnlp_url': _PORT.join([_BASE_URL, _JNLP_PATH]).format(session_id=session_id),
+            'jar_url': _PORT.join([_BASE_URL, _JAR_PATH]).format(session_id=session_id),
             'waiting_url': _PORT.join([_BASE_URL, _WAITING_PATH]).format(session_id=session_id),
             'results_url': _PORT.join([_BASE_URL, _RESULTS_PATH]).format(session_id=session_id),
             'relaunch_url': '/launch'}
