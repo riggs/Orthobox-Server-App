@@ -167,7 +167,8 @@ def authorize_user(moodle_uid, context_id, tool_provider):
          user = _new_user(moodle_uid)
 
     # FIXME: Throw an actual exception
-    assert user[activity_string]['grade'] < 1.0, "Already completed activity"
+    # FIXME: Crude hack because of poor communication
+    #assert user[activity_string]['grade'] < 1.0, "Already completed activity"
 
     session_id = uuid4().hex
 

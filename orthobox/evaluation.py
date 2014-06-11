@@ -39,6 +39,8 @@ def evaluate(session_id, data):
     if result is _PASS:     # Add completion credit to grade
         grade = get_grade(uid, context_id, box_type)
         grade += 1 / _REQUIRED_SUCCESSES
+        if grade > 1.0:
+            grade = 1.0
     else:
         grade = 0
     store_grade(uid, context_id, box_type, grade)
