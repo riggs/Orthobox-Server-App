@@ -23,18 +23,19 @@ sessions = {
 Note: Remove after successful use
 
 data = {   # 'Sanitized' copy to be kept for later analysis.
-    session_id: {'uid': uid
+    session_id: {'uid': uid,
                  'video_url': <identifier (URL) for video>,
-                 'data': <raw JSON received>}
+                 'data': <JSON received: 'raw_errors': the raw data,
+                                         'errors': raw_errors normalized with > 250ms length>}
 }
 
 metadata = {
     session_id: {'uid': uid,
-                 'context': context_id
+                 'context': context_id,
                  'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
-                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>
+                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>,
                  'version_string': <activity version string>,
                  'return_url': <lti spec 'launch_presentation_return_url'>}
 }
