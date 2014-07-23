@@ -67,14 +67,15 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 
 import lmdb
 import json
-import logging
+#import logging
+import csv
 
 from os import environ
 from uuid import uuid4
 
 from orthobox.lmdb_wrapper import LMDB_Dict
 
-log = logging.getLogger('orthobox')
+#log = logging.getLogger('orthobox')
 
 _10_GB = 10737418240  # Size of address-space for mmap, largest capacity for environment, not a memory requirement.
 
@@ -90,6 +91,9 @@ _OAUTH_DB = LMDB_Dict(_LMDB_ENV, 'oauth')
 _UNREGISTERED_OAUTH = LMDB_Dict(_LMDB_ENV, 'unregistered_oauth')
 
 _DATABASES = (_SESSIONS_DB, _DATA_DB, _USERS_DB, _METADATA_DB, _MOODLE_DB, _UNREGISTERED_OAUTH, _OAUTH_DB)
+
+_encode = json.dumps
+_decode = json.loads
 
 _VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/{session_id}.mp4"
 
@@ -398,6 +402,38 @@ def _new_user(moodle_uid):
             _PEGGY: {'grade': 0.0, 'sessions': []}}
 
 
-_encode = json.dumps
+def table_encode_user_sessions(context_id, box_type):
+    table = list()
+    table.append(['user id', 'sessions'])
+    users = _decode(_USERS_DB[context_id])
+    for uid, contexts in users.items():
+        context = contexts[box_type]
+        row = list()
+        row.append(uid)
+        row.extend(context.get('sessions'))
+        table.append(row)
+    return table
 
-_decode = json.loads
+
+def table_encode_session_data(context_id, box_type):
+    table = list()
+    headers = {_PEGGY: ['session id', 'user id', 'timestamp', 'duration', 'number of drops', 'number of errors', 'error durations'],
+               _POKEY: ['session id', 'user id', 'timestamp', 'duration', 'number of errors', 'error durations']}
+    table.append(headers[box_type])
+    # FIXME: Abstract serialization into separate functions.
+    for session_id, session in _DATA_DB.iteritems():
+        session = _decode(session)
+        data = session.get('data')
+        if data is None or data['version_string'] != box_type:
+            continue
+        row = list()
+        row.append(session_id)
+        row.append(session['uid'])
+        row.append(data['starttime'])
+        row.append(data['duration'])
+        if box_type == _PEGGY:
+            row.append(len(data['drops']))
+        row.append(len(data['errors']))
+        row.extend([error['duration']/1000 for error in data['errors']])
+        table.append(row)
+    return table
