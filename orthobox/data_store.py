@@ -68,7 +68,7 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 import lmdb
 import json
 #import logging
-import csv
+import time
 
 from os import environ
 from uuid import uuid4
@@ -415,7 +415,7 @@ def table_encode_user_sessions(context_id, box_type):
     return table
 
 
-def table_encode_session_data(context_id, box_type):
+def table_encode_session_data(context_id, box_type, stupid=False):
     table = list()
     headers = {_PEGGY: ['session id', 'user id', 'timestamp', 'duration', 'number of drops', 'number of errors', 'error durations'],
                _POKEY: ['session id', 'user id', 'timestamp', 'duration', 'number of errors', 'error durations']}
@@ -427,13 +427,24 @@ def table_encode_session_data(context_id, box_type):
         if data is None or data['version_string'] != box_type:
             continue
         row = list()
-        row.append(session_id)
-        row.append(session['uid'])
-        row.append(data['starttime'])
+        if stupid:
+            row.append(session['uid'][:16])
+            row.append(time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(int(data['starttime'])/1000)))
+        else:
+            row.append(session_id)
+            row.append(session['uid'])
+            row.append(data['starttime'])
         row.append(data['duration'])
         if box_type == _PEGGY:
             row.append(len(data['drops']))
         row.append(len(data['errors']))
         row.extend([error['duration']/1000 for error in data['errors']])
         table.append(row)
+    if stupid:
+        max_errors = max(map(len, table)) - (5 if box_type == _PEGGY else 4)
+        header = table[0]
+        header.pop(0)  # No session_id
+        header.pop()  # replace 'error duration'
+        for i in range(max_errors):
+            header.append("error {0} duration".format(i+1))
     return table
