@@ -448,3 +448,16 @@ def table_encode_session_data(context_id, box_type, stupid=False):
         for i in range(max_errors):
             header.append("error {0} duration".format(i+1))
     return table
+
+def dump_raw_errors(context_id=None):
+    table = list()
+    for session_id, session in _DATA_DB.iteritems():
+        session = _decode(session)
+        data = session.get('data')
+        if data is None:
+            continue
+        for drop in data.get('drops', []):
+            table.append([session_id, session['uid'], -1, drop['endtime']])
+        for error in data.get('raw_errors', []):
+            table.append([session_id, session['uid'], error['duration'], error['endtime']])
+    return table
