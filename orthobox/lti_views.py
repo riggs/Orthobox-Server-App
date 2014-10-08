@@ -76,7 +76,6 @@ def lti_progress(request):
 @view_config(route_name='lti_csv_export', renderer='csv')
 def lti_csv_export(request):
     tool_provider = _authorize_tool_provider(request)
-    simple = True if tool_provider.get_custom_param('simple') == 'true' else False
 
     instance_id = tool_provider.tool_consumer_instance_guid
     moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
@@ -89,6 +88,7 @@ def lti_csv_export(request):
 
     context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
     box_type = tool_provider.get_custom_param('box_version')
+    simple = True if tool_provider.get_custom_param('simple') == 'true' else False
 
     return table_encode_session_data(context_id, box_type, simple)
 
