@@ -96,7 +96,7 @@ def _csv_export(request, simple=False):
         raise HTTPUnauthorized(e.message)
 
     context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
-    box_type = get_box_name(tool_provider.get_custom_param('box_version'))
+    box_type = tool_provider.get_custom_param('box_version')
 
     return table_encode_session_data(context_id, box_type, simple)
 
