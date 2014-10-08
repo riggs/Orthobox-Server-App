@@ -13,7 +13,7 @@ from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
-                                 dump_session_data, get_box_name, table_encode_session_data, dump_raw_errors)
+                                 dump_session_data, get_box_name, dump_raw_errors)
 from orthobox.evaluation import evaluate, _select_criteria, get_progress_count, _normalize_errors
 from orthobox.tool_provider import WebObToolProvider
 
