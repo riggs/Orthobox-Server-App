@@ -9,6 +9,8 @@ from collections import namedtuple
 from datetime import datetime
 from calendar import timegm
 from hashlib import sha1
+import StringIO
+import csv
 
 from oauth2 import Error as OAuthError
 from pyramid.view import view_config
@@ -19,19 +21,18 @@ from orthobox.tool_provider import WebObToolProvider
 from orthobox.rest_views import _url_params
 from orthobox.evaluation import get_progress_count
 from orthobox.data_store import (get_upload_token, verify_resource_oauth, authorize_user, store_session_params,
-                                 get_oauth_creds, activity_display_name, log, get_session_data, get_metadata, _PASS,
-                                 get_user_data_by_uid, get_ids_from_moodle_uid, get_user_data_by_context_id)
+                                 get_oauth_creds, activity_display_name, get_session_data, get_metadata, _PASS,
+                                 get_user_data_by_uid, get_ids_from_moodle_uid, get_user_data_by_context_id,
+                                 get_box_name, table_encode_session_data)
 
 
 @view_config(route_name='lti_launch')
 def lti_launch(request):
-    log.debug(request.body)
     tool_provider = _authorize_tool_provider(request)
 
     try:
         session_id = _new_session(tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     params = _url_params(session_id)
@@ -56,7 +57,6 @@ def lti_progress(request):
     try:
         verify_resource_oauth(moodle_resource_id, tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     params = list()
@@ -71,6 +71,51 @@ def lti_progress(request):
         activity_data = get_user_data_by_uid(moodle_id.uid, context_id)[activity]
         params.append(_gather_template_data(moodle_id, activity_data, activity))
     return render_to_response("templates/progress.pt", {'params': params}, request)
+
+
+@view_config(route_name='lti_csv_export', renderer='csv')
+def lti_csv_export(request):
+    return _csv_export(request)
+
+
+@view_config(route_name='lti_simple_csv_export', renderer='csv')
+def lti_simple_csv_export(request):
+    return _csv_export(request, simple=True)
+
+
+def _csv_export(request, simple=False):
+    tool_provider = _authorize_tool_provider(request)
+
+    instance_id = tool_provider.tool_consumer_instance_guid
+    moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
+
+    try:
+        verify_resource_oauth(moodle_resource_id, tool_provider)
+        assert 'Instructor' in tool_provider.roles
+    except AssertionError as e:
+        raise HTTPUnauthorized(e.message)
+
+    context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
+    box_type = get_box_name(tool_provider.get_custom_param('box_version'))
+
+    return table_encode_session_data(context_id, box_type, simple)
+
+
+class CSV_Renderer(object):  # Totally stolen from stackoverflow
+    def __init__(self, info):
+        pass
+
+    def __call__(self, value, system):
+        fout = StringIO.StringIO()
+        writer = csv.writer(fout)
+
+        writer.writerows(value)
+
+        response = system['request'].response
+        response.context_type = 'text/csv'
+        response.content_disposition = 'attachment;filename="export.csv"'
+
+        return fout.getvalue()
 
 
 def _gather_template_data(moodle_id, activity_data, activity):
@@ -141,13 +186,11 @@ def _new_session(tool_provider):
     try:
         verify_resource_oauth(moodle_resource_id, tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     try:
         session_id = authorize_user(moodle_uid, context_id, tool_provider)
     except AssertionError as e:
-        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     store_session_params(session_id, params=tool_provider.params)
@@ -163,12 +206,10 @@ def _authorize_tool_provider(request):
 
     key = params.get('oauth_consumer_key')
     if key is None:
-        log.debug('HTTPUnauthorized: ' + str(params))
         raise HTTPUnauthorized("Missing OAuth data. Params:\r\n{0}".format(str(params)))
 
     secret = get_oauth_creds(key)
     if secret is None:
-        log.debug('HTTPUnauthorized: ' + str(params))
         raise HTTPUnauthorized("Invalid OAuth consumer key")
 
     tool_provider = WebObToolProvider(key, secret, params)
@@ -176,12 +217,10 @@ def _authorize_tool_provider(request):
     try:
         tool_provider.valid_request(request)
     except OAuthError as e:
-        log.debug('HTTPUnauthorized: ' + e.message)
         raise HTTPUnauthorized(e.message)
 
     now = timegm(datetime.utcnow().utctimetuple())
     if now - int(tool_provider.oauth_timestamp) > 60 * 60:
-        log.debug('HTTPUnauthorized: OAuth timeout')
         raise HTTPUnauthorized("OAuth timeout")
 
     _validate_nonce(tool_provider.oauth_nonce, now)
@@ -197,7 +236,6 @@ def _validate_nonce(nonce, now):
     if timestamp is None:
         _OAuth_creds[nonce] = now
     elif now - timestamp > 60 * 60:
-        log.debug('HTTPUnauthorized: OAuth nonce timeout')
         raise HTTPUnauthorized("OAuth nonce timeout")
 
 

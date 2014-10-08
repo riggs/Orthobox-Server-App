@@ -13,22 +13,23 @@ from pyramid.response import FileResponse
 
 from orthobox.data_store import (get_upload_token, store_activity_data, delete_session_credentials, get_session_params,
                                  get_oauth_creds, get_result_data, get_metadata, new_oauth_creds, store_result,
-                                 dump_session_data, get_box_name, log)
+                                 dump_session_data, get_box_name, table_encode_session_data)
 from orthobox.evaluation import evaluate, _select_criteria, get_progress_count, _normalize_errors
 from orthobox.tool_provider import WebObToolProvider
 
 
-_BASE_URL = "http://medjules.com"
+_BASE_URL = "http://xlms.org"
 _CSS_PATH = "/pfi.css"
 _RESULTS_PATH = '/{session_id}/results'
 _WAITING_PATH = '/{session_id}/view_results'
 _JNLP_PATH = '/{session_id}/launch.jnlp'
 _JAR_PATH = '/orthobox-signed-20140504.jar'
+_CONFIGURE_PATH = '/configure/{version_string}'
 
 results = Service(name='results', path=_RESULTS_PATH)
 view_results = Service(name='view_results', path=_WAITING_PATH)
 jnlp = Service(name='jnlp', path=_JNLP_PATH, description='Generated jnlp file for session')
-configure = Service(name='configure', path='/configure/{version_string}',
+configure = Service(name='configure', path=_CONFIGURE_PATH,
                     description="SimPortal demo evaluation parameters")
 jar = Service(name='jar', path=_JAR_PATH)  # FIXME: Irrelevant under apache
 
@@ -42,7 +43,6 @@ def _parse_json(request):
     try:
         return json.loads(request.body)
     except ValueError:
-        log.debug('HTTPBadRequest: Malformed JSON')
         raise HTTPBadRequest('Malformed JSON')
 
 
@@ -100,7 +100,6 @@ def display_results(request):
         try:
             return _render_waiting_page(session_id, request)
         except KeyError:
-            log.debug('HTTPNotFound: Unknown session ' + session_id)
             raise HTTPNotFound('Unknown session')
     params = _url_params(session_id)
     params.update({'duration': data['duration'],
@@ -118,7 +117,6 @@ def generate_results(request):
     """
     Set the value.
     """
-    log.debug(request.body)
     session_id = _validate_request(request)
 
     data = _parse_json(request)
@@ -145,7 +143,6 @@ def _validate_request(request):
     try:
         token = get_upload_token(session_id)
     except KeyError:
-        log.debug('HTTPNotFound: Unknown session %s', session_id)
         raise HTTPNotFound('Unknown session')
     # TODO: Validate token
     assert token
@@ -158,12 +155,10 @@ def _post_grade(session_id, grade):
     tool_provider = WebObToolProvider(key, get_oauth_creds(key), params)
 
     if not tool_provider.is_outcome_service():
-        log.debug('HTTPBadRequest: Not launched as outcome service')
         raise HTTPBadRequest("Tool wasn't launched as an outcome service")
 
     outcome_request = tool_provider.new_request()
     outcome_request.message_identifier = session_id
-    log.debug(outcome_request.generate_request_xml())
     outcome_response = outcome_request.post_replace_result(round(grade, 2))    # Round to 2 digits for moodle
 
     # TODO: Verify HTTP response for success
@@ -199,7 +194,6 @@ def generate_jnlp(request):
     try:
         params['upload_token'] = get_upload_token(session_id)
     except KeyError:
-        log.debug('HTTPNotFound: Unknown session (already run?)' + session_id)
         raise HTTPNotFound("Unknown session. (Have you already run this activity?)")
 
     params['box_version'] = get_session_params(session_id)['custom_box_version']
@@ -212,3 +206,4 @@ def generate_jnlp(request):
 @jar.get()
 def serve_jar(request):
     return FileResponse('/var/www/html/orthobox-signed.jar', request=request)
+

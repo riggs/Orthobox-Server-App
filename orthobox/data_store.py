@@ -67,15 +67,12 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 
 import lmdb
 import json
-#import logging
 import time
 
 from os import environ
 from uuid import uuid4
 
 from orthobox.lmdb_wrapper import LMDB_Dict
-
-#log = logging.getLogger('orthobox')
 
 _10_GB = 10737418240  # Size of address-space for mmap, largest capacity for environment, not a memory requirement.
 
@@ -448,6 +445,7 @@ def table_encode_session_data(context_id, box_type, stupid=False):
         for i in range(max_errors):
             header.append("error {0} duration".format(i+1))
     return table
+
 
 def dump_raw_errors(context_id=None):
     table = list()
