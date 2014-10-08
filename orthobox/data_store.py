@@ -23,18 +23,19 @@ sessions = {
 Note: Remove after successful use
 
 data = {   # 'Sanitized' copy to be kept for later analysis.
-    session_id: {'uid': uid
+    session_id: {'uid': uid,
                  'video_url': <identifier (URL) for video>,
-                 'data': <raw JSON received>}
+                 'data': <JSON received: 'raw_errors': the raw data,
+                                         'errors': raw_errors normalized with > 250ms length>}
 }
 
 metadata = {
     session_id: {'uid': uid,
-                 'context': context_id
+                 'context': context_id,
                  'activity': <activity display name>,
                  'video_url': <identifier (URL) for video>,
                  'result': <pass/fail/incomplete status>,
-                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>
+                 'grade': <completion percentage after session, eg. 0%, 33%, 66%, 100%>,
                  'version_string': <activity version string>,
                  'return_url': <lti spec 'launch_presentation_return_url'>}
 }
@@ -66,14 +67,12 @@ from __future__ import division, absolute_import, print_function, unicode_litera
 
 import lmdb
 import json
-import logging
+import time
 
 from os import environ
 from uuid import uuid4
 
 from orthobox.lmdb_wrapper import LMDB_Dict
-
-log = logging.getLogger('orthobox')
 
 _10_GB = 10737418240  # Size of address-space for mmap, largest capacity for environment, not a memory requirement.
 
@@ -89,6 +88,9 @@ _OAUTH_DB = LMDB_Dict(_LMDB_ENV, 'oauth')
 _UNREGISTERED_OAUTH = LMDB_Dict(_LMDB_ENV, 'unregistered_oauth')
 
 _DATABASES = (_SESSIONS_DB, _DATA_DB, _USERS_DB, _METADATA_DB, _MOODLE_DB, _UNREGISTERED_OAUTH, _OAUTH_DB)
+
+_encode = json.dumps
+_decode = json.loads
 
 _VIDEO_URL = "https://s3.amazonaws.com/orthoboxes-video/{session_id}.mp4"
 
@@ -397,6 +399,63 @@ def _new_user(moodle_uid):
             _PEGGY: {'grade': 0.0, 'sessions': []}}
 
 
-_encode = json.dumps
+def table_encode_user_sessions(context_id, box_type):
+    table = list()
+    table.append(['user id', 'sessions'])
+    users = _decode(_USERS_DB[context_id])
+    for uid, contexts in users.items():
+        context = contexts[box_type]
+        row = list()
+        row.append(uid)
+        row.extend(context.get('sessions'))
+        table.append(row)
+    return table
 
-_decode = json.loads
+
+def table_encode_session_data(context_id, box_type, stupid=False):
+    table = list()
+    headers = {_PEGGY: ['session id', 'user id', 'timestamp', 'duration', 'number of drops', 'number of errors', 'error durations'],
+               _POKEY: ['session id', 'user id', 'timestamp', 'duration', 'number of errors', 'error durations']}
+    table.append(headers[box_type])
+    # FIXME: Abstract serialization into separate functions.
+    for session_id, session in _DATA_DB.iteritems():
+        session = _decode(session)
+        data = session.get('data')
+        if data is None or data['version_string'] != box_type:
+            continue
+        row = list()
+        if stupid:
+            row.append(session['uid'][:16])
+            row.append(time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(int(data['starttime'])/1000)))
+        else:
+            row.append(session_id)
+            row.append(session['uid'])
+            row.append(data['starttime'])
+        row.append(data['duration'])
+        if box_type == _PEGGY:
+            row.append(len(data['drops']))
+        row.append(len(data['errors']))
+        row.extend([error['duration']/1000 for error in data['errors']])
+        table.append(row)
+    if stupid:
+        max_errors = max(map(len, table)) - (5 if box_type == _PEGGY else 4)
+        header = table[0]
+        header.pop(0)  # No session_id
+        header.pop()  # replace 'error duration'
+        for i in range(max_errors):
+            header.append("error {0} duration".format(i+1))
+    return table
+
+
+def dump_raw_errors(context_id=None):
+    table = list()
+    for session_id, session in _DATA_DB.iteritems():
+        session = _decode(session)
+        data = session.get('data')
+        if data is None:
+            continue
+        for drop in data.get('drops', []):
+            table.append([session_id, session['uid'], -1, drop['endtime']])
+        for error in data.get('raw_errors', []):
+            table.append([session_id, session['uid'], error['duration'], error['endtime']])
+    return table

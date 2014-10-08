@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://medjules.com:8128" href="${session_id}/launch.jnlp">
+<jnlp spec="1.0+" codebase="http://xlms.org:8128" href="${session_id}/launch.jnlp">
     <information>
         <title>Orthobox xlms client app</title>
         <vendor>Synaptic Design</vendor>
