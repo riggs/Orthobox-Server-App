@@ -15,7 +15,6 @@ def _custom_config(config):
     config.add_route('lti_launch', 'launch')
     config.add_route('lti_progress', 'progress')
     config.add_route('lti_csv_export', 'csv_export')
-    config.add_route('lti_simple_csv_export', 'simple_csv_export')
     config.scan("orthobox.lti_views")
     return config
 

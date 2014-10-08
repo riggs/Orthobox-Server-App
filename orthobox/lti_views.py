@@ -75,16 +75,8 @@ def lti_progress(request):
 
 @view_config(route_name='lti_csv_export', renderer='csv')
 def lti_csv_export(request):
-    return _csv_export(request)
-
-
-@view_config(route_name='lti_simple_csv_export', renderer='csv')
-def lti_simple_csv_export(request):
-    return _csv_export(request, simple=True)
-
-
-def _csv_export(request, simple=False):
     tool_provider = _authorize_tool_provider(request)
+    simple = True if tool_provider.get_custom_param('simple') == 'true' else False
 
     instance_id = tool_provider.tool_consumer_instance_guid
     moodle_resource_id = _hash(instance_id, 'resource_link_id=' + tool_provider.resource_link_id)
