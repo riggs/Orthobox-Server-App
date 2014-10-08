@@ -75,15 +75,6 @@ def lti_progress(request):
 
 @view_config(route_name='lti_csv_export', renderer='csv')
 def lti_csv_export(request):
-    return _csv_export(request)
-
-
-@view_config(route_name='lti_simple_csv_export', renderer='csv')
-def lti_simple_csv_export(request):
-    return _csv_export(request, simple=True)
-
-
-def _csv_export(request, simple=False):
     tool_provider = _authorize_tool_provider(request)
 
     instance_id = tool_provider.tool_consumer_instance_guid
@@ -97,6 +88,7 @@ def _csv_export(request, simple=False):
 
     context_id = _hash(instance_id, 'context_id=' + tool_provider.context_id)
     box_type = tool_provider.get_custom_param('box_version')
+    simple = True if tool_provider.get_custom_param('simple') == 'true' else False
 
     return table_encode_session_data(context_id, box_type, simple)
 
